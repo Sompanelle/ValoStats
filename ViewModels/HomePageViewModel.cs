@@ -1,6 +1,5 @@
 ﻿using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -83,12 +82,12 @@ namespace ValoStats.ViewModels
 
         }
 
-        public async void GetPlayer()
+        public async Task GetPlayer()
         {
-            var Config = FileHelper.ReadConfig();
-            string? settingName = Config.Name;
-            string? settingTag = Config.Tag;
-            if (settingName != null || settingTag != null )
+            Config? Config = FileHelper.ReadConfig();
+            string settingName = Config.Name;
+            string settingTag = Config.Tag;
+            if ( !string.IsNullOrEmpty(settingName) || !string.IsNullOrEmpty(settingTag))
             {
                 Player? player = await ApiHelper.GetPlayer(settingName, settingTag);
                 if (player != null)
@@ -96,20 +95,18 @@ namespace ValoStats.ViewModels
                     ConcatName = $"{settingName}#{settingTag}";
                     Updated_at = player.updated_at;
                     Level = player.level;
-                    GetMatchPlayed(settingName,settingTag);
+                    await GetMatchPlayed(settingName,settingTag);
                 }
-                else
-                {
-                    BadRequest = true;
-                }
-
             }
-            
+            else
+            {
+                BadRequest = true;
+            }
 
-            
+
         }
 
-        public async void GetMatchPlayed(string name, string tag)
+        public async Task GetMatchPlayed(string name, string tag)
         {
             var lastTen = await ApiHelper.GetLastTenPlayedMatches(name, tag);
             if (lastTen != null)

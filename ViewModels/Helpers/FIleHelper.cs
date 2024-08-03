@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,22 +21,29 @@ namespace ValoStats.ViewModels.Helpers
             return File.Exists(configDir);
         }
         
-        public static Config ReadConfig()
+        public static Config? ReadConfig()
         {
-            string data = File.ReadAllText(configDir);
-            Config? _ = JsonSerializer.Deserialize<Config>(data);
-            if(_ == null)
+            if (!SettingsExist())
             {
-                File.Delete(configDir);
                 return null;
             }
-            return new Config()
+            else
             {
-                Name = _.Name,
-                Tag = _.Tag,
-                Region = _.Region,
-                Key = _.Key,
-            };
+                string data = File.ReadAllText(configDir);
+                Config? _ = JsonSerializer.Deserialize<Config>(data);
+                if (_ == null)
+                {
+                    File.Delete(configDir);
+                    return null;
+                }
+                return new Config()
+                {
+                    Name = _.Name,
+                    Tag = _.Tag,
+                    Region = _.Region,
+                    Key = _.Key,
+                };
+            }
         }
 
         public static void WriteConfig(Config Config)
