@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace ValorantTrackerApp.ViewModels
+namespace ValoStats.ViewModels
 {
     public class ViewModelBase : ObservableObject
     {
