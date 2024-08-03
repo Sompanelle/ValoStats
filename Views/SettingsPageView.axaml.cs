@@ -4,10 +4,12 @@ using Avalonia.Markup.Xaml;
 
 namespace ValoStats.Views;
 
-public partial class MainWindow : Window
+public partial class SettingsPageView : UserControl
 {
-    public MainWindow()
+    public SettingsPageView()
     {
+
         InitializeComponent();
+        
     }
 }

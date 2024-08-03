@@ -1,0 +1,170 @@
+<UserControl
+    x:Class="ValoStats.Views.PlayerLookupPageView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:ValoStats.Models"
+    xmlns:vm="clr-namespace:ValoStats.ViewModels"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="vm:PlayerLookupPageViewModel"
+    mc:Ignorable="d">
+
+    <Design.DataContext>
+        <vm:PlayerLookupPageViewModel />
+    </Design.DataContext>
+
+    <Grid RowDefinitions="Auto,*">
+
+        <!--  Search Box!  -->
+        <StackPanel Grid.Row="0" Margin="5">
+
+            <Label Classes="PageTitle" Content="Player Search (Name#Tag)" />
+
+
+            <TextBox Text="{Binding PlayerQuery}">
+
+                <TextBox.InnerRightContent>
+
+
+                    <Button
+                        Command="{Binding PlayerSearchCommand}"
+                        CommandParameter="{Binding PlayerQuery}"
+                        Content="Seach!"
+                        HotKey="Enter" />
+
+                </TextBox.InnerRightContent>
+            </TextBox>
+
+        </StackPanel>
+
+        <!--  Content Grid  -->
+        <Grid Grid.Row="1">
+
+            <Grid.RowDefinitions>
+                <RowDefinitions>Auto,Auto</RowDefinitions>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinitions>*,*</ColumnDefinitions>
+            </Grid.ColumnDefinitions>
+
+            <Label
+                Grid.ColumnSpan="2"
+                HorizontalContentAlignment="Center"
+                Content="Account Does not Exist!"
+                FontWeight="Bold"
+                Foreground="Red"
+                IsVisible="{Binding BadSearch}" />
+
+            <!--  Player info Grid  -->
+            <Grid Grid.Column="0" Grid.RowDefinitions="Auto,Auto,Auto">
+
+
+                <Label Grid.Row="0" Content="{Binding ResultPlayerData.name}" />
+
+                <Label Grid.Row="0" Content="{Binding ResultPlayerData.level}" />
+
+                <Label Grid.Row="0" Content="{Binding ResultPlayerData.player_title}" />
+
+
+            </Grid>
+
+            <!--  Ranks info box  -->
+
+            <Grid
+                Grid.Row="0"
+                Grid.Column="1"
+                Grid.ColumnDefinitions="*,*"
+                IsVisible="{Binding IsSearchCompelete}">
+
+                <StackPanel Grid.Column="0" HorizontalAlignment="Center">
+
+                    <Label Classes="Data" Content="Current Rank" />
+
+
+                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+
+                        <Label Classes="Data" Content="{Binding ResultMMRData.current.tier.name}" />
+
+                        <Label Classes="Data" Content="{Binding ResultMMRData.current.rr}" />
+
+                        <Label Content="rr" />
+
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    IsVisible="{Binding IsSearchCompelete}">
+
+                    <Label Classes="Data" Content="Peak Rank" />
+
+                    <Label Classes="Data" Content="{Binding ResultMMRData.peak.tier.name}" />
+
+                </StackPanel>
+
+            </Grid>
+
+            <!--  Ranked History Listbox  -->
+            <StackPanel
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="5"
+                IsVisible="{Binding IsSearchCompelete}">
+
+                <Label
+                    Classes="Header1"
+                    Content="Rank History"
+                    IsVisible="{Binding IsSearchCompelete}" />
+
+                <Border Classes="Radius">
+                    <ListBox IsHitTestVisible="False" ItemsSource="{Binding DisplayEpisodes}">
+
+                        <ListBox.ItemTemplate>
+                            <DataTemplate x:DataType="models:Episode">
+
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="{Binding season.short}" />
+                                    <Label Content="{Binding end_tier.name}" />
+                                </StackPanel>
+
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+
+                    </ListBox>
+                </Border>
+
+                <!--  Pagination Buttons  -->
+                <Grid Margin="0,5,0,0" Grid.ColumnDefinitions="Auto,*,Auto">
+
+                    <Border Grid.Column="0" Classes="Radius">
+
+                        <Button
+                            Classes="Movement"
+                            Command="{Binding PrevEpisodesCommand}"
+                            CommandParameter="{Binding PageNum}"
+                            Content="Prev" />
+
+                    </Border>
+
+                    <Border Grid.Column="2" Classes="Radius">
+
+                        <Button
+                            Classes="Movement"
+                            Command="{Binding NextEpisodesCommand}"
+                            CommandParameter="{Binding PageNum}"
+                            Content="Next" />
+                    </Border>
+
+                </Grid>
+
+            </StackPanel>
+        </Grid>
+
+    </Grid>
+
+
+</UserControl>

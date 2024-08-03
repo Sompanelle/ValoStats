@@ -1,0 +1,110 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:ValoStats.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="ValoStats.Views.HomePageView"
+        x:DataType="vm:HomePageViewModel">
+
+  <Design.DataContext>
+    <vm:HomePageViewModel/>
+  </Design.DataContext>
+  
+  
+  <Grid>
+    
+    <Grid.RowDefinitions>
+      <RowDefinitions>Auto,Auto,*</RowDefinitions>
+    </Grid.RowDefinitions>
+
+    <Grid.ColumnDefinitions>
+      <ColumnDefinitions>*,*</ColumnDefinitions>
+    </Grid.ColumnDefinitions>
+
+
+    <StackPanel Margin ="5"
+                Grid.Row="1">
+    
+    <!--Left Side-->
+      
+      
+      <!--Player Display Name + Title StackPanel-->
+    <StackPanel Orientation="Vertical">
+      <Label Content="{Binding ConcatName}"/>
+      <Label Content="{Binding Title}" Foreground="#bbbb"/>
+    </StackPanel>
+      
+    </StackPanel>
+    
+    
+    <!--Right Side-->
+    
+
+      <!--Last Updated StackPanel-->
+    <DockPanel  Margin="5"
+                Grid.Row="0"
+                Grid.ColumnSpan="2">
+      
+      <StackPanel Orientation="Horizontal">
+        <Label Content="Home" Classes="PageTitle"/>
+      </StackPanel>
+      
+      <StackPanel Orientation="Horizontal"
+                  HorizontalAlignment="Right">
+        
+        <Label Content="Last Updated:"/>
+        <Label Content="{Binding Updated_at}"/>
+        
+      </StackPanel>
+    </DockPanel>
+
+    <StackPanel Grid.Row="1"
+                Grid.Column="1"
+                Spacing="15">
+      
+      <Label  Classes="Header1"
+              Content="Last Five Matches"/>
+      
+      
+      <Border Classes="Radius">
+        <ListBox ItemsSource="{Binding Matches}">
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <StackPanel HorizontalAlignment="Center"
+                          Orientation="Horizontal">
+                
+                <Label Content="{Binding Agent}"/>
+                <Label Content="{Binding Map}"/>
+                <Label Content="{Binding Mode}"/>
+                <Label Content="{Binding KD}"/>
+                
+              </StackPanel>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+      </Border>
+
+      <Grid Grid.ColumnDefinitions="Auto,*,Auto">
+
+        <Border Classes="Radius"
+                Grid.Column="0">
+          
+          <Button Classes="Movement"
+                  Content="Prev"/>
+          
+        </Border>
+
+        <Border Grid.Column="2"
+                Classes="Radius">
+          
+          <Button Classes="Movement"
+                  Content="Next"/>
+        </Border>
+        
+      </Grid>
+      
+    </StackPanel>
+
+  </Grid>
+</UserControl>

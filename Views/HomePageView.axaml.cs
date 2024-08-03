@@ -2,12 +2,14 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace ValorantTrackerApp;
+namespace ValoStats.Views;
 
-public partial class UserWindow : Window
+public partial class HomePageView : UserControl
 {
-    public UserWindow()
+    public HomePageView()
     {
+
         InitializeComponent();
+        
     }
 }

@@ -1,0 +1,53 @@
+<UserControl
+    x:Class="ValoStats.Views.SettingsPageView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:ValoStats.ViewModels"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="vm:SettingsPageViewModel"
+    mc:Ignorable="d">
+
+    <Grid Margin="5">
+
+        <StackPanel Grid.Row="0" Margin="5">
+
+            <Label Classes="PageTitle" Content="Settings" />
+
+        </StackPanel>
+
+        <Grid.RowDefinitions>
+            <RowDefinitions>Auto,Auto,Auto</RowDefinitions>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinitions>*,*</ColumnDefinitions>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="0"
+            Classes="Settings">
+
+            <Label Content="Name: " />
+            <TextBox />
+        </StackPanel>
+
+
+
+        <StackPanel
+            Grid.Row="2"
+            Grid.Column="0"
+            Classes="Settings">
+
+            <Label Content="Tag: " />
+            <TextBox />
+        </StackPanel>
+
+
+    </Grid>
+
+</UserControl>
+

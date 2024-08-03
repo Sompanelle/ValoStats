@@ -1,42 +1,64 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:ValorantTrackerApp.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:ValoStats.ViewModels"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="ValorantTrackerApp.Views.MainWindow"
+        x:Class="ValoStats.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/avalonia-logo.ico"
-        Title="ValorantTrackerApp">
+        Title="MainWindow">
 
-    <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
+  <Design.DataContext>
+    <vm:MainWindowViewModel/>
+  </Design.DataContext>
 
-
-  <ListBox ItemsSource="{Binding matches}">
-
-    <ListBox.ItemTemplate>
-      <DataTemplate>
-        <Grid RowDefinitions="*,*,*"
-              ColumnDefinitions="">
-
-
-          <Grid.ColumnDefinitions>
-            
-            
-          </Grid.ColumnDefinitions>
+  <SplitView PaneBackground="#1e1e1e"
+             IsPaneOpen="{Binding IsPanelOpen}"
+             DisplayMode="CompactInline"
+             CompactPaneLength="48"
+             OpenPaneLength="200"
+             >
+    
+    <!--NavBar-->
+    <SplitView.Pane>
+      <Grid RowDefinitions="Auto,Auto" Margin="5,5,0,5">
+        
+        <Button Classes="Menu"
+                Grid.Row="0"
+                Command="{Binding Panel_ClickCommand}">
           
-        <Label Grid.Row="0"
-               Content="{Binding map}"/>
+            <Button.Content>
+
+              <PathIcon Data="{StaticResource Menu}"></PathIcon>
+              
+            </Button.Content>
           
-        <Label  Grid.Row="1"
-                Content="{Binding mode}"/>
-        </Grid>
-      </DataTemplate>
-    </ListBox.ItemTemplate>
-  </ListBox>
-   
+        </Button>
+        
+        <ListBox Grid.Row="1"
+                 ItemsSource="{Binding Pages}"
+                 SelectedItem="{Binding SelectedPage}"
+                 Background="Transparent">
+
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <StackPanel Spacing="15"
+                          Orientation="Horizontal">
+                
+                
+                <Label Content="{Binding Label}"/>
+              </StackPanel>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+          
+        </ListBox>
+      </Grid>
+    </SplitView.Pane>
+
+    <SplitView.Content>
+      <TransitioningContentControl Content="{Binding CurrentPage}"/>
+    </SplitView.Content>
+    
+  </SplitView>
+  
 </Window>
