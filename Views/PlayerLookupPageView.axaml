@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="clr-namespace:ValoStats.Models"
     xmlns:vm="clr-namespace:ValoStats.ViewModels"
-    d:DesignHeight="450"
+    d:DesignHeight="550"
     d:DesignWidth="800"
     x:DataType="vm:PlayerLookupPageViewModel"
     mc:Ignorable="d">

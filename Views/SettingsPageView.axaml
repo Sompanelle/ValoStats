@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:ValoStats.ViewModels"
-    d:DesignHeight="450"
+    d:DesignHeight="550"
     d:DesignWidth="800"
     x:DataType="vm:SettingsPageViewModel"
     mc:Ignorable="d">
@@ -34,7 +34,7 @@
             Grid.Column="0"
             Classes="Settings">
 
-            <Label Content="Name: " />
+            <Label Content="Name" />
             <TextBox Text="{Binding Name}"/>
         </StackPanel>
 
@@ -45,7 +45,7 @@
             Grid.Column="0"
             Classes="Settings">
 
-            <Label Content="Tag: " />
+            <Label Content="Tag" />
             <TextBox Text ="{Binding Tag}"/>
         </StackPanel>
 
@@ -54,10 +54,9 @@
             Grid.Column="0"
             Classes="Settings">
 
-          <Label Content="Key: " />
+          <Label Content="Key" />
           <TextBox Text="{Binding Key}"
-                   PasswordChar="#"
-                   />
+                   PasswordChar="#"/>
         </StackPanel>
 
 
@@ -66,7 +65,7 @@
     Grid.Column="0"
     Classes="Settings">
 
-        <Label Content="Region: " />
+        <Label Content="Region" />
         <TextBox Text="{Binding Region}"/>
       </StackPanel>
 
@@ -79,6 +78,7 @@
               Grid.Row="6"
               HorizontalAlignment="Right"
               Content="Save"
+              Classes="Movement"
               Command="{Binding SaveCommand}"></Button>
       
       

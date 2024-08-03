@@ -102,7 +102,7 @@ namespace ValoStats.ViewModels.Helpers
         }
 
 
-        public static async Task<List<Datum>?> GetLastFiveMatchDatas(string name, string tag)
+        public static async Task<List<Datum>?> GetLastMatchDatas(string name, string tag)
         {
             string lastMatchUrl = $"{requrl}/v3/matches/{region}/{name}/{tag}?api_key={key}&size=5";
             using (HttpResponseMessage response = await ApiClient.GetAsync(lastMatchUrl))
@@ -122,9 +122,9 @@ namespace ValoStats.ViewModels.Helpers
             }
         }
 
-        public static async Task<ObservableCollection<PlayedMatch>?> GetLastFivePlayedMatches(string name, string tag)
+        public static async Task<ObservableCollection<PlayedMatch>?> GetLastTenPlayedMatches(string name, string tag)
         {
-            string lastMatchUrl = $"{requrl}/v3/matches/{region}/{name}/{tag}?api_key={key}&size=5";
+            string lastMatchUrl = $"{requrl}/v3/matches/{region}/{name}/{tag}?api_key={key}&size=10";
             using (HttpResponseMessage response = await ApiClient.GetAsync(lastMatchUrl))
             {
                 if (response.IsSuccessStatusCode)

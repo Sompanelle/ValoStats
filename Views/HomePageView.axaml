@@ -3,7 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:ValoStats.ViewModels"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="550"
         x:Class="ValoStats.Views.HomePageView"
         x:DataType="vm:HomePageViewModel">
 
@@ -64,8 +64,9 @@
                 Spacing="15">
       
       <Label  Classes="Header1"
-              Content="Last Five Matches"/>
-      
+              Content="Last Ten Matches"/>
+
+      <Grid></Grid>
       
       <Border Classes="Radius">
         <ListBox ItemsSource="{Binding Matches}">
@@ -84,25 +85,6 @@
           </ListBox.ItemTemplate>
         </ListBox>
       </Border>
-
-      <Grid Grid.ColumnDefinitions="Auto,*,Auto">
-
-        <Border Classes="Radius"
-                Grid.Column="0">
-          
-          <Button Classes="Movement"
-                  Content="Prev"/>
-          
-        </Border>
-
-        <Border Grid.Column="2"
-                Classes="Radius">
-          
-          <Button Classes="Movement"
-                  Content="Next"/>
-        </Border>
-        
-      </Grid>
       
     </StackPanel>
 

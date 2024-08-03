@@ -34,7 +34,6 @@ namespace ValoStats.ViewModels
         [ObservableProperty]
         private int pageSize = 5;
 
-
         public ObservableCollection<Episode> DisplayEpisodes {get; set;}
 
         public ObservableCollection<Episode> Episodes { get; set; }

@@ -48,16 +48,23 @@ namespace ValoStats.ViewModels
 
         public MainWindowViewModel()
         {
-            if (FileHelper.SettingsExist() != true)
+
+            if (Design.IsDesignMode)
             {
-                currentPage = new SettingsPageViewModel();
+
             }
             else
             {
-                currentPage = new HomePageViewModel();
-                ApiHelper.InitializeClient();
+                if (FileHelper.SettingsExist() != true)
+                {
+                    currentPage = new SettingsPageViewModel();
+                }
+                else
+                {
+                    currentPage = new HomePageViewModel();
+                    ApiHelper.InitializeClient();
+                }
             }
-
 
         }
 

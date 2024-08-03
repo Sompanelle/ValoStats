@@ -54,6 +54,7 @@ namespace ValoStats.ViewModels
 
             if (Design.IsDesignMode)
             {
+                Matches = new();
                 var appSettings = ConfigurationManager.AppSettings;
                 name = appSettings["Name"];
                 tag = appSettings["Tag"];
@@ -64,6 +65,11 @@ namespace ValoStats.ViewModels
                 Matches.Add(new PlayedMatch() { Agent = "Iso", Map = "Ascent", Mode= "Competitive", KD = "20/12" } );
                 Matches.Add(new PlayedMatch() { Agent = "Reyna", Map = "Bind", Mode = "Competitive", KD = "12/12" });
                 Matches.Add(new PlayedMatch() { Agent = "Skye",Map = "Sunset", Mode = "Competitive", KD = "9/12" });
+                Matches.Add(new PlayedMatch() { Agent = "Iso", Map = "Abyss", Mode = "Competitive", KD = "22/11" });
+                Matches.Add(new PlayedMatch() { Agent = "Iso", Map = "Abysss", Mode = "Competitive", KD = "24/12" });
+                Matches.Add(new PlayedMatch() { Agent = "Iso", Map = "Ascent", Mode = "Competitive", KD = "20/12" });
+                Matches.Add(new PlayedMatch() { Agent = "Reyna", Map = "Bind", Mode = "Competitive", KD = "12/12" });
+                Matches.Add(new PlayedMatch() { Agent = "Skye", Map = "Sunset", Mode = "Competitive", KD = "9/12" });
                 Matches.Add(new PlayedMatch() { Agent = "Iso", Map = "Abyss", Mode = "Competitive", KD = "22/11" });
                 Matches.Add(new PlayedMatch() { Agent = "Iso", Map = "Abysss", Mode = "Competitive", KD = "24/12" });
             }
@@ -105,10 +111,10 @@ namespace ValoStats.ViewModels
 
         public async void GetMatchPlayed(string name, string tag)
         {
-            var lastFive = await ApiHelper.GetLastFivePlayedMatches(name, tag);
-            if (lastFive != null)
+            var lastTen = await ApiHelper.GetLastTenPlayedMatches(name, tag);
+            if (lastTen != null)
             {
-                foreach(PlayedMatch match in lastFive)
+                foreach(PlayedMatch match in lastTen)
                 {
                     Matches.Add(match);
                 }
