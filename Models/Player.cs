@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ValorantTrackerApp.Models
+namespace ValoStats.Models
 {
     public class Player
     {
@@ -24,29 +24,24 @@ namespace ValorantTrackerApp.Models
         public Stats stats { get; set; }
         public int damage_made { get; set; }
         public int damage_received { get; set; }
-
-
+        public DateTime updated_at { get; set; }
     }
 
     public class PlayerData
     {
         public string puuid { get; set; }
         public string region { get; set; }
-        public int account_level { get; set; }
         public string name { get; set; }
+        public int account_level { get; set; }
         public string tag { get; set; }
-        public string last_update { get; set; }
-        public int last_update_raw { get; set; }
-
+        public string card { get; set; }
+        public string title { get; set; }
+        public List<string> platforms { get; set; }
+        public DateTime updated_at { get; set; }
     }
-
-
-
 
     public class PlayerResponse
     {
-        public int status { get; set; }
         public PlayerData data { get; set; }
-
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace ValorantTrackerApp.Models
+namespace ValoStats.Models
 {
     public class Match
     {
@@ -24,6 +24,21 @@ namespace ValorantTrackerApp.Models
         public PremierInfo premier_info { get; set; }
         public string region { get; set; }
         public string cluster { get; set; }
+        public int kills { get; set; }
+    }
+
+    public class PlayedMatch
+    {
+        public string Map { get; set; }
+        public string KD { get; set; }
+        public string Mode { get; set; }
+        public string Region { get; set; }
+        public string Platform { get; set; }
+        public string Agent { get; set; }
+        public bool? Has_Won { get; set; }
+        public int? Rounds_won { get; set; }
+        public int? Rounds_lost { get; set; }
+        public Teams Teams { get; set; }
     }
 
 
@@ -87,7 +102,7 @@ namespace ValorantTrackerApp.Models
         public int rounds_in_spawn { get; set; }
     }
 
-    public class TeamMember
+    public class Team
     {
         public string puuid { get; set; }
         public string name { get; set; }
@@ -105,11 +120,9 @@ namespace ValorantTrackerApp.Models
         public Behaviour behaviour { get; set; }
         public Platform platform { get; set; }
         public Stats stats { get; set; }
-        public int damage_made { get; set; }
-        public int damage_received { get; set; }
-        public bool has_won { get; set; }
-        public int rounds_won { get; set; }
-        public int rounds_lost { get; set; }
+        public bool? has_won { get; set; }
+        public int? rounds_won { get; set; }
+        public int? rounds_lost { get; set; }
         public Roaster roaster { get; set; }
     }
 
@@ -346,8 +359,8 @@ namespace ValorantTrackerApp.Models
     public class Players
     {
         public List<AllPlayer> all_players { get; set; }
-        public List<TeamMember> red { get; set; }
-        public List<TeamMember> blue { get; set; }
+        public List<Team> red { get; set; }
+        public List<Team> blue { get; set; }
     }
 
     public class PlayerStat
@@ -423,8 +436,8 @@ namespace ValorantTrackerApp.Models
 
     public class Teams
     {
-        public TeamMember red { get; set; }
-        public TeamMember blue { get; set; }
+        public Team red { get; set; }
+        public Team blue { get; set; }
     }
 
     public class VictimDeathLocation

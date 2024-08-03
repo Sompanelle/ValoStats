@@ -1,9 +1,9 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using System;
-using ValorantTrackerApp.ViewModels;
+using ValoStats.ViewModels;
 
-namespace ValorantTrackerApp
+namespace ValoStats
 {
     public class ViewLocator : IDataTemplate
     {

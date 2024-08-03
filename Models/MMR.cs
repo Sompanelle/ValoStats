@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace ValorantTrackerApp.Models
+namespace ValoStats.Models
 {
     public class CurrentMMR
     {
-        public Tier tier { get; set; }
+        public Rank tier { get; set; }
         public int rr { get; set; }
         public int last_change { get; set; }
         public int elo { get; set; }
@@ -22,7 +23,7 @@ namespace ValorantTrackerApp.Models
         public Player player { get; set; }
         public Peak peak { get; set; }
         public CurrentMMR current { get; set; }
-        public List<Episode> seasonal { get; set; }
+        public ObservableCollection<Episode> seasonal { get; set; }
     }
 
     public class MMRResponse
@@ -35,7 +36,7 @@ namespace ValorantTrackerApp.Models
     {
         public Season season { get; set; }
         public string ranking_schema { get; set; }
-        public Tier tier { get; set; }
+        public Rank tier { get; set; }
     }
 
     public class Season
@@ -44,7 +45,7 @@ namespace ValorantTrackerApp.Models
         public string @short { get; set; }
     }
 
-    public class Tier
+    public class Rank
     {
         public string name { get; set; }
     }
@@ -52,7 +53,7 @@ namespace ValorantTrackerApp.Models
     public class Episode
     {
         public Season season { get; set; }
-        public Tier end_tier { get; set; }
+        public Rank end_tier { get; set; }
         public string ranking_schema { get; set; }
         public List<ActWin> act_wins { get; set; }
     }

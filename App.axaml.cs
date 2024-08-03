@@ -3,10 +3,10 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
-using ValorantTrackerApp.ViewModels;
-using ValorantTrackerApp.Views;
+using ValoStats.ViewModels;
+using ValoStats.Views;
 
-namespace ValorantTrackerApp
+namespace ValoStats
 {
     public partial class App : Application
     {

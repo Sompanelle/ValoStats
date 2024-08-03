@@ -1,7 +1,7 @@
 ﻿using Avalonia;
 using System;
 
-namespace ValorantTrackerApp
+namespace ValoStats
 {
     internal sealed class Program
     {
