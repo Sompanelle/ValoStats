@@ -22,7 +22,7 @@ namespace ValoStats.ViewModels
 
         
         [ObservableProperty]
-        private ViewModelBase currentPage = new HomePageViewModel();
+        private ViewModelBase currentPage =  FileHelper.SettingsExist() ? new HomePageViewModel() : new SettingsPageViewModel();
 
 
         [ObservableProperty]
@@ -48,7 +48,17 @@ namespace ValoStats.ViewModels
 
         public MainWindowViewModel()
         {
-            ApiHelper.InitializeClient();
+            if (FileHelper.SettingsExist() != true)
+            {
+                currentPage = new SettingsPageViewModel();
+            }
+            else
+            {
+                currentPage = new HomePageViewModel();
+                ApiHelper.InitializeClient();
+            }
+
+
         }
 
         [RelayCommand]

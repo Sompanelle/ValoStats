@@ -13,18 +13,24 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = ValorantTrackerApp
-build_property.ProjectDir = C:\Users\rjray\source\repos\
+build_property.ProjectDir = C:\Users\rjray\Source\Repos\Yeeeef\ValoStats\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 
-[C:/Users/rjray/source/repos/App.axaml]
+[C:/Users/rjray/source/repos/Yeeeef/ValoStats/App.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/rjray/source/repos/Views/MainWindow.axaml]
+[C:/Users/rjray/source/repos/Yeeeef/ValoStats/Assets/Styles.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/rjray/source/repos/Views/MatchWindow.axaml]
+[C:/Users/rjray/source/repos/Yeeeef/ValoStats/Views/HomePageView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/rjray/source/repos/Views/UserWindow.axaml]
+[C:/Users/rjray/source/repos/Yeeeef/ValoStats/Views/MainWindow.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/rjray/source/repos/Yeeeef/ValoStats/Views/PlayerLookupPageView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/rjray/source/repos/Yeeeef/ValoStats/Views/SettingsPageView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml

@@ -12,16 +12,17 @@ using ValoStats.Models;
 using System.Net.Http;
 using ValoStats.ViewModels.DTOs;
 using System.Configuration;
+using ValorantTrackerApp.Models;
 
 namespace ValoStats.ViewModels.Helpers
 {
     public class ApiHelper
     {
-
+        private static Config Config = FileHelper.ReadConfig();
         private static HttpClient ApiClient;
-        static string requrl = @"https://api.henrikdev.xyz/valorant";
-        static string key = ConfigurationManager.AppSettings["ApiKey"];
-        static string region = ConfigurationManager.AppSettings["Region"];
+        private static string requrl = @"https://api.henrikdev.xyz/valorant";
+        private static string key = Config.Key;
+        private static string region = Config.Region;
 
 
         public static void InitializeClient()
@@ -33,7 +34,7 @@ namespace ValoStats.ViewModels.Helpers
 
         public static async Task<Player?> GetPlayer(string name, string tag)
         {
-            string playerUrl = $"{requrl}/v2/account/{name}/{tag}?{key}";
+            string playerUrl = $"{requrl}/v2/account/{name}/{tag}?api_key={key}";
 
             using (HttpResponseMessage response = await ApiClient.GetAsync(playerUrl))
             {
@@ -54,7 +55,7 @@ namespace ValoStats.ViewModels.Helpers
 
         public static async Task<CurrentMMR?> GetMMR(string name, string tag)
         {
-            string mmrUrl = $"{requrl}/v3/mmr/na/pc/{name}/{tag}?{key}";
+            string mmrUrl = $"{requrl}/v3/mmr/na/pc/{name}/{tag}?api_key={key}";
 
             using (HttpResponseMessage response = await ApiClient.GetAsync(mmrUrl))
             {
@@ -68,7 +69,7 @@ namespace ValoStats.ViewModels.Helpers
 
         public static async Task<MMRData?> GetMMRData(string name, string tag)
         {
-            string mmrUrl = $"{requrl}/v3/mmr/na/pc/{name}/{tag}?{key}";
+            string mmrUrl = $"{requrl}/v3/mmr/na/pc/{name}/{tag}?api_key={key}";
 
             using (HttpResponseMessage response = await ApiClient.GetAsync(mmrUrl))
             {
@@ -82,7 +83,7 @@ namespace ValoStats.ViewModels.Helpers
 
         public static async Task<Datum?> GetLastMatchData(string name, string tag)
         {
-            string lastMatchUrl = $"{requrl}/v3/matches/{region}/{name}/{tag}?{key}&size=1";
+            string lastMatchUrl = $"{requrl}/v3/matches/{region}/{name}/{tag}?api_key={key}&size=1";
             using (HttpResponseMessage response = await ApiClient.GetAsync(lastMatchUrl))
             {
                 if (response.IsSuccessStatusCode)
@@ -103,7 +104,7 @@ namespace ValoStats.ViewModels.Helpers
 
         public static async Task<List<Datum>?> GetLastFiveMatchDatas(string name, string tag)
         {
-            string lastMatchUrl = $"{requrl}/v3/matches/{region}/{name}/{tag}?{key}&size=5";
+            string lastMatchUrl = $"{requrl}/v3/matches/{region}/{name}/{tag}?api_key={key}&size=5";
             using (HttpResponseMessage response = await ApiClient.GetAsync(lastMatchUrl))
             {
                 if (response.IsSuccessStatusCode)
@@ -123,7 +124,7 @@ namespace ValoStats.ViewModels.Helpers
 
         public static async Task<ObservableCollection<PlayedMatch>?> GetLastFivePlayedMatches(string name, string tag)
         {
-            string lastMatchUrl = $"{requrl}/v3/matches/{region}/{name}/{tag}?{key}&size=5";
+            string lastMatchUrl = $"{requrl}/v3/matches/{region}/{name}/{tag}?api_key={key}&size=5";
             using (HttpResponseMessage response = await ApiClient.GetAsync(lastMatchUrl))
             {
                 if (response.IsSuccessStatusCode)

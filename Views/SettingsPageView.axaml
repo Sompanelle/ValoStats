@@ -12,6 +12,7 @@
 
     <Grid Margin="5">
 
+       <!--Title Bar-->
         <StackPanel Grid.Row="0" Margin="5">
 
             <Label Classes="PageTitle" Content="Settings" />
@@ -19,20 +20,22 @@
         </StackPanel>
 
         <Grid.RowDefinitions>
-            <RowDefinitions>Auto,Auto,Auto</RowDefinitions>
+            <RowDefinitions>Auto,Auto,Auto,Auto,Auto,*,Auto</RowDefinitions>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinitions>*,*</ColumnDefinitions>
         </Grid.ColumnDefinitions>
 
+      
+      <!--Rows -->
         <StackPanel
             Grid.Row="1"
             Grid.Column="0"
             Classes="Settings">
 
             <Label Content="Name: " />
-            <TextBox />
+            <TextBox Text="{Binding Name}"/>
         </StackPanel>
 
 
@@ -43,10 +46,42 @@
             Classes="Settings">
 
             <Label Content="Tag: " />
-            <TextBox />
+            <TextBox Text ="{Binding Tag}"/>
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="3"
+            Grid.Column="0"
+            Classes="Settings">
+
+          <Label Content="Key: " />
+          <TextBox Text="{Binding Key}"
+                   PasswordChar="#"
+                   />
         </StackPanel>
 
 
+      <StackPanel
+    Grid.Row="4"
+    Grid.Column="0"
+    Classes="Settings">
+
+        <Label Content="Region: " />
+        <TextBox Text="{Binding Region}"/>
+      </StackPanel>
+
+      
+      
+      
+      <!--Save Button-->
+
+      <Button Grid.Column="1"
+              Grid.Row="6"
+              HorizontalAlignment="Right"
+              Content="Save"
+              Command="{Binding SaveCommand}"></Button>
+      
+      
     </Grid>
 
 </UserControl>

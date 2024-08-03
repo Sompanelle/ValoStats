@@ -11,6 +11,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.Marshalling;
 using System.Text;
 using System.Threading.Tasks;
+using ValorantTrackerApp.Models;
 using ValoStats.Models;
 using ValoStats.ViewModels.DTOs;
 using ValoStats.ViewModels.Helpers;
@@ -19,6 +20,9 @@ namespace ValoStats.ViewModels
 {
     public partial class HomePageViewModel : ViewModelBase
     {
+        [ObservableProperty]
+        private bool badRequest;
+
         [ObservableProperty]
         private string name;
 
@@ -47,8 +51,7 @@ namespace ValoStats.ViewModels
 
         public HomePageViewModel()
         {
-            ApiHelper.InitializeClient();
-            Matches = new();
+
             if (Design.IsDesignMode)
             {
                 var appSettings = ConfigurationManager.AppSettings;
@@ -64,19 +67,21 @@ namespace ValoStats.ViewModels
                 Matches.Add(new PlayedMatch() { Agent = "Iso", Map = "Abyss", Mode = "Competitive", KD = "22/11" });
                 Matches.Add(new PlayedMatch() { Agent = "Iso", Map = "Abysss", Mode = "Competitive", KD = "24/12" });
             }
-            concatName = $"{name}#{tag}";
-            GetPlayer();
+            else
+            {
+                ApiHelper.InitializeClient();
+                Matches = new();
+                concatName = $"{name}#{tag}";
+                GetPlayer();
+            }
+
         }
 
         public async void GetPlayer()
         {
-            var appSettings = ConfigurationManager.AppSettings;
-            if (appSettings.Count == 0)
-            {
-                Debug.WriteLine("Error Reading Config");
-            }
-            string? settingName = appSettings["Name"];
-            string? settingTag = appSettings["Tag"];
+            var Config = FileHelper.ReadConfig();
+            string? settingName = Config.Name;
+            string? settingTag = Config.Tag;
             if (settingName != null || settingTag != null )
             {
                 Player? player = await ApiHelper.GetPlayer(settingName, settingTag);
@@ -89,7 +94,7 @@ namespace ValoStats.ViewModels
                 }
                 else
                 {
-                    throw new NotImplementedException();
+                    BadRequest = true;
                 }
 
             }
@@ -108,7 +113,13 @@ namespace ValoStats.ViewModels
                     Matches.Add(match);
                 }
             }
+            else
+            {
+                BadRequest = true; 
+            }
         }
 
     }
+
 }
+

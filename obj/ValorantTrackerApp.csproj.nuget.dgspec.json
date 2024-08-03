@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\rjray\\source\\repos\\ValoStats\\ValorantTrackerApp.csproj": {}
+    "C:\\Users\\rjray\\Source\\Repos\\Yeeeef\\ValoStats\\ValorantTrackerApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\rjray\\source\\repos\\ValoStats\\ValorantTrackerApp.csproj": {
+    "C:\\Users\\rjray\\Source\\Repos\\Yeeeef\\ValoStats\\ValorantTrackerApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\rjray\\source\\repos\\ValoStats\\ValorantTrackerApp.csproj",
+        "projectUniqueName": "C:\\Users\\rjray\\Source\\Repos\\Yeeeef\\ValoStats\\ValorantTrackerApp.csproj",
         "projectName": "ValorantTrackerApp",
-        "projectPath": "C:\\Users\\rjray\\source\\repos\\ValoStats\\ValorantTrackerApp.csproj",
+        "projectPath": "C:\\Users\\rjray\\Source\\Repos\\Yeeeef\\ValoStats\\ValorantTrackerApp.csproj",
         "packagesPath": "C:\\Users\\rjray\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\rjray\\source\\repos\\ValoStats\\obj\\",
+        "outputPath": "C:\\Users\\rjray\\Source\\Repos\\Yeeeef\\ValoStats\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -73,6 +73,10 @@
             "CommunityToolkit.Mvvm": {
               "target": "Package",
               "version": "[8.2.1, )"
+            },
+            "System.Configuration.ConfigurationManager": {
+              "target": "Package",
+              "version": "[8.0.0, )"
             }
           },
           "imports": [
@@ -91,7 +95,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
