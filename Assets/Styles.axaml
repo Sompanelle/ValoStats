@@ -32,6 +32,39 @@
         <Setter Property="HorizontalContentAlignment" Value="Center" />
     </Style>
 
+    <Style Selector="Label.Header">
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="28"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+    </Style>
+    
+    <Style Selector="Label.SubHeader">
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="Foreground" Value="#bbbb"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+    </Style>
+    
+    <Style Selector="Label.ListHeader">
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment"  Value="Center"></Setter>
+    </Style>
+    
+    <Style Selector="Label.ListSubHeader">
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment"  Value="Center"></Setter>
+    </Style>
+    
+    <Style Selector="Label.ListText">
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment"  Value="Center"></Setter>
+    </Style>
+    
     <Style Selector="Label.Header1">
         <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />

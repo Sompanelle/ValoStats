@@ -28,6 +28,9 @@ namespace ValoStats.ViewModels
         [ObservableProperty]
         private int kd;
 
+        [ObservableProperty] 
+        private MMRData mmrData;
+
         [ObservableProperty]
         private string tag;
 
@@ -55,22 +58,18 @@ namespace ValoStats.ViewModels
             {
                 Matches = new();
                 var appSettings = ConfigurationManager.AppSettings;
-                name = appSettings["Name"];
-                tag = appSettings["Tag"];
+                Name = "Sompanelle";
+                Tag = "N0IR";
                 title = ":3";
                 updated_at = DateTime.Now;
                 level = 49;
-                concatName = $"{name}#{tag}";
+                concatName = $"{Name}#{Tag}";
                 Matches.Add(new PlayedMatch() { Agent = "Iso", Map = "Ascent", Mode= "Competitive", KD = "20/12" } );
                 Matches.Add(new PlayedMatch() { Agent = "Reyna", Map = "Bind", Mode = "Competitive", KD = "12/12" });
                 Matches.Add(new PlayedMatch() { Agent = "Skye",Map = "Sunset", Mode = "Competitive", KD = "9/12" });
                 Matches.Add(new PlayedMatch() { Agent = "Iso", Map = "Abyss", Mode = "Competitive", KD = "22/11" });
                 Matches.Add(new PlayedMatch() { Agent = "Iso", Map = "Abysss", Mode = "Competitive", KD = "24/12" });
-                Matches.Add(new PlayedMatch() { Agent = "Iso", Map = "Ascent", Mode = "Competitive", KD = "20/12" });
-                Matches.Add(new PlayedMatch() { Agent = "Reyna", Map = "Bind", Mode = "Competitive", KD = "12/12" });
-                Matches.Add(new PlayedMatch() { Agent = "Skye", Map = "Sunset", Mode = "Competitive", KD = "9/12" });
-                Matches.Add(new PlayedMatch() { Agent = "Iso", Map = "Abyss", Mode = "Competitive", KD = "22/11" });
-                Matches.Add(new PlayedMatch() { Agent = "Iso", Map = "Abysss", Mode = "Competitive", KD = "24/12" });
+                MmrData = new MMRData() { current = new CurrentMMR() { tier = new Rank() { name = "Gold 1" } }, peak = new Peak() { tier = new Rank() { name = "Platinum 3" } } };
             }
             else
             {
@@ -95,7 +94,8 @@ namespace ValoStats.ViewModels
                     ConcatName = $"{settingName}#{settingTag}";
                     Updated_at = player.updated_at;
                     Level = player.level;
-                    await GetMatchPlayed(settingName,settingTag);
+                    MmrData = await ApiHelper.GetMMRData(settingName, settingTag);
+                    await GetMatchPlayed(settingName, settingTag);
                 }
             }
             else
@@ -106,15 +106,16 @@ namespace ValoStats.ViewModels
 
         }
 
-        public async Task GetMatchPlayed(string name, string tag)
+        public async Task GetMatchPlayed(string Name, string Tag)
         {
-            var lastTen = await ApiHelper.GetLastTenPlayedMatches(name, tag);
+            var lastTen = await ApiHelper.GetLastTenPlayedMatches(Name, Tag);
             if (lastTen != null)
             {
                 foreach(PlayedMatch match in lastTen)
                 {
                     Matches.Add(match);
                 }
+                
             }
             else
             {

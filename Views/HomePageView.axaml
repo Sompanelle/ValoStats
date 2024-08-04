@@ -32,10 +32,42 @@
 
 
             <!--  Player Display Name + Title StackPanel  -->
-            <StackPanel Orientation="Vertical">
-                <Label Content="{Binding ConcatName}" />
-                <Label Content="{Binding Level}" Foreground="#bbbb" />
-                <Label Content="{Binding Avgkd}" />
+            <StackPanel>
+                <Label Content="{Binding ConcatName}" Classes="Header"/>
+                
+            </StackPanel>
+            
+            <StackPanel>
+                
+                <StackPanel HorizontalAlignment="Center"
+                            Orientation="Horizontal">
+                    
+                    <StackPanel>
+                        <Label Content="Current Rank:"
+                               Classes="SubHeader"/>
+                        <Label Content="{Binding MmrData.current.tier.name}"
+                               Classes="SubHeader"/>
+                    </StackPanel>
+                    
+                    
+                    <StackPanel>
+                        <Label Content="RR:"
+                               Classes="SubHeader"/>
+                        <Label Content="{Binding MmrData.current.rr}"
+                               Classes="SubHeader"/>
+                    </StackPanel>
+                    
+                    <StackPanel>
+                        <Label Content="Level:" Classes="SubHeader" />
+                        <Label Content="{Binding Level}" Classes="SubHeader" />
+                    </StackPanel>
+                    
+                </StackPanel>
+                
+                <StackPanel HorizontalAlignment="Center">
+                    <Label Content="Peak:"/>
+                    <Label Content="{Binding MmrData.peak.tier.name}"/>
+                </StackPanel>
             </StackPanel>
 
         </StackPanel>
@@ -67,6 +99,8 @@
             Grid.Column="1"
             Spacing="15">
 
+            
+            
             <Label Classes="Header1" Content="Last Ten Matches" />
 
             <Grid />
@@ -76,11 +110,11 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-
-                                <Label Content="{Binding Agent}" />
-                                <Label Content="{Binding Map}" />
-                                <Label Content="{Binding Mode}" />
-                                <Label Content="{Binding KD}" />
+                                
+                                <Label Content="{Binding Mode}" Classes="ListHeader" />
+                                <Label Content="{Binding Map}" Classes="ListSubHeader"/>
+                                <Label Content="{Binding Agent}" Classes="ListText"/>
+                                <Label Content="{Binding KD}" Classes="ListText"/>
 
                             </StackPanel>
                         </DataTemplate>
@@ -88,6 +122,8 @@
                 </ListBox>
             </Border>
 
+            
+            
         </StackPanel>
 
     </Grid>
