@@ -82,7 +82,7 @@ namespace ValoStats.Models
 
     public class Assets
     {
-        public Card card { get; set; }
+        public string card { get; set; }
         public Agent agent { get; set; }
         public string display_icon { get; set; }
         public string killfeed_icon { get; set; }
@@ -125,14 +125,7 @@ namespace ValoStats.Models
         public int? rounds_lost { get; set; }
         public Roaster roaster { get; set; }
     }
-
-    public class Card
-    {
-        public string small { get; set; }
-        public string large { get; set; }
-        public string wide { get; set; }
-    }
-
+    
     public class Coach
     {
         public string puuid { get; set; }

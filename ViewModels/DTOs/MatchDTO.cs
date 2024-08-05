@@ -40,7 +40,7 @@ namespace ValoStats.ViewModels.DTOs
         }
 
 
-        public static List<Datum> MatchesResponseToMatchDatas(MatchResponse MatchResponse)
+        public static List<Datum> MatchesResponseToDatums(MatchResponse MatchResponse)
         {
             List<Datum> _ = new();
             foreach (Datum D in MatchResponse.data)

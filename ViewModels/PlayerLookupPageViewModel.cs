@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Avalonia.Media.Imaging;
 using ValoStats.Models;
 using ValoStats.ViewModels.Helpers;
 
@@ -33,6 +34,10 @@ namespace ValoStats.ViewModels
 
         [ObservableProperty]
         private int pageSize = 5;
+
+        [ObservableProperty]
+        private Bitmap cardImage;
+        
 
         public ObservableCollection<Episode> DisplayEpisodes {get; set;}
 
@@ -91,6 +96,7 @@ namespace ValoStats.ViewModels
                     IsSearchCompelete = true;
                     ResultPlayerData = player;
                 }
+                CardImage = await GetCardAsync(player.card);
             }
             else
             {
@@ -156,8 +162,12 @@ namespace ValoStats.ViewModels
             }
             else return true;
         }
-
-
+        
+        private async Task<Bitmap> GetCardAsync(string assetId)
+        {
+            var data = await ApiHelper.GetCard(assetId);
+            return Bitmap.DecodeToHeight(data, 320);
+        }
 
     }
 }

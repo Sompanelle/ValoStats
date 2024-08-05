@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ValorantTrackerApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6a9f3ba2f878507a2befdbf93cf2636e9bf1d408")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0cafe190b37f044071c3a527d8277a150a998358")]
 [assembly: System.Reflection.AssemblyProductAttribute("ValorantTrackerApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ValorantTrackerApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -16,6 +16,7 @@ namespace ValoStats.ViewModels.DTOs
                 puuid = Root.data.puuid,
                 name = Root.data.name,
                 tag = Root.data.tag,
+                card = Root.data.card,
                 player_title = Root.data.title,
                 level = Root.data.account_level,
                 updated_at = Root.data.updated_at,

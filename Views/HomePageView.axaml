@@ -18,23 +18,48 @@
     <Grid>
 
         <Grid.RowDefinitions>
-            <RowDefinitions>Auto,Auto,*</RowDefinitions>
+            <RowDefinitions>Auto,*,Auto</RowDefinitions>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinitions>*,*</ColumnDefinitions>
         </Grid.ColumnDefinitions>
 
+        
+        <!--  Page Name + Last Updated StackPanel  -->
+        <DockPanel
+            Grid.Row="0"
+            Grid.ColumnSpan="2"
+            Margin="5">
 
-        <StackPanel Grid.Row="1" Margin="5">
+            <StackPanel Orientation="Horizontal">
+                <Label Classes="PageTitle" Content="Home" />
+            </StackPanel>
 
-            <!--  Left Side  -->
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+
+                <Label Content="Last Updated:" />
+                <Label Content="{Binding UpdatedAt}" />
+
+            </StackPanel>
+        </DockPanel>
+        
+        <!--  Left Side  -->
+        
+        
+        <Image Source="{Binding CardImage}"
+               Grid.Row="1"
+               Grid.Column="0"/>
+        
+        
+        <!--  Player Display Name + Title StackPanel  -->
+        <StackPanel Grid.Row="2"
+                    Grid.Column="0"
+                    Margin="5">
 
 
-            <!--  Player Display Name + Title StackPanel  -->
             <StackPanel>
                 <Label Content="{Binding ConcatName}" Classes="Header"/>
-                
             </StackPanel>
             
             <StackPanel>
@@ -76,23 +101,7 @@
         <!--  Right Side  -->
 
 
-        <!--  Last Updated StackPanel  -->
-        <DockPanel
-            Grid.Row="0"
-            Grid.ColumnSpan="2"
-            Margin="5">
 
-            <StackPanel Orientation="Horizontal">
-                <Label Classes="PageTitle" Content="Home" />
-            </StackPanel>
-
-            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-
-                <Label Content="Last Updated:" />
-                <Label Content="{Binding Updated_at}" />
-
-            </StackPanel>
-        </DockPanel>
 
         <StackPanel
             Grid.Row="1"
