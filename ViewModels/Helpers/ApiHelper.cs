@@ -143,6 +143,19 @@ namespace ValoStats.ViewModels.Helpers
             Byte[] data = await ApiClient.GetByteArrayAsync(cardUrl);
             return new MemoryStream(data);
         }
+
+        public static async Task<TitleData>? GetTitle(string Asset, HttpClient ApiClient)
+        {
+            string titleUrl = $@"https://valorant-api.com/v1/playertitles/{Asset}";
+            using (HttpResponseMessage response = await ApiClient.GetAsync(titleUrl))
+            {
+                string json = await response.Content.ReadAsStringAsync();
+                TitleResponse content = JsonSerializer.Deserialize<TitleResponse>(json);
+                TitleData Title = TitleDTO.TitleResponseToTitleData(content);
+                return Title;
+            }
+        }
+         
     }
         
 

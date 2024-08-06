@@ -23,9 +23,18 @@ namespace ValoStats.Models
         public Player player { get; set; }
         public Peak peak { get; set; }
         public CurrentMMR current { get; set; }
+        
         public ObservableCollection<Episode> seasonal { get; set; }
     }
 
+    public class Images
+    {
+        public string small { get; set; }
+        public string large { get; set; }
+        public string triangle_down { get; set; }
+        public string triangle_up { get; set; }
+    }
+    
     public class MMRResponse
     {
         public int status { get; set; }

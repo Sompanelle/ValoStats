@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Avalonia.Controls;
 using ValoStats.Models;
 using ValoStats.ViewModels.Helpers;
 
@@ -42,6 +43,14 @@ namespace ValoStats.ViewModels
 
         public SettingsPageViewModel()
         {
+
+            if (Design.IsDesignMode)
+            {
+                Name = String.Empty;
+                Tag = String.Empty;
+                Region = String.Empty;
+                Key = String.Empty;
+            }
             Config? savedConfig = FileHelper.ReadConfig();
             if(savedConfig != null)
             {

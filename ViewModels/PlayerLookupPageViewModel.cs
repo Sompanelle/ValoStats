@@ -49,8 +49,6 @@ namespace ValoStats.ViewModels
 
         public PlayerLookupPageViewModel()
         {
-            Episodes = new();
-            DisplayEpisodes = new();
             if (Design.IsDesignMode)
             {
                 IsSearchCompelete = true;
@@ -68,7 +66,8 @@ namespace ValoStats.ViewModels
             }
             else
             {
-                
+                Episodes = new();
+                DisplayEpisodes = new();
             }
         }
 
