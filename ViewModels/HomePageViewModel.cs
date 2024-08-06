@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.Marshalling;
@@ -35,8 +36,6 @@ namespace ValoStats.ViewModels
 
         [ObservableProperty]
         public Bitmap cardImage;
-
-        
         
         [ObservableProperty]
         private int kd;
@@ -48,7 +47,7 @@ namespace ValoStats.ViewModels
         private string tag;
 
         [ObservableProperty]
-        private string title;
+        private TitleData title;
 
         [ObservableProperty]
         private DateTime updatedAt;
@@ -68,10 +67,9 @@ namespace ValoStats.ViewModels
             if (Design.IsDesignMode)
             {
                 Matches = new();
-                var appSettings = ConfigurationManager.AppSettings;
                 Name = "Sompanelle";
                 Tag = "N0IR";
-                title = ":3";
+                Title.titleText = ":3";
                 updatedAt = DateTime.Now;
                 level = 49;
                 concatName = $"{Name}#{Tag}";
@@ -107,8 +105,9 @@ namespace ValoStats.ViewModels
                     UpdatedAt = Player.updated_at;
                     Level = Player.level;
                     MmrData = await ApiHelper.GetMMRData(Player.name, Player.tag, client);
-                    CardImage = await GetCardAsync(Player.card);
-                    await GetMatchPlayed(Player.name, Player.tag);
+                    CardImage = await GetCardAsync(Player.card, client);
+                    await GetTitleAsync(Player.player_title, client);
+                    await GetMatchPlayed(Player.name, Player.tag, client);
                 }
             }
             else
@@ -119,9 +118,9 @@ namespace ValoStats.ViewModels
 
         }
 
-        private async Task GetMatchPlayed(string Name, string Tag)
+        private async Task GetMatchPlayed(string Name, string Tag, HttpClient Client)
         {
-            var lastTen = await ApiHelper.GetLastFiveMatchDatas(Name, Tag, client);
+            var lastTen = await ApiHelper.GetLastFiveMatchDatas(Name, Tag, Client);
             if (lastTen != null)
             {
                 foreach(Datum matchData in lastTen)
@@ -138,10 +137,16 @@ namespace ValoStats.ViewModels
         }
         
 
-        private async Task<Bitmap> GetCardAsync(string assetId)
+        private async Task<Bitmap> GetCardAsync(string assetId, HttpClient Client)
         {
-            var data = await ApiHelper.GetCard(assetId, client);
+            var data = await ApiHelper.GetCard(assetId, Client);
             return  Bitmap.DecodeToHeight(data, 320);
+        }
+
+        private async Task GetTitleAsync(string Asset, HttpClient Client)
+        {
+            Title = await ApiHelper.GetTitle(Asset, Client);
+            Debug.WriteLine(Title.titleText);
         }
 
     }

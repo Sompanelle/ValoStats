@@ -38,7 +38,7 @@
 
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 
-                <Label Content="Last Updated:" />
+                <Label Content="Last Updated:"/>
                 <Label Content="{Binding UpdatedAt}" />
 
             </StackPanel>
@@ -62,76 +62,70 @@
                 <Label Content="{Binding ConcatName}" Classes="Header"/>
             </StackPanel>
             
-            <StackPanel>
                 
-                <StackPanel HorizontalAlignment="Center"
-                            Orientation="Horizontal">
-                    
-                    <StackPanel>
-                        <Label Content="Current Rank:"
-                               Classes="SubHeader"/>
-                        <Label Content="{Binding MmrData.current.tier.name}"
-                               Classes="SubHeader"/>
-                    </StackPanel>
-                    
-                    
-                    <StackPanel>
-                        <Label Content="RR:"
-                               Classes="SubHeader"/>
-                        <Label Content="{Binding MmrData.current.rr}"
-                               Classes="SubHeader"/>
-                    </StackPanel>
-                    
-                    <StackPanel>
-                        <Label Content="Level:" Classes="SubHeader" />
-                        <Label Content="{Binding Level}" Classes="SubHeader" />
-                    </StackPanel>
-                    
-                </StackPanel>
-                
-                <StackPanel HorizontalAlignment="Center">
-                    <Label Content="Peak:"/>
-                    <Label Content="{Binding MmrData.peak.tier.name}"/>
-                </StackPanel>
-            </StackPanel>
+        <Label Content="{Binding Title.titleText}"
+               Classes="SubHeader"/>
 
         </StackPanel>
 
 
         <!--  Right Side  -->
-
-
-
-
-        <StackPanel
-            Grid.Row="1"
-            Grid.Column="1"
-            Spacing="15">
-
+        
+        <StackPanel Grid.Row="1"
+                    Grid.Column="1">
             
-            
-            <Label Classes="Header1" Content="Last Ten Matches" />
+            <Grid HorizontalAlignment="Center">
+                <Grid.RowDefinitions>*,*</Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>*,*</Grid.ColumnDefinitions>
+                
+                <Label Grid.Row="0"
+                       Grid.Column="0"
+                       Classes="ListHeader"
+                       Content="Current Rank"/>
+                
+                <Image Grid.Row="1"
+                       Grid.Column="0"></Image>
+                
+                <Label Grid.Row="0"
+                       Grid.Column="1"
+                       Classes="ListHeader"
+                       Content="Peak Rank"/>
+                
+                <Image Grid.Row="1"
+                       Grid.Column="1"></Image>
+                
+            </Grid>
+        
 
-            <Grid />
 
-            <Border Classes="Radius">
-                <ListBox ItemsSource="{Binding Matches}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                                
-                                <Label Content="{Binding Mode}" Classes="ListHeader" />
-                                <Label Content="{Binding Map}" Classes="ListSubHeader"/>
-                                <Label Content="{Binding Agent}" Classes="ListText"/>
-                                <Label Content="{Binding KD}" Classes="ListText"/>
+            <StackPanel
 
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </Border>
+                Spacing="3">
 
-            
+                
+                
+                <Label Classes="Header1" Content="Last Five Matches" />
+
+                <Grid />
+
+                <Border Classes="Radius">
+                    <ListBox ItemsSource="{Binding Matches}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                    
+                                    <Label Content="{Binding Mode}" Classes="ListHeader" />
+                                    <Label Content="{Binding Map}" Classes="ListSubHeader"/>
+                                    <Label Content="{Binding Agent}" Classes="ListText"/>
+                                    <Label Content="{Binding KD}" Classes="ListText"/>
+
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Border>
+                
+            </StackPanel>
             
         </StackPanel>
 

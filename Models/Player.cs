@@ -30,7 +30,7 @@ namespace ValoStats.Models
         public int damage_received { get; set; }
         public DateTime updated_at { get; set; }
     }
-
+    
     public class PlayerData
     {
         public string puuid { get; set; }
