@@ -5,8 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
-using ValorantTrackerApp.Models;
+using ValoStats.Models;
 using System.Text.Json;
+using Avalonia.Media.Imaging;
 
 namespace ValoStats.ViewModels.Helpers
 {
@@ -51,7 +52,7 @@ namespace ValoStats.ViewModels.Helpers
             string data = JsonSerializer.Serialize<Config>(Config);
             File.WriteAllText(configDir,data);
         }
-
+        
 
     }
 }

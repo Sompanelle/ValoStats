@@ -43,6 +43,18 @@ namespace ValoStats.Models
 
 
 
+    public class AbilityCasts
+    {
+        public int? c_cast { get; set; }
+        public int? q_cast { get; set; }
+        public int? e_cast { get; set; }
+        public int? x_cast { get; set; }
+        public int? c_casts { get; set; }
+        public int? q_casts { get; set; }
+        public int? e_casts { get; set; }
+        public int? x_casts { get; set; }
+    }
+
     public class Agent
     {
         public string small { get; set; }
@@ -68,6 +80,7 @@ namespace ValoStats.Models
         public Assets assets { get; set; }
         public Behaviour behaviour { get; set; }
         public Platform platform { get; set; }
+        public AbilityCasts ability_casts { get; set; }
         public Stats stats { get; set; }
         public int damage_made { get; set; }
         public int damage_received { get; set; }
@@ -119,7 +132,10 @@ namespace ValoStats.Models
         public Assets assets { get; set; }
         public Behaviour behaviour { get; set; }
         public Platform platform { get; set; }
+        public AbilityCasts ability_casts { get; set; }
         public Stats stats { get; set; }
+        public int damage_made { get; set; }
+        public int damage_received { get; set; }
         public bool? has_won { get; set; }
         public int? rounds_won { get; set; }
         public int? rounds_lost { get; set; }
@@ -167,7 +183,7 @@ namespace ValoStats.Models
 
     public class Datum
     {
-        public MapData metadata { get; set; }
+        public Metadata metadata { get; set; }
         public Players players { get; set; }
         public List<Observer> observers { get; set; }
         public List<Coach> coaches { get; set; }
@@ -187,8 +203,7 @@ namespace ValoStats.Models
     {
         public DefuseLocation defuse_location { get; set; }
         public DefusedBy defused_by { get; set; }
-        public int defuse_time_in_round { get; set; }
-        public List<PlayerLocationsOnDefuse> player_locations_on_defuse { get; set; }
+        public List<PlayerLocations> player_locations_on_defuse { get; set; }
     }
 
     public class DefuseLocation
@@ -227,7 +242,7 @@ namespace ValoStats.Models
         public string damage_weapon_name { get; set; }
         public DamageWeaponAssets damage_weapon_assets { get; set; }
         public bool secondary_fire_mode { get; set; }
-        public List<PlayerLocationsOnKill> player_locations_on_kill { get; set; }
+        public List<PlayerLocations> player_locations_on_kill { get; set; }
         public List<Assistant> assistants { get; set; }
     }
 
@@ -246,7 +261,7 @@ namespace ValoStats.Models
         public string damage_weapon_name { get; set; }
         public DamageWeaponAssets damage_weapon_assets { get; set; }
         public bool secondary_fire_mode { get; set; }
-        public List<PlayerLocationsOnKill> player_locations_on_kill { get; set; }
+        public List<PlayerLocations> player_locations_on_kill { get; set; }
         public List<Assistant> assistants { get; set; }
     }
 
@@ -262,7 +277,7 @@ namespace ValoStats.Models
         public int y { get; set; }
     }
 
-    public class MapData
+    public class Metadata
     {
         public string map { get; set; }
         public string game_version { get; set; }
@@ -313,8 +328,7 @@ namespace ValoStats.Models
         public PlantLocation plant_location { get; set; }
         public PlantedBy planted_by { get; set; }
         public string plant_site { get; set; }
-        public int plant_time_in_round { get; set; }
-        public List<PlayerLocationsOnPlant> player_locations_on_plant { get; set; }
+        public List<PlayerLocations> player_locations_on_plant { get; set; }
     }
 
     public class PlantLocation
@@ -328,8 +342,9 @@ namespace ValoStats.Models
         public string type { get; set; }
         public Os os { get; set; }
     }
+    
 
-    public class PlayerLocationsOnDefuse
+    public class PlayerLocations
     {
         public string player_puuid { get; set; }
         public string player_display_name { get; set; }
@@ -337,24 +352,7 @@ namespace ValoStats.Models
         public Location location { get; set; }
         public double view_radians { get; set; }
     }
-
-    public class PlayerLocationsOnKill
-    {
-        public string player_puuid { get; set; }
-        public string player_display_name { get; set; }
-        public string player_team { get; set; }
-        public Location location { get; set; }
-        public double view_radians { get; set; }
-    }
-
-    public class PlayerLocationsOnPlant
-    {
-        public string player_puuid { get; set; }
-        public string player_display_name { get; set; }
-        public string player_team { get; set; }
-        public Location location { get; set; }
-        public double view_radians { get; set; }
-    }
+    
 
     public class Players
     {
@@ -365,6 +363,7 @@ namespace ValoStats.Models
 
     public class PlayerStat
     {
+        public AbilityCasts ability_casts { get; set; }
         public string player_puuid { get; set; }
         public string player_display_name { get; set; }
         public string player_team { get; set; }
@@ -387,6 +386,8 @@ namespace ValoStats.Models
         public string matchup_id { get; set; }
     }
 
+    
+
     public class Roaster
     {
         public List<string> members { get; set; }
@@ -407,6 +408,8 @@ namespace ValoStats.Models
         public string end_type { get; set; }
         public bool bomb_planted { get; set; }
         public bool bomb_defused { get; set; }
+        public PlantEvents plant_events { get; set; }
+        public DefuseEvents defuse_events { get; set; }
         public List<PlayerStat> player_stats { get; set; }
     }
 
@@ -452,7 +455,5 @@ namespace ValoStats.Models
         public string name { get; set; }
         public Assets assets { get; set; }
     }
-
-
 
 }

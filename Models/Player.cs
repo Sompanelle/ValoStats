@@ -2,8 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
+using Avalonia.Media.Imaging;
 
 namespace ValoStats.Models
 {
@@ -17,7 +20,8 @@ namespace ValoStats.Models
         public string character { get; set; }
         public int currenttier { get; set; }
         public string currenttier_patched { get; set; }
-        public string player_card { get; set; }
+        public string card { get; set; }
+        public Bitmap cardImg { get; set; }
         public string player_title { get; set; }
         public string party_id { get; set; }
         public SessionPlaytime session_playtime { get; set; }
@@ -44,4 +48,6 @@ namespace ValoStats.Models
     {
         public PlayerData data { get; set; }
     }
+
+    
 }

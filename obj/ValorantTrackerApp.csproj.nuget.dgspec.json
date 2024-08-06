@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\rjray\\Source\\Repos\\Yeeeef\\ValoStats\\ValorantTrackerApp.csproj": {}
+    "C:\\Users\\rjray\\RiderProjects\\ValoStats\\ValorantTrackerApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\rjray\\Source\\Repos\\Yeeeef\\ValoStats\\ValorantTrackerApp.csproj": {
+    "C:\\Users\\rjray\\RiderProjects\\ValoStats\\ValorantTrackerApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\rjray\\Source\\Repos\\Yeeeef\\ValoStats\\ValorantTrackerApp.csproj",
+        "projectUniqueName": "C:\\Users\\rjray\\RiderProjects\\ValoStats\\ValorantTrackerApp.csproj",
         "projectName": "ValorantTrackerApp",
-        "projectPath": "C:\\Users\\rjray\\Source\\Repos\\Yeeeef\\ValoStats\\ValorantTrackerApp.csproj",
+        "projectPath": "C:\\Users\\rjray\\RiderProjects\\ValoStats\\ValorantTrackerApp.csproj",
         "packagesPath": "C:\\Users\\rjray\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\rjray\\Source\\Repos\\Yeeeef\\ValoStats\\obj\\",
+        "outputPath": "C:\\Users\\rjray\\RiderProjects\\ValoStats\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -39,11 +39,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {

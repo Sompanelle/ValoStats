@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "fxv5d2oEnWCM5BZz8TbBTMWLsp90Sb8mn/80mmMwj4Ga3HX8Eg/DKDD7qeb/myelpdlE5mSE4UCn0w6wzx53Jg==",
+  "dgSpecHash": "K6ae5X4R/rxV+Q15tMNsAZHD4f2mCviOicqaF3uMiwO3JCOKXXTHrzU35EOl/FWWIlg7pKOJ35uc2PEGbx+6TA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\rjray\\Source\\Repos\\Yeeeef\\ValoStats\\ValorantTrackerApp.csproj",
+  "projectFilePath": "C:\\Users\\rjray\\RiderProjects\\ValoStats\\ValoStats.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\rjray\\.nuget\\packages\\avalonia\\11.0.10\\avalonia.11.0.10.nupkg.sha512",
     "C:\\Users\\rjray\\.nuget\\packages\\avalonia.angle.windows.natives\\2.1.0.2023020321\\avalonia.angle.windows.natives.2.1.0.2023020321.nupkg.sha512",

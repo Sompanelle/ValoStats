@@ -6,7 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using ValorantTrackerApp.Models;
+using ValoStats.Models;
 using ValoStats.ViewModels.Helpers;
 
 namespace ValoStats.ViewModels
