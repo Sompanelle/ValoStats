@@ -6,7 +6,6 @@ using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
-using ValorantTrackerApp.Models;
 using ValoStats.Models;
 using ValoStats.ViewModels.Helpers;
 
@@ -18,7 +17,7 @@ namespace ValoStats.ViewModels.DTOs
         public static string name = Config.Name;
         public static Match OneMatchResponseToDTO(MatchResponse Data)
         {
-            MapData Match = Data.data.First().metadata;
+            Metadata Match = Data.data.First().metadata;
             return new Match()
             {
                 map = Match.map,

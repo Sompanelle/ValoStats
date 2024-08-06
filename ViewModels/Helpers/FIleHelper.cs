@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
-using ValorantTrackerApp.Models;
+using ValoStats.Models;
 using System.Text.Json;
 using Avalonia.Media.Imaging;
 

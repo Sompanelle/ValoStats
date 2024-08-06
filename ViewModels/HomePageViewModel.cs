@@ -6,13 +6,14 @@ using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.Marshalling;
 using System.Text;
 using System.Threading.Tasks;
 using Avalonia.Media.Imaging;
 using Avalonia.OpenGL.Egl;
-using ValorantTrackerApp.Models;
+using ValoStats.Models;
 using ValoStats.Models;
 using ValoStats.ViewModels.DTOs;
 using ValoStats.ViewModels.Helpers;
@@ -21,6 +22,7 @@ namespace ValoStats.ViewModels
 {
     public partial class HomePageViewModel : ViewModelBase
     {
+        private HttpClient client = new HttpClient();
         
         [ObservableProperty]
         private bool badRequest;
@@ -82,7 +84,7 @@ namespace ValoStats.ViewModels
             }
             else
             {
-                ApiHelper.InitializeClient();
+                client = ApiHelper.InitializeClient();
                 Matches = new();
                 concatName = $"{name}#{tag}";
                 GetPlayer();
@@ -97,14 +99,14 @@ namespace ValoStats.ViewModels
             string settingTag = Config.Tag;
             if ( !string.IsNullOrEmpty(settingName) || !string.IsNullOrEmpty(settingTag))
             {
-                var resultPlayer= await ApiHelper.GetPlayer(settingName, settingTag);
+                var resultPlayer= await ApiHelper.GetPlayer(settingName, settingTag, client);
                 if (resultPlayer != null)
                 {
                     Player = resultPlayer;
                     ConcatName = $"{settingName}#{settingTag}";
                     UpdatedAt = Player.updated_at;
                     Level = Player.level;
-                    MmrData = await ApiHelper.GetMMRData(Player.name, Player.tag);
+                    MmrData = await ApiHelper.GetMMRData(Player.name, Player.tag, client);
                     CardImage = await GetCardAsync(Player.card);
                     await GetMatchPlayed(Player.name, Player.tag);
                 }
@@ -119,7 +121,7 @@ namespace ValoStats.ViewModels
 
         private async Task GetMatchPlayed(string Name, string Tag)
         {
-            var lastTen = await ApiHelper.GetLastMatchDatas(Name, Tag);
+            var lastTen = await ApiHelper.GetLastFiveMatchDatas(Name, Tag, client);
             if (lastTen != null)
             {
                 foreach(Datum matchData in lastTen)
@@ -138,7 +140,7 @@ namespace ValoStats.ViewModels
 
         private async Task<Bitmap> GetCardAsync(string assetId)
         {
-            var data = await ApiHelper.GetCard(assetId);
+            var data = await ApiHelper.GetCard(assetId, client);
             return  Bitmap.DecodeToHeight(data, 320);
         }
 

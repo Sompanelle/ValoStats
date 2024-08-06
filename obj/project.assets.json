@@ -4590,9 +4590,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\rjray\\RiderProjects\\ValoStats\\ValorantTrackerApp.csproj",
-      "projectName": "ValorantTrackerApp",
-      "projectPath": "C:\\Users\\rjray\\RiderProjects\\ValoStats\\ValorantTrackerApp.csproj",
+      "projectUniqueName": "C:\\Users\\rjray\\RiderProjects\\ValoStats\\ValoStats.csproj",
+      "projectName": "ValoStats",
+      "projectPath": "C:\\Users\\rjray\\RiderProjects\\ValoStats\\ValoStats.csproj",
       "packagesPath": "C:\\Users\\rjray\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\rjray\\RiderProjects\\ValoStats\\obj\\",
       "projectStyle": "PackageReference",
@@ -4673,7 +4673,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

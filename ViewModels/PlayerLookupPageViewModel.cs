@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace ValoStats.ViewModels
 {
     public partial class PlayerLookupPageViewModel : ViewModelBase
     {
-
+        private HttpClient client = ApiHelper.InitializeClient();
         [ObservableProperty]
         private string playerQuery;
 
@@ -65,13 +66,18 @@ namespace ValoStats.ViewModels
                     new Episode() { end_tier = new Rank() { name = "Platinum 1" }, season = new() { @short = "e8a2" } },
                 };
             }
+            else
+            {
+                
+            }
         }
 
         [RelayCommand(CanExecute = nameof(CanSearch))]
         public async Task PlayerSearch()
         {
+            
             var _ = PlayerQuery.Split(new[] {'#'});
-            var mmr = await ApiHelper.GetMMRData(_[0], _[1]);
+            var mmr = await ApiHelper.GetMMRData(_[0], _[1], client);
             if (mmr != null)
             {
                 IsSearchCompelete = true;
@@ -90,13 +96,14 @@ namespace ValoStats.ViewModels
                         DisplayEpisodes.Add(ep);
                     }
                 }
-                var player = await ApiHelper.GetPlayer(_[0], _[1]);
+
+                var player = await ApiHelper.GetPlayer(_[0], _[1], client);
                 if (player != null)
                 {
                     IsSearchCompelete = true;
                     ResultPlayerData = player;
                 }
-                CardImage = await GetCardAsync(player.card);
+                CardImage = await GetCardAsync(player.card, client);
             }
             else
             {
@@ -163,9 +170,9 @@ namespace ValoStats.ViewModels
             else return true;
         }
         
-        private async Task<Bitmap> GetCardAsync(string assetId)
+        private async Task<Bitmap> GetCardAsync(string AssetId, HttpClient Client)
         {
-            var data = await ApiHelper.GetCard(assetId);
+            var data = await ApiHelper.GetCard(AssetId, Client);
             return Bitmap.DecodeToHeight(data, 320);
         }
 
