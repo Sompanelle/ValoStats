@@ -29,6 +29,12 @@ namespace ValoStats.ViewModels
         private bool badRequest;
 
         [ObservableProperty]
+        private bool isLoaded;
+
+        [ObservableProperty]
+        private int pbar;
+        
+        [ObservableProperty]
         private string name;
 
         [ObservableProperty]
@@ -101,13 +107,22 @@ namespace ValoStats.ViewModels
                 if (resultPlayer != null)
                 {
                     Player = resultPlayer;
+                    Pbar += 10;
                     ConcatName = $"{settingName}#{settingTag}";
+                    Pbar += 10;
                     UpdatedAt = Player.updated_at;
+                    Pbar += 10;
                     Level = Player.level;
+                    Pbar += 10;
                     MmrData = await ApiHelper.GetMMRData(Player.name, Player.tag, client);
+                    Pbar += 10;
                     CardImage = await GetCardAsync(Player.card, client);
+                    Pbar += 10;
                     await GetTitleAsync(Player.player_title, client);
+                    Pbar += 10;
                     await GetMatchPlayed(Player.name, Player.tag, client);
+                    Pbar += 10;
+                    IsLoaded = true;
                 }
             }
             else

@@ -14,8 +14,16 @@
         <vm:HomePageViewModel />
     </Design.DataContext>
 
-
-    <Grid>
+   <Grid>
+       
+       <ProgressBar VerticalAlignment="Center"
+                    Value="{Binding Pbar}"
+                    Maximum="80"
+                    Minimum="20"
+                    IsVisible="{Binding !IsLoaded}"
+                    Margin="5"/>
+    
+       <Grid IsVisible="{Binding IsLoaded }">
 
         <Grid.RowDefinitions>
             <RowDefinitions>Auto,*,Auto</RowDefinitions>
@@ -40,7 +48,7 @@
 
                 <Label Content="Last Updated:"/>
                 <Label Content="{Binding UpdatedAt}" />
-
+                
             </StackPanel>
         </DockPanel>
         
@@ -67,7 +75,13 @@
                Classes="SubHeader"/>
 
         </StackPanel>
-
+        
+        <ProgressBar VerticalAlignment="Center"
+                     Value="{Binding Pbar}"
+                     Maximum="80"
+                     Minimum="20"
+                     IsVisible="{Binding !IsLoaded}"
+                     Margin="5"/>
 
         <!--  Right Side  -->
         
@@ -106,7 +120,7 @@
                 
                 <Label Classes="Header1" Content="Last Five Matches" />
 
-                <Grid />
+                
 
                 <Border Classes="Radius">
                     <ListBox ItemsSource="{Binding Matches}">
@@ -130,4 +144,6 @@
         </StackPanel>
 
     </Grid>
+       
+   </Grid>
 </UserControl>

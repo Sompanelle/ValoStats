@@ -36,9 +36,16 @@
             </TextBox>
             
         </StackPanel>
-    
+
+        <ProgressBar  Grid.Row="1"
+                      Margin="5"
+                      Value="{Binding Pbar}"
+                      Maximum="60"
+                      Minimum="0"
+                      IsVisible="{Binding !IsLoaded}"/>
+        
         <!--  Content Grid  -->
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" IsVisible="{Binding IsLoaded}">
             
             <Grid.ColumnDefinitions>*,*</Grid.ColumnDefinitions>
             
@@ -61,17 +68,17 @@
             
             <!--  Ranked info box  -->
 
-            <StackPanel Grid.Column="1" IsVisible="{Binding IsSearchCompelete}">
+            <StackPanel Grid.Column="1" IsVisible="{Binding IsLoaded}">
 
                 
                 
                 <StackPanel Grid.Column="0" HorizontalAlignment="Center"
                             Orientation="Horizontal">
 
-                    <Label Classes="Data" Content="Current Rank" />
+                    <Label Classes="Data" Content="Current Rank"/>
 
 
-                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <StackPanel HorizontalAlignment="Center">
 
                         <Label Classes="Data" Content="{Binding ResultMMRData.current.tier.name}" />
 
@@ -83,8 +90,7 @@
                     
                     <StackPanel
                         Grid.Column="1"
-                        HorizontalAlignment="Center"
-                        IsVisible="{Binding IsSearchCompelete}">
+                        HorizontalAlignment="Center">
 
                         <Label Classes="Data" Content="Peak Rank" />
 

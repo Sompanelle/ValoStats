@@ -22,6 +22,12 @@ namespace ValoStats.ViewModels
         private string playerQuery;
 
         [ObservableProperty]
+        private bool isLoaded;
+
+        [ObservableProperty]
+        private int pbar;
+        
+        [ObservableProperty]
         private bool badSearch = false;
 
         [ObservableProperty]
@@ -76,7 +82,9 @@ namespace ValoStats.ViewModels
         {
             
             var _ = PlayerQuery.Split(new[] {'#'});
+            Pbar += 10;
             var mmr = await ApiHelper.GetMMRData(_[0], _[1], client);
+            Pbar += 10;
             if (mmr != null)
             {
                 IsSearchCompelete = true;
@@ -94,6 +102,8 @@ namespace ValoStats.ViewModels
                     {
                         DisplayEpisodes.Add(ep);
                     }
+
+                    Pbar += 20;
                 }
 
                 var player = await ApiHelper.GetPlayer(_[0], _[1], client);
@@ -103,10 +113,12 @@ namespace ValoStats.ViewModels
                     ResultPlayerData = player;
                 }
                 CardImage = await GetCardAsync(player.card, client);
+                Pbar += 10;
+                IsLoaded = true;
             }
             else
             {
-                IsSearchCompelete = false;
+                IsLoaded = false;
                 BadSearch = true;
             }
 
