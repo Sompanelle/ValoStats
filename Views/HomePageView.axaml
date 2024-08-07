@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:ValoStats.ViewModels"
+    xmlns:Converters="clr-namespace:ValoStats.ViewModels.Converters"
     d:DesignHeight="550"
     d:DesignWidth="800"
     x:DataType="vm:HomePageViewModel"
@@ -13,10 +14,12 @@
     <Design.DataContext>
         <vm:HomePageViewModel />
     </Design.DataContext>
-
+    
+        
+    
    <Grid>
        
-       <ProgressBar VerticalAlignment="Center"
+           <ProgressBar VerticalAlignment="Center"
                     Value="{Binding Pbar}"
                     Maximum="80"
                     Minimum="20"
@@ -120,16 +123,19 @@
                 
                 <Label Classes="Header1" Content="Last Five Matches" />
 
-                
 
+                
                 <Border Classes="Radius">
                     <ListBox ItemsSource="{Binding Matches}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                                    
+                                
+                                
+                                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center">
+                                    <Label IsVisible="{Binding Team.has_won}"  />
                                     <Label Content="{Binding Mode}" Classes="ListHeader" />
                                     <Label Content="{Binding Map}" Classes="ListSubHeader"/>
+                                    <Label Content="{Binding Score}" Classes="ListHeader"/>
                                     <Label Content="{Binding Agent}" Classes="ListText"/>
                                     <Label Content="{Binding KD}" Classes="ListText"/>
 

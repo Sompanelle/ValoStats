@@ -72,19 +72,11 @@ namespace ValoStats.ViewModels
 
             if (Design.IsDesignMode)
             {
-                Matches = new();
-                Name = "Sompanelle";
-                Tag = "N0IR";
-                Title.titleText = ":3";
-                updatedAt = DateTime.Now;
-                level = 49;
-                concatName = $"{Name}#{Tag}";
-                Matches.Add(new PlayedMatch() { Agent = "Iso", Map = "Ascent", Mode= "Competitive", KD = "20/12" } );
-                Matches.Add(new PlayedMatch() { Agent = "Reyna", Map = "Bind", Mode = "Competitive", KD = "12/12" });
-                Matches.Add(new PlayedMatch() { Agent = "Skye",Map = "Sunset", Mode = "Competitive", KD = "9/12" });
-                Matches.Add(new PlayedMatch() { Agent = "Iso", Map = "Abyss", Mode = "Competitive", KD = "22/11" });
-                Matches.Add(new PlayedMatch() { Agent = "Iso", Map = "Abysss", Mode = "Competitive", KD = "24/12" });
-                MmrData = new MMRData() { current = new CurrentMMR() { tier = new Rank() { name = "Gold 1" } }, peak = new Peak() { tier = new Rank() { name = "Platinum 3" } } };
+                IsLoaded = true;
+                Matches = new() { new PlayedMatch() { Map = "Ascent", Mode = "Competitive", KD = "22/12", Agent = "Yoru", Score = "13-3" ,Team = new Team() {has_won = true}}, };
+                ConcatName = "Sompanelle#NOIR";
+                Title = new() { titleText = "Unserious" };
+
             }
             else
             {
@@ -161,7 +153,6 @@ namespace ValoStats.ViewModels
         private async Task GetTitleAsync(string Asset, HttpClient Client)
         {
             Title = await ApiHelper.GetTitle(Asset, Client);
-            Debug.WriteLine(Title.titleText);
         }
 
     }

@@ -34,12 +34,38 @@ namespace ValoStats.Models
         public string Mode { get; set; }
         public string Region { get; set; }
         public string Platform { get; set; }
+        public Team Team { get; set; }
         public string Agent { get; set; }
-        public bool? Has_Won { get; set; }
-        public int? Rounds_won { get; set; }
-        public int? Rounds_lost { get; set; }
-        public Teams Teams { get; set; }
+        public string Score { get; set; }
+        public AllPlayer Player { get; set; }
     }
+    public class Team
+    {
+        public string puuid { get; set; }
+        public string name { get; set; }
+        public string tag { get; set; }
+        public string team { get; set; }
+        public int level { get; set; }
+        public string character { get; set; }
+        public int currenttier { get; set; }
+        public string currenttier_patched { get; set; }
+        public string player_card { get; set; }
+        public string player_title { get; set; }
+        public string party_id { get; set; }
+        public SessionPlaytime session_playtime { get; set; }
+        public Assets assets { get; set; }
+        public Behaviour behaviour { get; set; }
+        public Platform platform { get; set; }
+        public Stats stats { get; set; }
+        public int damage_made { get; set; }
+        public int damage_received { get; set; }
+        public bool? has_won 
+        { get; set ; }
+        public int? rounds_won { get; set; }
+        public int? rounds_lost { get; set; }
+        public Roaster roaster { get; set; }
+    }
+    
 
 
 
@@ -115,32 +141,7 @@ namespace ValoStats.Models
         public int rounds_in_spawn { get; set; }
     }
 
-    public class Team
-    {
-        public string puuid { get; set; }
-        public string name { get; set; }
-        public string tag { get; set; }
-        public string team { get; set; }
-        public int level { get; set; }
-        public string character { get; set; }
-        public int currenttier { get; set; }
-        public string currenttier_patched { get; set; }
-        public string player_card { get; set; }
-        public string player_title { get; set; }
-        public string party_id { get; set; }
-        public SessionPlaytime session_playtime { get; set; }
-        public Assets assets { get; set; }
-        public Behaviour behaviour { get; set; }
-        public Platform platform { get; set; }
-        public AbilityCasts ability_casts { get; set; }
-        public Stats stats { get; set; }
-        public int damage_made { get; set; }
-        public int damage_received { get; set; }
-        public bool? has_won { get; set; }
-        public int? rounds_won { get; set; }
-        public int? rounds_lost { get; set; }
-        public Roaster roaster { get; set; }
-    }
+    
 
     public class Card
     {
