@@ -140,15 +140,7 @@ namespace ValoStats.Models
         public FriendlyFire friendly_fire { get; set; }
         public int rounds_in_spawn { get; set; }
     }
-
     
-
-    public class Card
-    {
-        public string small { get; set; }
-        public string large { get; set; }
-        public string wide { get; set; }
-    }
 
     public class Coach
     {

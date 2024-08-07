@@ -107,6 +107,7 @@ namespace ValoStats.ViewModels
                     Level = Player.level;
                     Pbar += 10;
                     MmrData = await ApiHelper.GetMMRData(Player.name, Player.tag, client);
+                    Debug.WriteLine(player.card);
                     Pbar += 10;
                     CardImage = await GetCardAsync(Player.card, client);
                     Pbar += 10;

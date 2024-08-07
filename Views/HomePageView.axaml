@@ -127,12 +127,12 @@
                 <Label Classes="Header1" Content="Last Five Matches" />
                 
                 
-                    <ListBox ItemsSource="{Binding Matches}" Background="Transparent">
+                    <ListBox ItemsSource="{Binding Matches}" Background="Transparent" IsHitTestVisible="False">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 
                                 <Border Classes="Radius" Height="65" Background="{Binding Path=Result, Converter={StaticResource ResultToStyleConverter}}">
-                                <StackPanel IsHitTestVisible="False" VerticalAlignment="Center">
+                                <StackPanel VerticalAlignment="Center">
                                     
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                         <Label Content="{Binding Map}" HorizontalAlignment="Left" Classes="ListHeader"/>
