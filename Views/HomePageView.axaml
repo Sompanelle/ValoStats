@@ -131,15 +131,19 @@
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 
-                                <Border Classes="Radius" Height="45" Background="{Binding Path=Result, Converter={StaticResource ResultToStyleConverter}}">
-                                <StackPanel IsHitTestVisible="False" HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center">
+                                <Border Classes="Radius" Height="65" Background="{Binding Path=Result, Converter={StaticResource ResultToStyleConverter}}">
+                                <StackPanel IsHitTestVisible="False" VerticalAlignment="Center">
                                     
-                                    <Label Content ="{Binding Result}"/>
-                                    <Label Content="{Binding Mode}" Classes="ListHeader" />
-                                    <Label Content="{Binding Map}" Classes="ListSubHeader"/>
-                                    <Label Content="{Binding Score}" Classes="ListHeader"/>
-                                    <Label Content="{Binding Agent}" Classes="ListText"/>
-                                    <Label Content="{Binding KD}" Classes="ListText"/>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <Label Content="{Binding Map}" HorizontalAlignment="Left" Classes="ListHeader"/>
+                                        <Label Content="{Binding Score }" Classes="ListSubHeader" />
+                                    </StackPanel>
+                                    
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <Label Content="{Binding Mode}" Classes="ListHeader"/>
+                                        <Label Content="{Binding Agent}" Classes="ListSubHeader"/>
+                                        <Label Content="{Binding KD}" Classes="ListSubHeader"/>
+                                    </StackPanel>
                                     
                                 </StackPanel>
                                 </Border>
