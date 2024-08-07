@@ -15,6 +15,9 @@
         <vm:HomePageViewModel />
     </Design.DataContext>
     
+    <UserControl.Resources>
+        <Converters:ResultToStyleConverter x:Key="ResultToStyleConverter"/>
+    </UserControl.Resources>
         
     
    <Grid>
@@ -122,28 +125,28 @@
                 
                 
                 <Label Classes="Header1" Content="Last Five Matches" />
-
-
                 
-                <Border Classes="Radius">
-                    <ListBox ItemsSource="{Binding Matches}">
+                
+                    <ListBox ItemsSource="{Binding Matches}" Background="Transparent">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 
-                                
-                                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center">
-                                    <Label IsVisible="{Binding Team.has_won}"  />
+                                <Border Classes="Radius" Height="45" Background="{Binding Path=Result, Converter={StaticResource ResultToStyleConverter}}">
+                                <StackPanel IsHitTestVisible="False" HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center">
+                                    
+                                    <Label Content ="{Binding Result}"/>
                                     <Label Content="{Binding Mode}" Classes="ListHeader" />
                                     <Label Content="{Binding Map}" Classes="ListSubHeader"/>
                                     <Label Content="{Binding Score}" Classes="ListHeader"/>
                                     <Label Content="{Binding Agent}" Classes="ListText"/>
                                     <Label Content="{Binding KD}" Classes="ListText"/>
-
+                                    
                                 </StackPanel>
+                                </Border>
+                                
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                </Border>
                 
             </StackPanel>
             

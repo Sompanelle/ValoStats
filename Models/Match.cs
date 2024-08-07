@@ -38,6 +38,7 @@ namespace ValoStats.Models
         public string Agent { get; set; }
         public string Score { get; set; }
         public AllPlayer Player { get; set; }
+        public string Result { get; set; }
     }
     public class Team
     {
@@ -59,8 +60,7 @@ namespace ValoStats.Models
         public Stats stats { get; set; }
         public int damage_made { get; set; }
         public int damage_received { get; set; }
-        public bool? has_won 
-        { get; set ; }
+        public bool? has_won { get; set ; }
         public int? rounds_won { get; set; }
         public int? rounds_lost { get; set; }
         public Roaster roaster { get; set; }

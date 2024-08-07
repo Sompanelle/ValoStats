@@ -78,6 +78,7 @@ namespace ValoStats.ViewModels.DTOs
                 Region = Datum.metadata.region,
                 Platform = Datum.metadata.platform,
                 Team = team,
+                Result = team.has_won == true ? "Win" : "Loss",
             };
         }
     }
