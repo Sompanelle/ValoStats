@@ -53,7 +53,7 @@
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 
                 <Label Content="Last Updated:"/>
-                <Label Content="{Binding UpdatedAt}" />
+                <Label Content="{Binding Player.updated_at}" />
                 
             </StackPanel>
         </DockPanel>
@@ -84,7 +84,7 @@
         
         <ProgressBar VerticalAlignment="Center"
                      Value="{Binding Pbar}"
-                     Maximum="80"
+                     Maximum="40"
                      Minimum="20"
                      IsVisible="{Binding !IsLoaded}"
                      Margin="5"/>

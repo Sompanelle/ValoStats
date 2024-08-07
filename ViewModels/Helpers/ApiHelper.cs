@@ -90,7 +90,7 @@ namespace ValoStats.ViewModels.Helpers
             }
         }
         
-        public static async Task<TitleData>? GetTitle(string Asset, HttpClient ApiClient)
+        public static async Task<TitleData?> GetTitle(string Asset, HttpClient ApiClient)
         {
             string titleUrl = $@"https://valorant-api.com/v1/playertitles/{Asset}";
             using (HttpResponseMessage response = await ApiClient.GetAsync(titleUrl))

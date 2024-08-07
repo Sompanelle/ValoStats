@@ -23,7 +23,9 @@ namespace ValoStats.ViewModels
 {
     public partial class HomePageViewModel : ViewModelBase
     {
-        private HttpClient client = new HttpClient();
+        private HttpClient client;
+
+        private Config? config;
         
         [ObservableProperty]
         private bool badRequest;
@@ -33,24 +35,18 @@ namespace ValoStats.ViewModels
 
         [ObservableProperty]
         private int pbar;
-        
-        [ObservableProperty]
-        private string name;
 
         [ObservableProperty]
         private Player? player;
 
         [ObservableProperty]
-        public Bitmap cardImage;
+        private Bitmap cardImage;
         
         [ObservableProperty]
         private int kd;
 
         [ObservableProperty] 
         private MMRData mmrData;
-
-        [ObservableProperty]
-        private string tag;
 
         [ObservableProperty]
         private TitleData title;
@@ -64,6 +60,7 @@ namespace ValoStats.ViewModels
         [ObservableProperty]
         private string concatName;
         
+        
 
         public ObservableCollection<PlayedMatch> Matches { get; set; }
 
@@ -76,44 +73,39 @@ namespace ValoStats.ViewModels
                 Matches = new() { new PlayedMatch() { Map = "Ascent", Mode = "Competitive", KD = "22/12", Agent = "Yoru", Score = "13-3" ,Team = new Team() {has_won = true}}, };
                 ConcatName = "Sompanelle#NOIR";
                 Title = new() { titleText = "Unserious" };
-
             }
             else
             {
+                config = FileHelper.ReadConfig();
                 client = ApiHelper.InitializeClient();
                 Matches = new();
-                concatName = $"{name}#{tag}";
-                GetPlayer();
+                concatName = $"{config.Name}#{config.Tag}";
+                InitiliazeHome(config,client);
             }
 
         }
 
-        private async Task GetPlayer()
+        private async Task InitiliazeHome(Config Config, HttpClient Client)
         {
-            Config? Config = FileHelper.ReadConfig();
             string settingName = Config.Name;
             string settingTag = Config.Tag;
             if ( !string.IsNullOrEmpty(settingName) || !string.IsNullOrEmpty(settingTag))
             {
-                var resultPlayer= await ApiHelper.GetPlayer(settingName, settingTag, client);
+                var resultPlayer= await ApiHelper.GetPlayer(settingName, settingTag, Client);
                 if (resultPlayer != null)
                 {
                     Player = resultPlayer;
                     Pbar += 10;
                     ConcatName = $"{settingName}#{settingTag}";
                     Pbar += 10;
-                    UpdatedAt = Player.updated_at;
-                    Pbar += 10;
-                    Level = Player.level;
-                    Pbar += 10;
-                    MmrData = await ApiHelper.GetMMRData(Player.name, Player.tag, client);
+                    MmrData = await ApiHelper.GetMMRData(Player.name, Player.tag, Client);
                     Debug.WriteLine(player.card);
                     Pbar += 10;
-                    CardImage = await GetCardAsync(Player.card, client);
+                    CardImage = await GetCardAsync(Player.card, Client);
                     Pbar += 10;
-                    await GetTitleAsync(Player.player_title, client);
+                    Title = await GetTitleAsync(Player.player_title, Client);
                     Pbar += 10;
-                    await GetMatchPlayed(Player.name, Player.tag, client);
+                    await GetMatchPlayed(Player.name, Player.tag, Client);
                     Pbar += 10;
                     IsLoaded = true;
                 }
@@ -131,29 +123,34 @@ namespace ValoStats.ViewModels
             var lastTen = await ApiHelper.GetLastFiveMatchDatas(Name, Tag, Client);
             if (lastTen != null)
             {
-                foreach(Datum matchData in lastTen)
+                foreach (Datum matchData in lastTen)
                 {
                     var match = MatchDTO.DatumToPlayedMatch(matchData);
                     Matches.Add(match);
                 }
-                
             }
-            else
-            {
-                BadRequest = true; 
-            }
+            else BadRequest = true;
         }
         
 
-        private async Task<Bitmap> GetCardAsync(string assetId, HttpClient Client)
+        private async Task<Bitmap?> GetCardAsync(string assetId, HttpClient Client)
         {
-            var data = await ApiHelper.GetCard(assetId, Client);
-            return  Bitmap.DecodeToHeight(data, 320);
+            var cardData = await ApiHelper.GetCard(assetId, Client);
+            if (cardData != null)
+            {
+                return Bitmap.DecodeToHeight(cardData, 320);
+            }
+            else return null;
         }
 
-        private async Task GetTitleAsync(string Asset, HttpClient Client)
+        private async Task<TitleData?> GetTitleAsync(string Asset, HttpClient Client)
         {
-            Title = await ApiHelper.GetTitle(Asset, Client);
+            var titleData = await ApiHelper.GetTitle(Asset, Client);
+            if (titleData != null)
+            {
+                return titleData;
+            }
+            else return null;
         }
 
     }
