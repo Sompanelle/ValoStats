@@ -38,7 +38,7 @@ namespace ValoStats.Models
         public string Agent { get; set; }
         public string Score { get; set; }
         public AllPlayer Player { get; set; }
-        public string Result { get; set; }
+        public bool? Result { get; set; }
     }
     public class Team
     {

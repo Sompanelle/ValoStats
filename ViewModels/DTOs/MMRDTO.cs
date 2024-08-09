@@ -42,5 +42,6 @@ namespace ValoStats.ViewModels.DTOs
             }
             
         }
+        
     }
 }

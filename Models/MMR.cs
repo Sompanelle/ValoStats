@@ -48,6 +48,7 @@ namespace ValoStats.Models
 
     public class Rank
     {
+        public int id { get; set; }
         public string name { get; set; }
     }
 
@@ -63,4 +64,6 @@ namespace ValoStats.Models
         public int id { get; set; }
         public string name { get; set; }
     }
+    
+
 }

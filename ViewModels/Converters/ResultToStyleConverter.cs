@@ -9,13 +9,13 @@ public class ResultToStyleConverter : IValueConverter
 {
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        var lossBrush = Brushes.Salmon;
-        var winBrush = Brushes.ForestGreen;
-        if (value == "Win")
-                return winBrush;
+        if ((bool?)value == true)
+                return Brushes.ForestGreen;
+        else if ((bool?)value == null)
+                return Brushes.Gray;
         else
-                return lossBrush;
-        
+        return Brushes.DarkRed;
+
     }
 
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

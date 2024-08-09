@@ -16,21 +16,22 @@ using System.Net;
 using System.Net.Mime;
 using Avalonia.Controls;
 using Avalonia.Media.Imaging;
+using Avalonia.Remote.Protocol.Viewport;
 using ValoStats.Models;
 
 namespace ValoStats.ViewModels.Helpers
 {
     public class ApiHelper
     {
-        private static Config Config = FileHelper.ReadConfig();
+        private static Config config = FileHelper.ReadConfig();
         private static string requrl = @"https://api.henrikdev.xyz/valorant";
-        private static string key = Config.Key;
-        private static string region = Config.Region;
+        private static string key = config.Key;
+        private static string region = config.Region;
 
-        
+
         public static async Task<MemoryStream?> GetCard(string Asset, HttpClient ApiClient)
         {
-            string cardUrl = @"https://media.valorant-api.com/playercards/"+Asset+"/largeart.png";
+            string cardUrl = @$"https://media.valorant-api.com/playercards/{Asset}/wideart.png";
             Byte[] data = await ApiClient.GetByteArrayAsync(cardUrl);
             return new MemoryStream(data);
         }
@@ -68,12 +69,20 @@ namespace ValoStats.ViewModels.Helpers
             }
 
         }
+
+        public static async Task<MemoryStream?> GetRankImg (HttpClient Client, int Id)
+        {
+            string rankUrl = @$"https://media.valorant-api.com/competitivetiers/564d8e28-c226-3180-6285-e48a390db8b1/{Id}/smallicon.png";
+            Byte[] data = await Client.GetByteArrayAsync(rankUrl);
+            return new MemoryStream(data);
+        }
         
-        public static async Task<Player?> GetPlayer(string Name, string Tag, HttpClient ApiClient)
+        
+        public static async Task<Player?> GetPlayer(string Name, string Tag, HttpClient Client)
         {
             string playerUrl = $"{requrl}/v2/account/{Name}/{Tag}?api_key={key}";
 
-            using (HttpResponseMessage response = await ApiClient.GetAsync(playerUrl))
+            using (HttpResponseMessage response = await Client.GetAsync(playerUrl))
             {
                 if (response.IsSuccessStatusCode)
                 {

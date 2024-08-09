@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Avalonia.Media.Imaging;
 using Avalonia.OpenGL.Egl;
+using Avalonia.Platform;
 using ValoStats.Models;
 using ValoStats.Models;
 using ValoStats.ViewModels.DTOs;
@@ -59,8 +60,12 @@ namespace ValoStats.ViewModels
 
         [ObservableProperty]
         private string concatName;
+
+        [ObservableProperty]
+        private Bitmap peak;
         
-        
+        [ObservableProperty]
+        private Bitmap current;
 
         public ObservableCollection<PlayedMatch> Matches { get; set; }
 
@@ -70,9 +75,15 @@ namespace ValoStats.ViewModels
             if (Design.IsDesignMode)
             {
                 IsLoaded = true;
-                Matches = new() { new PlayedMatch() { Map = "Ascent", Mode = "Competitive", KD = "22/12", Agent = "Yoru", Score = "13-3" ,Team = new Team() {has_won = true}}, };
+                Matches = new()
+                {
+                    new PlayedMatch() { Map = "Ascent", Mode = "Competitive", KD = "22/12", Agent = "Yoru", Score = "13-3" , Result = true },  
+                    new PlayedMatch() { Map = "Sunset", Mode = "Competitive", KD = "11/13", Agent = "Chamber", Score = "13-3" , Result = false }, 
+                    new PlayedMatch() { Map = "Sunset", Mode = "Deathmatch", KD = "36/23", Agent  = "Breach", Result = null }, 
+                };
                 ConcatName = "Sompanelle#NOIR";
                 Title = new() { titleText = "Unserious" };
+                Player = new() { level = 60 };
             }
             else
             {
@@ -99,11 +110,11 @@ namespace ValoStats.ViewModels
                     ConcatName = $"{settingName}#{settingTag}";
                     Pbar += 10;
                     MmrData = await ApiHelper.GetMMRData(Player.name, Player.tag, Client);
-                    Debug.WriteLine(player.card);
                     Pbar += 10;
                     CardImage = await GetCardAsync(Player.card, Client);
                     Pbar += 10;
                     Title = await GetTitleAsync(Player.player_title, Client);
+                    await GetRankImg(Client);
                     Pbar += 10;
                     await GetMatchPlayed(Player.name, Player.tag, Client);
                     Pbar += 10;
@@ -153,7 +164,21 @@ namespace ValoStats.ViewModels
             else return null;
         }
 
+        private async Task GetRankImg(HttpClient Client)
+        {
+                var currentData = await ApiHelper.GetRankImg(Client, MmrData.current.tier.id);
+                if (currentData != null)
+                {
+                    Current = Bitmap.DecodeToWidth(currentData, 55);
+                }
+                var peakData = await ApiHelper.GetRankImg(Client, MmrData.peak.tier.id);
+                if (peakData != null)
+                {
+                    Peak = Bitmap.DecodeToWidth(peakData, 55);
+                }
+            }
+        }
+        
     }
 
-}
 

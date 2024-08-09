@@ -66,8 +66,9 @@ namespace ValoStats.ViewModels.DTOs
 
         public static PlayedMatch DatumToPlayedMatch(Datum Datum)
         {
+            string result = "";
             AllPlayer player = Datum.players.all_players.Find(p => p.name == name);
-            Team team = Datum.teams.blue.name == name ? Datum.teams.red : Datum.teams.blue;
+            Team team = Datum.teams.blue.name == name ? Datum.teams.blue : Datum.teams.red;
             return new PlayedMatch()
             {
                 Map = Datum.metadata.map,
@@ -79,7 +80,7 @@ namespace ValoStats.ViewModels.DTOs
                 Platform = Datum.metadata.platform,
                 Team = team,
                 Agent = player.character,
-                Result = team.has_won == true ? "Win" : "Loss",
+                Result = team.has_won
             };
         }
     }

@@ -48,6 +48,12 @@ namespace ValoStats.Models
     {
         public PlayerData data { get; set; }
     }
-
+    
+    public class Card
+    {
+        public string small { get; set; }
+        public string wide { get; set; }
+        public string large { get; set; }
+    }
     
 }
