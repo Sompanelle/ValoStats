@@ -102,10 +102,8 @@ namespace ValoStats.ViewModels
             string settingTag = Config.Tag;
             if ( !string.IsNullOrEmpty(settingName) || !string.IsNullOrEmpty(settingTag))
             {
-                var resultPlayer= await ApiHelper.GetPlayer(settingName, settingTag, Client);
-                if (resultPlayer != null)
-                {
-                    Player = resultPlayer;
+                
+                    Player = await GetPlayerAsync(settingName, settingTag, Client);
                     Pbar += 10;
                     ConcatName = $"{settingName}#{settingTag}";
                     Pbar += 10;
@@ -119,7 +117,6 @@ namespace ValoStats.ViewModels
                     await GetMatchPlayed(Player.name, Player.tag, Client);
                     Pbar += 10;
                     IsLoaded = true;
-                }
             }
             else
             {
@@ -142,7 +139,16 @@ namespace ValoStats.ViewModels
             }
             else BadRequest = true;
         }
-        
+
+        private async Task<Player?> GetPlayerAsync(string Name, string Tag, HttpClient Client)
+        {
+            var resultPlayer= await ApiHelper.GetPlayer(Name, Tag, Client);
+            if (resultPlayer != null)
+            {
+                return resultPlayer;
+            }
+            else return null;
+        }
 
         private async Task<Bitmap?> GetCardAsync(string assetId, HttpClient Client)
         {
@@ -176,7 +182,7 @@ namespace ValoStats.ViewModels
                 {
                     Peak = Bitmap.DecodeToWidth(peakData, 55);
                 }
-            }
+        }
         }
         
     }
