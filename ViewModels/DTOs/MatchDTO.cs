@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
@@ -65,17 +66,21 @@ namespace ValoStats.ViewModels.DTOs
 
         public static PlayedMatch DatumToPlayedMatch(Datum Datum)
         {
+            string result = "";
             AllPlayer player = Datum.players.all_players.Find(p => p.name == name);
+            Team team = Datum.teams.blue.name == name ? Datum.teams.blue : Datum.teams.red;
             return new PlayedMatch()
             {
                 Map = Datum.metadata.map,
-                KD = $"{player.stats.kills}/{Datum.players.all_players.Find(p => p.name == name).stats.deaths}",
+                Player = player,
+                Score = team.rounds_won != null ? $"{team.rounds_won}-{team.rounds_lost}" : "",
+                KD = $"{player.stats.kills}/{player.stats.deaths}",
                 Mode = Datum.metadata.mode,
                 Region = Datum.metadata.region,
                 Platform = Datum.metadata.platform,
+                Team = team,
                 Agent = player.character,
-                Teams = Datum.teams,
-                
+                Result = team.has_won
             };
         }
     }

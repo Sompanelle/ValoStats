@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ValoStats.Converters
+namespace ValoStats.ViewModels.Converters
 {
     public class PanelBoolToLabelbool: IValueConverter
     {

@@ -25,6 +25,7 @@
         
         <Button Classes="Menu"
                 Grid.Row="0"
+                IsHitTestVisible="True"
                 Command="{Binding Panel_ClickCommand}">
           
             <Button.Content>

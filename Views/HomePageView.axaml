@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:ValoStats.ViewModels"
+    xmlns:Converters="clr-namespace:ValoStats.ViewModels.Converters"
     d:DesignHeight="550"
     d:DesignWidth="800"
     x:DataType="vm:HomePageViewModel"
@@ -13,9 +14,24 @@
     <Design.DataContext>
         <vm:HomePageViewModel />
     </Design.DataContext>
-
-
-    <Grid>
+    
+    <UserControl.Resources>
+        <Converters:ResultToStyleConverter x:Key="ResultToStyleConverter"/>
+    </UserControl.Resources>
+        
+    <!-- Window Grid-->
+   <Grid>
+       
+           <ProgressBar VerticalAlignment="Center"
+                    Value="{Binding Pbar}"
+                    Maximum="60"
+                    Minimum="0"
+                    IsVisible="{Binding !IsLoaded}"
+                    Margin="5"/>
+    
+           
+           
+       <Grid IsVisible="{Binding IsLoaded }">
 
         <Grid.RowDefinitions>
             <RowDefinitions>Auto,*,Auto</RowDefinitions>
@@ -39,62 +55,69 @@
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 
                 <Label Content="Last Updated:"/>
-                <Label Content="{Binding UpdatedAt}" />
-
+                <Label Content="{Binding Player.updated_at}" />
+                
             </StackPanel>
         </DockPanel>
         
         <!--  Left Side  -->
         
-        
-        <Image Source="{Binding CardImage}"
-               Grid.Row="1"
-               Grid.Column="0"/>
-        
-        
-        <!--  Player Display Name + Title StackPanel  -->
-        <StackPanel Grid.Row="2"
+        <StackPanel Grid.Row="1"
                     Grid.Column="0"
-                    Margin="5">
+                    Margin="5"
+                    Spacing="10">
 
-
+            
+            <!--  Player Display Name + Title StackPanel  -->
             <StackPanel>
-                <Label Content="{Binding ConcatName}" Classes="Header"/>
+                
+                <Border Classes="Radius">
+                <Image Source="{Binding CardImage}"/>
+                </Border>
+                
+                <Label Content="{Binding ConcatName}"
+                       Classes="Header"/>
+                
+                <Label Content="{Binding Title.titleText}"
+                       Classes="SubHeader"/>
+                
+                
             </StackPanel>
             
+            <Grid ColumnDefinitions="Auto,*,Auto"
+                  HorizontalAlignment="Center">
                 
-        <Label Content="{Binding Title.titleText}"
-               Classes="SubHeader"/>
+                <StackPanel Grid.Column="0">
+                    <Label Classes="Header1"
+                           Content="Current Rank"/>
+                    
+                    <Image Source="{Binding Current}"/>
+                </StackPanel>
+                
+                <StackPanel Grid.Column="2">
+                    <Label Classes="Header1"
+                           Content="Peak Rank"/>
+                    
+                    <Image Source="{Binding Peak}"/>
+                </StackPanel>
+                
+            </Grid>
+
 
         </StackPanel>
-
+        
+        <ProgressBar VerticalAlignment="Center"
+                     Value="{Binding Pbar}"
+                     Maximum="40"
+                     Minimum="20"
+                     IsVisible="{Binding !IsLoaded}"
+                     Margin="5"/>
 
         <!--  Right Side  -->
         
         <StackPanel Grid.Row="1"
                     Grid.Column="1">
             
-            <Grid HorizontalAlignment="Center">
-                <Grid.RowDefinitions>*,*</Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>*,*</Grid.ColumnDefinitions>
-                
-                <Label Grid.Row="0"
-                       Grid.Column="0"
-                       Classes="ListHeader"
-                       Content="Current Rank"/>
-                
-                <Image Grid.Row="1"
-                       Grid.Column="0"></Image>
-                
-                <Label Grid.Row="0"
-                       Grid.Column="1"
-                       Classes="ListHeader"
-                       Content="Peak Rank"/>
-                
-                <Image Grid.Row="1"
-                       Grid.Column="1"></Image>
-                
-            </Grid>
         
 
 
@@ -104,30 +127,45 @@
 
                 
                 
-                <Label Classes="Header1" Content="Last Five Matches" />
-
-                <Grid />
-
-                <Border Classes="Radius">
-                    <ListBox ItemsSource="{Binding Matches}">
+                <Label Classes="Header1"
+                       Content="Your Last Five Matches" />
+                
+                
+                    <ListBox ItemsSource="{Binding Matches}"
+                             Background="Transparent"
+                             IsHitTestVisible="False">
+                        
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                                    
-                                    <Label Content="{Binding Mode}" Classes="ListHeader" />
-                                    <Label Content="{Binding Map}" Classes="ListSubHeader"/>
-                                    <Label Content="{Binding Agent}" Classes="ListText"/>
-                                    <Label Content="{Binding KD}" Classes="ListText"/>
-
-                                </StackPanel>
+                                
+                                <Border Classes="Radius"
+                                        Height="65"
+                                        Background="{Binding Path=Result, Converter={StaticResource ResultToStyleConverter}}">
+                                    <StackPanel VerticalAlignment="Center">
+                                        
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <Label Content="{Binding Map}" HorizontalAlignment="Left" Classes="Header1"/>
+                                            <Label Content="{Binding Score }" Classes="ListSubHeader" />
+                                        </StackPanel>
+                                        
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <Label Content="{Binding Mode}" Classes="Header1"/>
+                                            <Label Content="{Binding Agent}" Classes="ListSubHeader"/>
+                                            <Label Content="{Binding KD}" Classes="ListSubHeader"/>
+                                        </StackPanel>
+                                        
+                                    </StackPanel>
+                                </Border>
+                                
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                </Border>
                 
             </StackPanel>
             
         </StackPanel>
 
     </Grid>
+       
+   </Grid>
 </UserControl>

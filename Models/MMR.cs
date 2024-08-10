@@ -26,14 +26,6 @@ namespace ValoStats.Models
         
         public ObservableCollection<Episode> seasonal { get; set; }
     }
-
-    public class Images
-    {
-        public string small { get; set; }
-        public string large { get; set; }
-        public string triangle_down { get; set; }
-        public string triangle_up { get; set; }
-    }
     
     public class MMRResponse
     {
@@ -56,6 +48,7 @@ namespace ValoStats.Models
 
     public class Rank
     {
+        public int id { get; set; }
         public string name { get; set; }
     }
 
@@ -71,4 +64,6 @@ namespace ValoStats.Models
         public int id { get; set; }
         public string name { get; set; }
     }
+    
+
 }

@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Avalonia.Media.Imaging;
 using Avalonia.OpenGL.Egl;
+using Avalonia.Platform;
 using ValoStats.Models;
 using ValoStats.Models;
 using ValoStats.ViewModels.DTOs;
@@ -23,28 +24,30 @@ namespace ValoStats.ViewModels
 {
     public partial class HomePageViewModel : ViewModelBase
     {
-        private HttpClient client = new HttpClient();
+        private HttpClient client;
+
+        private Config? config;
         
         [ObservableProperty]
         private bool badRequest;
 
         [ObservableProperty]
-        private string name;
+        private bool isLoaded;
+
+        [ObservableProperty]
+        private int pbar;
 
         [ObservableProperty]
         private Player? player;
 
         [ObservableProperty]
-        public Bitmap cardImage;
+        private Bitmap cardImage;
         
         [ObservableProperty]
         private int kd;
 
         [ObservableProperty] 
         private MMRData mmrData;
-
-        [ObservableProperty]
-        private string tag;
 
         [ObservableProperty]
         private TitleData title;
@@ -57,7 +60,12 @@ namespace ValoStats.ViewModels
 
         [ObservableProperty]
         private string concatName;
+
+        [ObservableProperty]
+        private Bitmap peak;
         
+        [ObservableProperty]
+        private Bitmap current;
 
         public ObservableCollection<PlayedMatch> Matches { get; set; }
 
@@ -66,49 +74,49 @@ namespace ValoStats.ViewModels
 
             if (Design.IsDesignMode)
             {
-                Matches = new();
-                Name = "Sompanelle";
-                Tag = "N0IR";
-                Title.titleText = ":3";
-                updatedAt = DateTime.Now;
-                level = 49;
-                concatName = $"{Name}#{Tag}";
-                Matches.Add(new PlayedMatch() { Agent = "Iso", Map = "Ascent", Mode= "Competitive", KD = "20/12" } );
-                Matches.Add(new PlayedMatch() { Agent = "Reyna", Map = "Bind", Mode = "Competitive", KD = "12/12" });
-                Matches.Add(new PlayedMatch() { Agent = "Skye",Map = "Sunset", Mode = "Competitive", KD = "9/12" });
-                Matches.Add(new PlayedMatch() { Agent = "Iso", Map = "Abyss", Mode = "Competitive", KD = "22/11" });
-                Matches.Add(new PlayedMatch() { Agent = "Iso", Map = "Abysss", Mode = "Competitive", KD = "24/12" });
-                MmrData = new MMRData() { current = new CurrentMMR() { tier = new Rank() { name = "Gold 1" } }, peak = new Peak() { tier = new Rank() { name = "Platinum 3" } } };
+                IsLoaded = true;
+                Matches = new()
+                {
+                    new PlayedMatch() { Map = "Ascent", Mode = "Competitive", KD = "22/12", Agent = "Yoru", Score = "13-3" , Result = true },  
+                    new PlayedMatch() { Map = "Sunset", Mode = "Competitive", KD = "11/13", Agent = "Chamber", Score = "13-3" , Result = false }, 
+                    new PlayedMatch() { Map = "Sunset", Mode = "Deathmatch", KD = "36/23", Agent  = "Breach", Result = null }, 
+                };
+                ConcatName = "Sompanelle#NOIR";
+                Title = new() { titleText = "Unserious" };
+                Player = new() { level = 60 };
             }
             else
             {
+                config = FileHelper.ReadConfig();
                 client = ApiHelper.InitializeClient();
                 Matches = new();
-                concatName = $"{name}#{tag}";
-                GetPlayer();
+                concatName = $"{config.Name}#{config.Tag}";
+                InitiliazeHome(config,client);
             }
 
         }
 
-        private async Task GetPlayer()
+        private async Task InitiliazeHome(Config Config, HttpClient Client)
         {
-            Config? Config = FileHelper.ReadConfig();
             string settingName = Config.Name;
             string settingTag = Config.Tag;
             if ( !string.IsNullOrEmpty(settingName) || !string.IsNullOrEmpty(settingTag))
             {
-                var resultPlayer= await ApiHelper.GetPlayer(settingName, settingTag, client);
-                if (resultPlayer != null)
-                {
-                    Player = resultPlayer;
+                
+                    Player = await GetPlayerAsync(settingName, settingTag, Client);
+                    Pbar += 10;
                     ConcatName = $"{settingName}#{settingTag}";
-                    UpdatedAt = Player.updated_at;
-                    Level = Player.level;
-                    MmrData = await ApiHelper.GetMMRData(Player.name, Player.tag, client);
-                    CardImage = await GetCardAsync(Player.card, client);
-                    await GetTitleAsync(Player.player_title, client);
-                    await GetMatchPlayed(Player.name, Player.tag, client);
-                }
+                    Pbar += 10;
+                    MmrData = await ApiHelper.GetMMRData(Player.name, Player.tag, Client);
+                    Pbar += 10;
+                    CardImage = await GetCardAsync(Player.card, Client);
+                    Pbar += 10;
+                    Title = await GetTitleAsync(Player.player_title, Client);
+                    await GetRankImg(Client);
+                    Pbar += 10;
+                    await GetMatchPlayed(Player.name, Player.tag, Client);
+                    Pbar += 10;
+                    IsLoaded = true;
             }
             else
             {
@@ -123,33 +131,60 @@ namespace ValoStats.ViewModels
             var lastTen = await ApiHelper.GetLastFiveMatchDatas(Name, Tag, Client);
             if (lastTen != null)
             {
-                foreach(Datum matchData in lastTen)
+                foreach (Datum matchData in lastTen)
                 {
                     var match = MatchDTO.DatumToPlayedMatch(matchData);
                     Matches.Add(match);
                 }
-                
             }
-            else
+            else BadRequest = true;
+        }
+
+        private async Task<Player?> GetPlayerAsync(string Name, string Tag, HttpClient Client)
+        {
+            var resultPlayer= await ApiHelper.GetPlayer(Name, Tag, Client);
+            if (resultPlayer != null)
             {
-                BadRequest = true; 
+                return resultPlayer;
             }
+            else return null;
+        }
+
+        private async Task<Bitmap?> GetCardAsync(string assetId, HttpClient Client)
+        {
+            var cardData = await ApiHelper.GetCard(assetId, Client);
+            if (cardData != null)
+            {
+                return Bitmap.DecodeToHeight(cardData, 320);
+            }
+            else return null;
+        }
+
+        private async Task<TitleData?> GetTitleAsync(string Asset, HttpClient Client)
+        {
+            var titleData = await ApiHelper.GetTitle(Asset, Client);
+            if (titleData != null)
+            {
+                return titleData;
+            }
+            else return null;
+        }
+
+        private async Task GetRankImg(HttpClient Client)
+        {
+                var currentData = await ApiHelper.GetRankImg(Client, MmrData.current.tier.id);
+                if (currentData != null)
+                {
+                    Current = Bitmap.DecodeToWidth(currentData, 55);
+                }
+                var peakData = await ApiHelper.GetRankImg(Client, MmrData.peak.tier.id);
+                if (peakData != null)
+                {
+                    Peak = Bitmap.DecodeToWidth(peakData, 55);
+                }
+        }
         }
         
-
-        private async Task<Bitmap> GetCardAsync(string assetId, HttpClient Client)
-        {
-            var data = await ApiHelper.GetCard(assetId, Client);
-            return  Bitmap.DecodeToHeight(data, 320);
-        }
-
-        private async Task GetTitleAsync(string Asset, HttpClient Client)
-        {
-            Title = await ApiHelper.GetTitle(Asset, Client);
-            Debug.WriteLine(Title.titleText);
-        }
-
     }
 
-}
 
