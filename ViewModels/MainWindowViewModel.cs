@@ -39,9 +39,9 @@ namespace ValoStats.ViewModels
 
         public ObservableCollection<PageItemTemplate> Pages { get; } = new()
         {
-            new PageItemTemplate(typeof(HomePageViewModel)),
-            new PageItemTemplate(typeof(PlayerLookupPageViewModel)),
-            new PageItemTemplate(typeof(SettingsPageViewModel)),
+            new PageItemTemplate(typeof(HomePageViewModel), "Home"),
+            new PageItemTemplate(typeof(PlayerLookupPageViewModel), "Lookup"),
+            new PageItemTemplate(typeof(SettingsPageViewModel), "Settings"),
 
         };
 
@@ -57,11 +57,11 @@ namespace ValoStats.ViewModels
             {
                 if (FileHelper.SettingsExist() != true)
                 {
-                    currentPage = new SettingsPageViewModel();
+                    CurrentPage = new SettingsPageViewModel();
                 }
                 else
                 {
-                    currentPage = new HomePageViewModel();
+                    CurrentPage = new HomePageViewModel();
                     ApiHelper.InitializeClient();
                 }
             }
@@ -74,20 +74,7 @@ namespace ValoStats.ViewModels
             IsPanelOpen = !IsPanelOpen;
         }
 
-        public class PageItemTemplate
-        {
-
-            public PageItemTemplate(Type Type)
-            {
-                ModelType = Type;
-                Label = Type.Name.Replace("PageViewModel", "");
-            }
-
-
-            public string Label { get; }
-            public Type ModelType { get; }
-
-        }
+        
 
 
     }

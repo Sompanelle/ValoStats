@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
@@ -82,28 +83,25 @@ namespace ValoStats.ViewModels
         {
             
             var _ = PlayerQuery.Split(new[] {'#'});
-            Pbar += 10;
             var mmr = await ApiHelper.GetMMRData(_[0], _[1], client);
-            Pbar += 10;
             if (mmr != null)
             {
-                IsSearchCompelete = true;
                 BadSearch = false;
                 ResultMMRData = mmr;
-                if(mmr.seasonal.Count != 0)
+
+                if (mmr.seasonal.Count != 0)
                 {
-                    foreach(Episode ep in mmr.seasonal)
+                    foreach (Episode ep in mmr.seasonal)
                     {
                         Episodes.Add(ep);
                     }
+
                     var list = Episodes.Take(PageSize);
                     DisplayEpisodes.Clear();
                     foreach (Episode ep in list)
                     {
                         DisplayEpisodes.Add(ep);
                     }
-
-                    Pbar += 20;
                 }
 
                 var player = await ApiHelper.GetPlayer(_[0], _[1], client);
@@ -111,9 +109,10 @@ namespace ValoStats.ViewModels
                 {
                     IsSearchCompelete = true;
                     ResultPlayerData = player;
+
                 }
-                CardImage = await GetCardAsync(player.card, client);
-                Pbar += 10;
+                else BadSearch = true;
+                
                 IsLoaded = true;
             }
             else
@@ -181,10 +180,11 @@ namespace ValoStats.ViewModels
             else return true;
         }
         
-        private async Task<Bitmap> GetCardAsync(string AssetId, HttpClient Client)
+        private async Task<Bitmap?> GetCardAsync(string AssetId, HttpClient Client)
         {
             var data = await ApiHelper.GetCard(AssetId, Client);
-            return Bitmap.DecodeToHeight(data, 320);
+            if (data == null) return null;
+            else return Bitmap.DecodeToHeight(data, 320);
         }
 
     }

@@ -32,7 +32,7 @@ namespace ValoStats.ViewModels.Helpers
         public static async Task<MemoryStream?> GetCard(string Asset, HttpClient ApiClient)
         {
             string cardUrl = @$"https://media.valorant-api.com/playercards/{Asset}/wideart.png";
-            Byte[] data = await ApiClient.GetByteArrayAsync(cardUrl);
+            var data = await ApiClient.GetByteArrayAsync(cardUrl);
             return new MemoryStream(data);
         }
         
@@ -45,8 +45,12 @@ namespace ValoStats.ViewModels.Helpers
                 {
                     string json = await response.Content.ReadAsStringAsync();
                     MatchResponse content = JsonSerializer.Deserialize<MatchResponse>(json);
-                    List<Datum> MatchDatas = MatchDTO.MatchesResponseToDatums(content);
-                    return MatchDatas;
+                    if (content != null)
+                    {
+                        List<Datum> MatchDatas = MatchDTO.MatchesResponseToDatums(content);
+                        return MatchDatas;
+                    }
+                    else return null;
                 }
                 else
                 {
@@ -62,12 +66,17 @@ namespace ValoStats.ViewModels.Helpers
 
             using (HttpResponseMessage response = await ApiClient.GetAsync(mmrUrl))
             {
-                string json = await response.Content.ReadAsStringAsync();
-                MMRResponse content = JsonSerializer.Deserialize<MMRResponse>(json);
-                MMRData mmr = MMRDTO.MMRResponseToMMRData(content);
-                return mmr;
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+                    MMRResponse content = JsonSerializer.Deserialize<MMRResponse>(json);
+                    if (content.status != 200)
+                        return null;
+                    MMRData mmr = MMRDTO.MMRResponseToMMRData(content);
+                    return mmr;
+                }
+                else return null;
             }
-
         }
 
         public static async Task<MemoryStream?> GetRankImg (HttpClient Client, int Id)

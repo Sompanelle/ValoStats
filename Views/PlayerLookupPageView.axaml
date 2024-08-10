@@ -37,12 +37,14 @@
             
         </StackPanel>
 
-        <ProgressBar  Grid.Row="1"
-                      Margin="5"
-                      Value="{Binding Pbar}"
-                      Maximum="60"
-                      Minimum="0"
-                      IsVisible="{Binding !IsLoaded}"/>
+        <Label Content="Player Does not Exist"
+               Grid.Row="1"
+               VerticalAlignment="Center"
+               HorizontalAlignment="Center"
+               Classes="Header"
+               Foreground="Red"
+               IsVisible="{Binding BadSearch}"/>
+        
         
         <!--  Content Grid  -->
         <Grid Grid.Row="1" IsVisible="{Binding IsLoaded}">
@@ -50,14 +52,17 @@
             <Grid.ColumnDefinitions>*,*</Grid.ColumnDefinitions>
             
             <!--  Player info Grid  -->
-            <Grid Grid.Column="0" Grid.RowDefinitions="*,Auto">
+            <Grid Grid.Column="0"
+                  Grid.RowDefinitions="*,Auto">
                 
                 <Viewbox Grid.Row = "0">
                     <Image Source="{Binding CardImage}"
-                           Stretch="UniformToFill"></Image>
+                           Stretch="UniformToFill"/>
                 </Viewbox>
                 
-                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <StackPanel Grid.Row="1"
+                            Orientation="Horizontal">
+                    
                     <Label Content="{Binding ResultPlayerData.name}" />
 
                     <Label Content="{Binding ResultPlayerData.level}" />
@@ -83,8 +88,7 @@
                         <Label Classes="Data" Content="{Binding ResultMMRData.current.tier.name}" />
 
                         <Label Classes="Data" Content="{Binding ResultMMRData.current.rr}" />
-
-                        <Label Content="rr" />
+                        
 
                     </StackPanel>
                     
