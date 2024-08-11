@@ -36,13 +36,19 @@
             </TextBox>
             
         </StackPanel>
-
-        <ProgressBar  Grid.Row="1"
-                      Margin="5"
-                      Value="{Binding Pbar}"
-                      Maximum="60"
-                      Minimum="0"
-                      IsVisible="{Binding !IsLoaded}"/>
+        
+        <StackPanel Grid.Row="1"
+                    VerticalAlignment="Center"
+                    Margin="5">
+            
+            <ProgressBar Value="{Binding Pbar}" Maximum="60"  Minimum="20" IsVisible="{Binding IsLoading}"></ProgressBar>
+            
+            <Label Content="Player Does not Exist"
+                   Grid.Row="1"
+                   Classes="Header"
+                   Foreground="Red"
+                   IsVisible="{Binding BadSearch}"/>
+        </StackPanel>
         
         <!--  Content Grid  -->
         <Grid Grid.Row="1" IsVisible="{Binding IsLoaded}">
@@ -50,58 +56,53 @@
             <Grid.ColumnDefinitions>*,*</Grid.ColumnDefinitions>
             
             <!--  Player info Grid  -->
-            <Grid Grid.Column="0" Grid.RowDefinitions="*,Auto">
+            <Grid Grid.Column="0"
+                  Grid.RowDefinitions="Auto,Auto, Auto">
                 
-                <Viewbox Grid.Row = "0">
-                    <Image Source="{Binding CardImage}"
-                           Stretch="UniformToFill"></Image>
-                </Viewbox>
+                <!-- Player Card, Name, Title-->
+                <StackPanel Grid.Row="0">
                 
-                <StackPanel Grid.Row="1" Orientation="Horizontal">
-                    <Label Content="{Binding ResultPlayerData.name}" />
-
-                    <Label Content="{Binding ResultPlayerData.level}" />
-                    
+                    <Border Classes="Radius">
+                        <Image Source="{Binding CardImage}"/>
+                    </Border>
+                
+                    <Label Content="{Binding ResultPlayerData.name}"
+                           Classes="Header"/>
+                
+                    <Label Content="{Binding Title.titleText}"
+                           Classes="SubHeader"/>
+                
                 </StackPanel>
+                
+                <!-- Current Rank + Peak Rank-->
+                <Grid Grid.Row="1"
+                      ColumnDefinitions="Auto,*,Auto"
+                      HorizontalAlignment="Center">
+                
+                    <StackPanel Grid.Column="0">
+                        <Label Classes="Header1"
+                               Content="Current Rank"/>
+                    
+                        <Image Source="{Binding Current}"/>
+                    </StackPanel>
+                
+                    <StackPanel Grid.Column="2">
+                        <Label Classes="Header1"
+                               Content="Peak Rank"/>
+                    
+                        <Image Source="{Binding Peak}"/>
+                    </StackPanel>
+                
+                </Grid>
+
                 
             </Grid>
             
-            <!--  Ranked info box  -->
+            <!--  Hisyto info box  -->
 
             <StackPanel Grid.Column="1" IsVisible="{Binding IsLoaded}">
-
                 
-                
-                <StackPanel Grid.Column="0" HorizontalAlignment="Center"
-                            Orientation="Horizontal">
-
-                    <Label Classes="Data" Content="Current Rank"/>
-
-
-                    <StackPanel HorizontalAlignment="Center">
-
-                        <Label Classes="Data" Content="{Binding ResultMMRData.current.tier.name}" />
-
-                        <Label Classes="Data" Content="{Binding ResultMMRData.current.rr}" />
-
-                        <Label Content="rr" />
-
-                    </StackPanel>
-                    
-                    <StackPanel
-                        Grid.Column="1"
-                        HorizontalAlignment="Center">
-
-                        <Label Classes="Data" Content="Peak Rank" />
-
-                        <Label Classes="Data" Content="{Binding ResultMMRData.peak.tier.name}" />
-
-                    </StackPanel>
-                </StackPanel>
-
-
-                
-                <!--  Ranked History Listbox  -->
+                <!--  Episode History Listbox  -->
                 <StackPanel
                     Margin="5"
                     IsVisible="{Binding IsSearchCompelete}">

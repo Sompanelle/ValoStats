@@ -31,6 +31,8 @@ namespace ValoStats.Models
     {
         public string Map { get; set; }
         public string KD { get; set; }
+        public int Kills { get; set; }
+        public int Deaths { get; set; }
         public string Mode { get; set; }
         public string Region { get; set; }
         public string Platform { get; set; }

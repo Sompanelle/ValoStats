@@ -15,7 +15,7 @@
   <SplitView PaneBackground="#1e1e1e"
              IsPaneOpen="{Binding IsPanelOpen}"
              DisplayMode="CompactInline"
-             CompactPaneLength="48"
+             CompactPaneLength="50"
              OpenPaneLength="200"
              >
     
@@ -25,6 +25,7 @@
         
         <Button Classes="Menu"
                 Grid.Row="0"
+                Margin="2,0,0,0"
                 IsHitTestVisible="True"
                 Command="{Binding Panel_ClickCommand}">
           
@@ -46,7 +47,7 @@
               <StackPanel Spacing="15"
                           Orientation="Horizontal">
                 
-                
+                <PathIcon HorizontalAlignment="Left" Data="{Binding Icon}"></PathIcon>
                 <Label Content="{Binding Label}"/>
               </StackPanel>
             </DataTemplate>

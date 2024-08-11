@@ -4,12 +4,14 @@ using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Avalonia.Media.Imaging;
+using SkiaSharp;
 using ValoStats.Models;
 using ValoStats.ViewModels.Helpers;
 
@@ -23,6 +25,9 @@ namespace ValoStats.ViewModels
 
         [ObservableProperty]
         private bool isLoaded;
+
+        [ObservableProperty]
+        private bool isLoading;
 
         [ObservableProperty]
         private int pbar;
@@ -44,6 +49,15 @@ namespace ValoStats.ViewModels
 
         [ObservableProperty]
         private Bitmap cardImage;
+
+        [ObservableProperty]
+        private TitleData title;
+        
+        [ObservableProperty]
+        private Bitmap peak;
+        
+        [ObservableProperty]
+        private Bitmap current;
         
 
         public ObservableCollection<Episode> DisplayEpisodes {get; set;}
@@ -80,47 +94,67 @@ namespace ValoStats.ViewModels
         [RelayCommand(CanExecute = nameof(CanSearch))]
         public async Task PlayerSearch()
         {
+            BadSearch = false;
+            IsLoading = true;
+            //split Name & Tag from search bar and make MMR call
+            var _ = PlayerQuery.Split(new[] { '#' });
             
-            var _ = PlayerQuery.Split(new[] {'#'});
-            Pbar += 10;
-            var mmr = await ApiHelper.GetMMRData(_[0], _[1], client);
-            Pbar += 10;
-            if (mmr != null)
+            ResultMMRData = await ApiHelper.GetMMRData(_[0], _[1], client);
+            Pbar += 10; 
+            if (ResultMMRData == null)
+                FailSearch();
+                
+            else
             {
-                IsSearchCompelete = true;
-                BadSearch = false;
-                ResultMMRData = mmr;
-                if(mmr.seasonal.Count != 0)
+                //if Episode Count isn't zero make a list of the episodes and paginate it
+                if (ResultMMRData.seasonal.Count != 0)
                 {
-                    foreach(Episode ep in mmr.seasonal)
+                    foreach (Episode ep in ResultMMRData.seasonal)
                     {
                         Episodes.Add(ep);
                     }
+
                     var list = Episodes.Take(PageSize);
                     DisplayEpisodes.Clear();
                     foreach (Episode ep in list)
                     {
                         DisplayEpisodes.Add(ep);
                     }
-
-                    Pbar += 20;
                 }
-
-                var player = await ApiHelper.GetPlayer(_[0], _[1], client);
-                if (player != null)
-                {
-                    IsSearchCompelete = true;
-                    ResultPlayerData = player;
-                }
-                CardImage = await GetCardAsync(player.card, client);
                 Pbar += 10;
-                IsLoaded = true;
             }
+
+            
+
+            ResultPlayerData = await ApiHelper.GetPlayer(_[0], _[1], client);
+            if (ResultPlayerData == null)
+                FailSearch();
             else
             {
-                IsLoaded = false;
-                BadSearch = true;
-            }
+                Pbar += 10;
+                
+                Title = await GetTitleAsync(ResultPlayerData.player_title, client);
+                if (Title == null)
+                    FailSearch();
+                
+                Pbar += 10; 
+                await GetRankImg(client, ResultMMRData);
+            
+                Pbar += 10; 
+                CardImage = await GetCardAsync(ResultPlayerData.card, client);
+                if (CardImage == null)
+                    FailSearch();
+                else
+                {
+                    Pbar += 10; 
+                    IsLoading = false;
+                    IsSearchCompelete = true;
+                    IsLoaded = true;
+                }
+                
+                
+            }                
+            
 
 
         }
@@ -181,11 +215,42 @@ namespace ValoStats.ViewModels
             else return true;
         }
         
-        private async Task<Bitmap> GetCardAsync(string AssetId, HttpClient Client)
+        private async Task<Bitmap?> GetCardAsync(string AssetId, HttpClient Client)
         {
             var data = await ApiHelper.GetCard(AssetId, Client);
-            return Bitmap.DecodeToHeight(data, 320);
+            if (data == null) return null;
+            else return Bitmap.DecodeToHeight(data, 320);
         }
 
+        private async Task<TitleData?> GetTitleAsync(string Asset, HttpClient Client)
+        {
+            var titleData = await ApiHelper.GetTitle(Asset, Client);
+            if (titleData != null)
+            {
+                return titleData;
+            }
+            else return null;
+        }
+        
+        private async Task GetRankImg(HttpClient Client, MMRData MMRData)
+        {
+            var currentData = await ApiHelper.GetRankImg(Client, MMRData.current.tier.id);
+            if (currentData != null)
+            {
+                Current = Bitmap.DecodeToWidth(currentData, 55);
+            }
+            var peakData = await ApiHelper.GetRankImg(Client, MMRData.peak.tier.id);
+            if (peakData != null)
+            {
+                Peak = Bitmap.DecodeToWidth(peakData, 55);
+            }
+        }
+
+        private void FailSearch()
+        {
+            BadSearch = true;
+            IsLoading = false;
+        }
+        
     }
 }
