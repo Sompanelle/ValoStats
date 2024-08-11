@@ -98,41 +98,11 @@
                 
             </Grid>
             
-            <!--  Ranked info box  -->
+            <!--  Hisyto info box  -->
 
             <StackPanel Grid.Column="1" IsVisible="{Binding IsLoaded}">
-
                 
-                
-                <StackPanel Grid.Column="0" HorizontalAlignment="Center"
-                            Orientation="Horizontal">
-
-                    <Label Classes="Data" Content="Current Rank"/>
-
-
-                    <StackPanel HorizontalAlignment="Center">
-
-                        <Label Classes="Data" Content="{Binding ResultMMRData.current.tier.name}" />
-
-                        <Label Classes="Data" Content="{Binding ResultMMRData.current.rr}" />
-                        
-
-                    </StackPanel>
-                    
-                    <StackPanel
-                        Grid.Column="1"
-                        HorizontalAlignment="Center">
-
-                        <Label Classes="Data" Content="Peak Rank" />
-
-                        <Label Classes="Data" Content="{Binding ResultMMRData.peak.tier.name}" />
-
-                    </StackPanel>
-                </StackPanel>
-
-
-                
-                <!--  Ranked History Listbox  -->
+                <!--  Episode History Listbox  -->
                 <StackPanel
                     Margin="5"
                     IsVisible="{Binding IsSearchCompelete}">
