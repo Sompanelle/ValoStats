@@ -27,6 +27,9 @@ namespace ValoStats.ViewModels
         private bool isLoaded;
 
         [ObservableProperty]
+        private bool isLoading;
+
+        [ObservableProperty]
         private int pbar;
         
         [ObservableProperty]
@@ -91,13 +94,16 @@ namespace ValoStats.ViewModels
         [RelayCommand(CanExecute = nameof(CanSearch))]
         public async Task PlayerSearch()
         {
-
+            BadSearch = false;
+            IsLoading = true;
             //split Name & Tag from search bar and make MMR call
             var _ = PlayerQuery.Split(new[] { '#' });
             
             ResultMMRData = await ApiHelper.GetMMRData(_[0], _[1], client);
+            Pbar += 10; 
             if (ResultMMRData == null)
-                BadSearch = true;
+                FailSearch();
+                
             else
             {
                 //if Episode Count isn't zero make a list of the episodes and paginate it
@@ -115,25 +121,33 @@ namespace ValoStats.ViewModels
                         DisplayEpisodes.Add(ep);
                     }
                 }
+                Pbar += 10;
             }
+
             
 
             ResultPlayerData = await ApiHelper.GetPlayer(_[0], _[1], client);
             if (ResultPlayerData == null)
-                BadSearch = true;
+                FailSearch();
             else
             {
+                Pbar += 10;
+                
                 Title = await GetTitleAsync(ResultPlayerData.player_title, client);
                 if (Title == null)
-                    BadSearch = true;
+                    FailSearch();
                 
+                Pbar += 10; 
                 await GetRankImg(client, ResultMMRData);
             
+                Pbar += 10; 
                 CardImage = await GetCardAsync(ResultPlayerData.card, client);
                 if (CardImage == null)
-                    BadSearch = true;
+                    FailSearch();
                 else
                 {
+                    Pbar += 10; 
+                    IsLoading = false;
                     IsSearchCompelete = true;
                     IsLoaded = true;
                 }
@@ -230,6 +244,12 @@ namespace ValoStats.ViewModels
             {
                 Peak = Bitmap.DecodeToWidth(peakData, 55);
             }
+        }
+
+        private void FailSearch()
+        {
+            BadSearch = true;
+            IsLoading = false;
         }
         
     }

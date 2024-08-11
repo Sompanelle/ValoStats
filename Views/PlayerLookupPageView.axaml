@@ -36,15 +36,19 @@
             </TextBox>
             
         </StackPanel>
-
-        <Label Content="Player Does not Exist"
-               Grid.Row="1"
-               VerticalAlignment="Center"
-               HorizontalAlignment="Center"
-               Classes="Header"
-               Foreground="Red"
-               IsVisible="{Binding BadSearch}"/>
         
+        <StackPanel Grid.Row="1"
+                    VerticalAlignment="Center"
+                    Margin="5">
+            
+            <ProgressBar Value="{Binding Pbar}" Maximum="60"  Minimum="20" IsVisible="{Binding IsLoading}"></ProgressBar>
+            
+            <Label Content="Player Does not Exist"
+                   Grid.Row="1"
+                   Classes="Header"
+                   Foreground="Red"
+                   IsVisible="{Binding BadSearch}"/>
+        </StackPanel>
         
         <!--  Content Grid  -->
         <Grid Grid.Row="1" IsVisible="{Binding IsLoaded}">

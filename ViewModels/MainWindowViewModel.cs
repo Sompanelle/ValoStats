@@ -74,8 +74,6 @@ namespace ValoStats.ViewModels
             IsPanelOpen = !IsPanelOpen;
         }
 
-        
-
 
     }
 }
