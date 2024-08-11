@@ -53,21 +53,44 @@
             
             <!--  Player info Grid  -->
             <Grid Grid.Column="0"
-                  Grid.RowDefinitions="*,Auto">
+                  Grid.RowDefinitions="Auto,Auto, Auto">
                 
-                <Viewbox Grid.Row = "0">
-                    <Image Source="{Binding CardImage}"
-                           Stretch="UniformToFill"/>
-                </Viewbox>
+                <!-- Player Card, Name, Title-->
+                <StackPanel Grid.Row="0">
                 
-                <StackPanel Grid.Row="1"
-                            Orientation="Horizontal">
-                    
-                    <Label Content="{Binding ResultPlayerData.name}" />
-
-                    <Label Content="{Binding ResultPlayerData.level}" />
-                    
+                    <Border Classes="Radius">
+                        <Image Source="{Binding CardImage}"/>
+                    </Border>
+                
+                    <Label Content="{Binding ResultPlayerData.name}"
+                           Classes="Header"/>
+                
+                    <Label Content="{Binding Title.titleText}"
+                           Classes="SubHeader"/>
+                
                 </StackPanel>
+                
+                <!-- Current Rank + Peak Rank-->
+                <Grid Grid.Row="1"
+                      ColumnDefinitions="Auto,*,Auto"
+                      HorizontalAlignment="Center">
+                
+                    <StackPanel Grid.Column="0">
+                        <Label Classes="Header1"
+                               Content="Current Rank"/>
+                    
+                        <Image Source="{Binding Current}"/>
+                    </StackPanel>
+                
+                    <StackPanel Grid.Column="2">
+                        <Label Classes="Header1"
+                               Content="Peak Rank"/>
+                    
+                        <Image Source="{Binding Peak}"/>
+                    </StackPanel>
+                
+                </Grid>
+
                 
             </Grid>
             

@@ -74,6 +74,8 @@ namespace ValoStats.ViewModels.DTOs
                 Map = Datum.metadata.map,
                 Player = player,
                 Score = team.rounds_won != null ? $"{team.rounds_won}-{team.rounds_lost}" : "",
+                Kills = player.stats.kills,
+                Deaths = player.stats.deaths,
                 KD = $"{player.stats.kills}/{player.stats.deaths}",
                 Mode = Datum.metadata.mode,
                 Region = Datum.metadata.region,

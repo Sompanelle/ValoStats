@@ -11,6 +11,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Avalonia.Media.Imaging;
+using SkiaSharp;
 using ValoStats.Models;
 using ValoStats.ViewModels.Helpers;
 
@@ -45,6 +46,15 @@ namespace ValoStats.ViewModels
 
         [ObservableProperty]
         private Bitmap cardImage;
+
+        [ObservableProperty]
+        private TitleData title;
+        
+        [ObservableProperty]
+        private Bitmap peak;
+        
+        [ObservableProperty]
+        private Bitmap current;
         
 
         public ObservableCollection<Episode> DisplayEpisodes {get; set;}
@@ -81,17 +91,19 @@ namespace ValoStats.ViewModels
         [RelayCommand(CanExecute = nameof(CanSearch))]
         public async Task PlayerSearch()
         {
-            
-            var _ = PlayerQuery.Split(new[] {'#'});
-            var mmr = await ApiHelper.GetMMRData(_[0], _[1], client);
-            if (mmr != null)
-            {
-                BadSearch = false;
-                ResultMMRData = mmr;
 
-                if (mmr.seasonal.Count != 0)
+            //split Name & Tag from search bar and make MMR call
+            var _ = PlayerQuery.Split(new[] { '#' });
+            
+            ResultMMRData = await ApiHelper.GetMMRData(_[0], _[1], client);
+            if (ResultMMRData == null)
+                BadSearch = true;
+            else
+            {
+                //if Episode Count isn't zero make a list of the episodes and paginate it
+                if (ResultMMRData.seasonal.Count != 0)
                 {
-                    foreach (Episode ep in mmr.seasonal)
+                    foreach (Episode ep in ResultMMRData.seasonal)
                     {
                         Episodes.Add(ep);
                     }
@@ -103,23 +115,32 @@ namespace ValoStats.ViewModels
                         DisplayEpisodes.Add(ep);
                     }
                 }
-
-                var player = await ApiHelper.GetPlayer(_[0], _[1], client);
-                if (player != null)
-                {
-                    IsSearchCompelete = true;
-                    ResultPlayerData = player;
-
-                }
-                else BadSearch = true;
-                
-                IsLoaded = true;
             }
+            
+
+            ResultPlayerData = await ApiHelper.GetPlayer(_[0], _[1], client);
+            if (ResultPlayerData == null)
+                BadSearch = true;
             else
             {
-                IsLoaded = false;
-                BadSearch = true;
-            }
+                Title = await GetTitleAsync(ResultPlayerData.player_title, client);
+                if (Title == null)
+                    BadSearch = true;
+                
+                await GetRankImg(client, ResultMMRData);
+            
+                CardImage = await GetCardAsync(ResultPlayerData.card, client);
+                if (CardImage == null)
+                    BadSearch = true;
+                else
+                {
+                    IsSearchCompelete = true;
+                    IsLoaded = true;
+                }
+                
+                
+            }                
+            
 
 
         }
@@ -187,5 +208,29 @@ namespace ValoStats.ViewModels
             else return Bitmap.DecodeToHeight(data, 320);
         }
 
+        private async Task<TitleData?> GetTitleAsync(string Asset, HttpClient Client)
+        {
+            var titleData = await ApiHelper.GetTitle(Asset, Client);
+            if (titleData != null)
+            {
+                return titleData;
+            }
+            else return null;
+        }
+        
+        private async Task GetRankImg(HttpClient Client, MMRData MMRData)
+        {
+            var currentData = await ApiHelper.GetRankImg(Client, MMRData.current.tier.id);
+            if (currentData != null)
+            {
+                Current = Bitmap.DecodeToWidth(currentData, 55);
+            }
+            var peakData = await ApiHelper.GetRankImg(Client, MMRData.peak.tier.id);
+            if (peakData != null)
+            {
+                Peak = Bitmap.DecodeToWidth(peakData, 55);
+            }
+        }
+        
     }
 }
