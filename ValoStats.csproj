@@ -17,6 +17,43 @@
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.10" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
+    <PackageReference Include="FluentAssertions" Version="7.0.0-alpha.4" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <AvaloniaXaml Remove="ValoStatsTests\**" />
+    <AvaloniaXaml Remove="ValoStats.Tests\**" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Compile Remove="ValoStatsTests\**" />
+    <Compile Remove="ValoStats.Tests\**" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <EmbeddedResource Remove="ValoStatsTests\**" />
+    <EmbeddedResource Remove="ValoStats.Tests\**" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <AdditionalFiles Remove="ValoStatsTests\**" />
+    <AdditionalFiles Remove="ValoStats.Tests\**" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <AvaloniaResource Remove="ValoStatsTests\**" />
+    <AvaloniaResource Remove="ValoStats.Tests\**" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <None Remove="ValoStatsTests\**" />
+    <None Remove="ValoStats.Tests\**" />
   </ItemGroup>
 </Project>

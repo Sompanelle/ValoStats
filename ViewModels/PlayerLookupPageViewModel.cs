@@ -20,6 +20,7 @@ namespace ValoStats.ViewModels
     public partial class PlayerLookupPageViewModel : ViewModelBase
     {
         private HttpClient client = ApiHelper.InitializeClient();
+        private Config config = FileHelper.ReadConfig();
         [ObservableProperty]
         private string playerQuery;
 
@@ -99,7 +100,7 @@ namespace ValoStats.ViewModels
             //split Name & Tag from search bar and make MMR call
             var _ = PlayerQuery.Split(new[] { '#' });
             
-            ResultMMRData = await ApiHelper.GetMMRData(_[0], _[1], client);
+            ResultMMRData = await ApiHelper.GetEpisodeHistory(_[0], _[1], client, config);
             Pbar += 10; 
             if (ResultMMRData == null)
                 FailSearch();
@@ -126,7 +127,7 @@ namespace ValoStats.ViewModels
 
             
 
-            ResultPlayerData = await ApiHelper.GetPlayer(_[0], _[1], client);
+            ResultPlayerData = await ApiHelper.GetPlayer(_[0], _[1], client, config);
             if (ResultPlayerData == null)
                 FailSearch();
             else
@@ -234,12 +235,12 @@ namespace ValoStats.ViewModels
         
         private async Task GetRankImg(HttpClient Client, MMRData MMRData)
         {
-            var currentData = await ApiHelper.GetRankImg(Client, MMRData.current.tier.id);
+            var currentData = await ApiHelper.GetRankImg(MMRData.current.tier.id,Client);
             if (currentData != null)
             {
                 Current = Bitmap.DecodeToWidth(currentData, 55);
             }
-            var peakData = await ApiHelper.GetRankImg(Client, MMRData.peak.tier.id);
+            var peakData = await ApiHelper.GetRankImg(MMRData.peak.tier.id,Client);
             if (peakData != null)
             {
                 Peak = Bitmap.DecodeToWidth(peakData, 55);

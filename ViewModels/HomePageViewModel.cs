@@ -96,25 +96,25 @@ namespace ValoStats.ViewModels
 
         }
 
-        private async Task InitiliazeHome(Config Config, HttpClient Client)
+        private async Task InitiliazeHome(Config Config, HttpClient Client) 
         {
             string settingName = Config.Name;
             string settingTag = Config.Tag;
             if ( !string.IsNullOrEmpty(settingName) || !string.IsNullOrEmpty(settingTag))
             {
                 
-                    Player = await GetPlayerAsync(settingName, settingTag, Client);
+                    Player = await GetPlayerAsync(settingName, settingTag, Client, Config);
                     Pbar += 10;
                     ConcatName = $"{settingName}#{settingTag}";
                     Pbar += 10;
-                    MmrData = await ApiHelper.GetMMRData(Player.name, Player.tag, Client);
+                    MmrData = await ApiHelper.GetMMRData(Player.puuid, Client, Config);
                     Pbar += 10;
                     CardImage = await GetCardAsync(Player.card, Client);
                     Pbar += 10;
                     Title = await GetTitleAsync(Player.player_title, Client);
                     await GetRankImg(Client);
                     Pbar += 10;
-                    await GetMatchPlayed(Player.name, Player.tag, Client);
+                    await GetMatchPlayed(Player.puuid, Client, Config);
                     Pbar += 10;
                     IsLoaded = true;
             }
@@ -125,29 +125,28 @@ namespace ValoStats.ViewModels
 
 
         }
-
-        private async Task GetMatchPlayed(string Name, string Tag, HttpClient Client)
+        private async Task<Player?> GetPlayerAsync(string Name, string Tag, HttpClient Client, Config Config)
         {
-            var lastTen = await ApiHelper.GetLastFiveMatchDatas(Name, Tag, Client);
-            if (lastTen != null)
-            {
-                foreach (Datum matchData in lastTen)
-                {
-                    var match = MatchDTO.DatumToPlayedMatch(matchData);
-                    Matches.Add(match);
-                }
-            }
-            else BadRequest = true;
-        }
-
-        private async Task<Player?> GetPlayerAsync(string Name, string Tag, HttpClient Client)
-        {
-            var resultPlayer= await ApiHelper.GetPlayer(Name, Tag, Client);
+            var resultPlayer= await ApiHelper.GetPlayer(Name, Tag, Client, Config);
             if (resultPlayer != null)
             {
                 return resultPlayer;
             }
             else return null;
+        }
+
+        private async Task GetMatchPlayed(string Puuid, HttpClient Client, Config Config)
+        {
+            var lastTen = await ApiHelper.GetLastFiveMatchDatas(Puuid, Client, Config);
+            if (lastTen != null)
+            {
+                foreach (MatchDatum matchData in lastTen)
+                {
+                    var match = MatchDTO.MatchDatumToPlayedMatch(matchData);
+                    Matches.Add(match);
+                }
+            }
+            else BadRequest = true;
         }
 
         private async Task<Bitmap?> GetCardAsync(string assetId, HttpClient Client)
@@ -172,12 +171,12 @@ namespace ValoStats.ViewModels
 
         private async Task GetRankImg(HttpClient Client)
         {
-                var currentData = await ApiHelper.GetRankImg(Client, MmrData.current.tier.id);
+                var currentData = await ApiHelper.GetRankImg(MmrData.current.tier.id,Client);
                 if (currentData != null)
                 {
                     Current = Bitmap.DecodeToWidth(currentData, 55);
                 }
-                var peakData = await ApiHelper.GetRankImg(Client, MmrData.peak.tier.id);
+                var peakData = await ApiHelper.GetRankImg(MmrData.peak.tier.id,Client);
                 if (peakData != null)
                 {
                     Peak = Bitmap.DecodeToWidth(peakData, 55);

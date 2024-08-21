@@ -176,7 +176,7 @@ namespace ValoStats.Models
         public string killfeed_icon { get; set; }
     }
 
-    public class Datum
+    public class MatchDatum
     {
         public Metadata metadata { get; set; }
         public Players players { get; set; }
@@ -394,7 +394,7 @@ namespace ValoStats.Models
     public class MatchResponse
     {
         public int status { get; set; }
-        public List<Datum> data { get; set; }
+        public List<MatchDatum> data { get; set; }
     }
 
     public class Round

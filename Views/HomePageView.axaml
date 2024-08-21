@@ -106,7 +106,7 @@
 
         </StackPanel>
         
-        <ProgressBar VerticalAlignment="Center"
+        <ProgressBar Classes="Default"
                      Value="{Binding Pbar}"
                      Maximum="40"
                      Minimum="20"

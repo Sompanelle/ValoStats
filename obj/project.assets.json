@@ -351,6 +351,22 @@
           "buildTransitive/netstandard2.1/CommunityToolkit.Mvvm.targets": {}
         }
       },
+      "FluentAssertions/7.0.0-alpha.4": {
+        "type": "package",
+        "dependencies": {
+          "System.Configuration.ConfigurationManager": "4.4.0"
+        },
+        "compile": {
+          "lib/net6.0/FluentAssertions.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/FluentAssertions.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
       "HarfBuzzSharp/7.3.0": {
         "type": "package",
         "dependencies": {
@@ -1860,6 +1876,30 @@
         "lib/netstandard2.1/CommunityToolkit.Mvvm.dll",
         "lib/netstandard2.1/CommunityToolkit.Mvvm.pdb",
         "lib/netstandard2.1/CommunityToolkit.Mvvm.xml"
+      ]
+    },
+    "FluentAssertions/7.0.0-alpha.4": {
+      "sha512": "xf+oTq7E0Iz/Z8mx2zAdGjmxVxCL4os5KmazFar59k1cPQNLKFnqTOXHZvL8Je7KaEyVjXaBi2q6s7Xr1D0E1w==",
+      "type": "package",
+      "path": "fluentassertions/7.0.0-alpha.4",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "FluentAssertions.png",
+        "fluentassertions.7.0.0-alpha.4.nupkg.sha512",
+        "fluentassertions.nuspec",
+        "lib/net47/FluentAssertions.dll",
+        "lib/net47/FluentAssertions.pdb",
+        "lib/net47/FluentAssertions.xml",
+        "lib/net6.0/FluentAssertions.dll",
+        "lib/net6.0/FluentAssertions.pdb",
+        "lib/net6.0/FluentAssertions.xml",
+        "lib/netstandard2.0/FluentAssertions.dll",
+        "lib/netstandard2.0/FluentAssertions.pdb",
+        "lib/netstandard2.0/FluentAssertions.xml",
+        "lib/netstandard2.1/FluentAssertions.dll",
+        "lib/netstandard2.1/FluentAssertions.pdb",
+        "lib/netstandard2.1/FluentAssertions.xml"
       ]
     },
     "HarfBuzzSharp/7.3.0": {
@@ -4580,6 +4620,7 @@
       "Avalonia.Fonts.Inter >= 11.0.10",
       "Avalonia.Themes.Fluent >= 11.0.10",
       "CommunityToolkit.Mvvm >= 8.2.1",
+      "FluentAssertions >= 7.0.0-alpha.4",
       "System.Configuration.ConfigurationManager >= 8.0.0"
     ]
   },
@@ -4652,6 +4693,10 @@
             "target": "Package",
             "version": "[8.2.1, )"
           },
+          "FluentAssertions": {
+            "target": "Package",
+            "version": "[7.0.0-alpha.4, )"
+          },
           "System.Configuration.ConfigurationManager": {
             "target": "Package",
             "version": "[8.0.0, )"
@@ -4673,7 +4718,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.304/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
