@@ -56,4 +56,11 @@
     <None Remove="ValoStatsTests\**" />
     <None Remove="ValoStats.Tests\**" />
   </ItemGroup>
+
+
+  <ItemGroup>
+    <Compile Remove="ViewModels\Converters\MMRResultToDisplayString.cs" />
+    <Compile Remove="ViewModels\DTOs\RankedHistoryDTO.cs" />
+    <Compile Remove="Views\MatchHistoryView.axaml.cs" />
+  </ItemGroup>
 </Project>

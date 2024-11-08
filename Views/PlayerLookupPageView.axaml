@@ -41,13 +41,19 @@
                     VerticalAlignment="Center"
                     Margin="5">
             
-            <ProgressBar Value="{Binding Pbar}" Maximum="60"  Minimum="20" IsVisible="{Binding IsLoading}"></ProgressBar>
+            <ProgressBar Classes="Default"
+                         Value="{Binding Pbar}"
+                         Maximum="60"  Minimum="20"
+                         IsVisible="{Binding IsLoading}">
+                
+            </ProgressBar>
             
             <Label Content="Player Does not Exist"
                    Grid.Row="1"
                    Classes="Header"
                    Foreground="Red"
                    IsVisible="{Binding BadSearch}"/>
+            
         </StackPanel>
         
         <!--  Content Grid  -->

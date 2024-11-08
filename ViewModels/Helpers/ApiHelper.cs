@@ -34,29 +34,6 @@ namespace ValoStats.ViewModels.Helpers
             return new MemoryStream(data);
         }
         
-        public static async Task<List<MatchDatum>?> GetLastFiveMatchDatas(string Puuid, HttpClient ApiClient, Config Config)
-        {
-            string lastMatchUrl = $"https://api.henrikdev.xyz/valorant/v3/by-puuid/matches/{Config.Region}/{Puuid}?api_key={Config.Key}&size=5";
-            using (HttpResponseMessage response = await ApiClient.GetAsync(lastMatchUrl))
-            {
-                if (response.IsSuccessStatusCode)
-                {
-                    string json = await response.Content.ReadAsStringAsync();
-                    MatchResponse content = JsonSerializer.Deserialize<MatchResponse>(json);
-                    if (content != null)
-                    {
-                        List<MatchDatum> MatchDatas = MatchDTO.MatchResponseToMatchDatums(content);
-                        return MatchDatas;
-                    }
-                    else return null;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
-        
         public static async Task<MatchDatum?> GetLastMatchDatum(string Puuid, HttpClient ApiClient, Config Config)
         {
             string lastMatchUrl = $"https://api.henrikdev.xyz/valorant/v3/by-puuid/matches/{Config.Region}/{Puuid}?api_key={Config.Key}&size=1";
@@ -168,11 +145,54 @@ namespace ValoStats.ViewModels.Helpers
             apiClient.DefaultRequestHeaders.Accept.Clear();
             return apiClient;
         }
-
-        public static async Task<MMRHistory> GetMMRHistory(string Puuid, HttpClient Client)
+        
+        public static async Task<ObservableCollection<PlayedMatch>?> GetLastMatchList(string Puuid, HttpClient ApiClient, Config Config)
         {
-
-            return new MMRHistory();
+            string lastMatchUrl = $"https://api.henrikdev.xyz/valorant/v3/by-puuid/matches/{Config.Region}/{Puuid}?api_key={Config.Key}&size=5";
+            Debug.WriteLine("Sending Request");
+            using (HttpResponseMessage response = await ApiClient.GetAsync(lastMatchUrl))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    Debug.WriteLine("Sucessful Request");
+                    string json = await response.Content.ReadAsStringAsync();
+                    var content = JsonSerializer.Deserialize<MatchListResponse>(json);
+                    if (content != null)
+                    {
+                        var matches = MatchDTO.MatchListResponseToPlayedMatches(content, Puuid);
+                        return matches;
+                    }
+                    else return null;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+        
+        public static async Task<ObservableCollection<PlayedMatch>> GetMatchListByMode(string Puuid, HttpClient ApiClient, Config Config, string Mode)
+        {
+            string Url = $"https://api.henrikdev.xyz/valorant/v3/by-puuid/matches/{Config.Region}/{Puuid}?api_key={Config.Key}&mode={Mode}&size=5";
+            
+            Debug.WriteLine("Sending Request");
+            using (HttpResponseMessage response = await ApiClient.GetAsync(Url))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    Debug.WriteLine("Sucessful Request");
+                    var json = await response.Content.ReadAsStringAsync();
+                    var content = JsonSerializer.Deserialize<MatchListResponse>(json);
+                    if (content.status != 200)
+                        return null;
+                    Debug.WriteLine("Beginning Deserializing");
+                    var matches = MatchDTO.MatchListResponseToPlayedMatches(content, Puuid);
+                    return matches;
+                }
+                else return null;
+            }
+            
+            
         }
         
 

@@ -22,12 +22,11 @@
     <!-- Window Grid-->
    <Grid>
        
-           <ProgressBar VerticalAlignment="Center"
-                    Value="{Binding Pbar}"
-                    Maximum="60"
-                    Minimum="0"
-                    IsVisible="{Binding !IsLoaded}"
-                    Margin="5"/>
+           <ProgressBar Classes="Default"
+                        Value="{Binding Pbar}"
+                        Maximum="60"
+                        Minimum="0"
+                        IsVisible="{Binding !IsLoaded}"/>
     
            
            
@@ -64,8 +63,7 @@
         
         <StackPanel Grid.Row="1"
                     Grid.Column="0"
-                    Margin="5"
-                    Spacing="10">
+                    Margin="5">
 
             
             <!--  Player Display Name + Title StackPanel  -->
@@ -75,30 +73,68 @@
                 <Image Source="{Binding CardImage}"/>
                 </Border>
                 
-                <Label Content="{Binding ConcatName}"
+                <Label Content="{Binding DisplayName}"
                        Classes="Header"/>
                 
                 <Label Content="{Binding Title.titleText}"
                        Classes="SubHeader"/>
                 
+                <TextBlock Classes="SubHeader">
+                    <Run Text="Level"/>
+                    <Run Text="{Binding Player.level}"/>
+                </TextBlock>
                 
             </StackPanel>
             
-            <Grid ColumnDefinitions="Auto,*,Auto"
+            <Grid ColumnDefinitions="Auto,Auto"
+                  RowDefinitions="Auto,*"
                   HorizontalAlignment="Center">
                 
-                <StackPanel Grid.Column="0">
-                    <Label Classes="Header1"
-                           Content="Current Rank"/>
+                <StackPanel Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal">
                     
-                    <Image Source="{Binding Current}"/>
+                    <StackPanel>
+                        <Label Classes="Header1"
+                               Content="Current Rank"/>
+                    
+                        <Image Source="{Binding Current}"/>
+                    </StackPanel>
+                
+                    <StackPanel>
+                        <Label Classes="Header1"
+                               Content="Peak Rank"/>
+                    
+                        <Image Source="{Binding Peak}"/>
+                    </StackPanel>
+                    
                 </StackPanel>
                 
-                <StackPanel Grid.Column="2">
-                    <Label Classes="Header1"
-                           Content="Peak Rank"/>
+
+                
+                
+                
+                <Grid Grid.Row="1" Grid.ColumnSpan="2">
                     
-                    <Image Source="{Binding Peak}"/>
+                    <Grid.ColumnDefinitions>Auto,*,Auto</Grid.ColumnDefinitions>
+                    
+                    <TextBlock Grid.Column="0"
+                               Classes="SubHeader Center ">
+                        
+                        <Run Text="KD"/>
+                        <Run Text="{Binding DisplayKd}"/>
+                        
+                    </TextBlock>
+                    
+                    <TextBlock Grid.Column="2"
+                               Classes="SubHeader Center">
+                        <Run Text="WR"/>
+                        <Run Text="{Binding DisplayWr}"/>
+                        <Run Text="%"/>
+                    </TextBlock>
+                    
+                </Grid>
+                
+                <StackPanel>
+                    
                 </StackPanel>
                 
             </Grid>
@@ -129,39 +165,76 @@
                 
                 <Label Classes="Header1"
                        Content="Your Last Five Matches" />
+                    
+                <ComboBox ItemsSource="{Binding modes}"
+                          SelectedItem="{Binding SelectedMode}"
+                          Classes="ModeSelector">
+                    
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding }" HorizontalAlignment="Center" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                    
+                </ComboBox>
                 
                 
-                    <ListBox ItemsSource="{Binding Matches}"
-                             Background="Transparent"
-                             IsHitTestVisible="False">
-                        
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                
-                                <Border Classes="Radius"
-                                        Height="65"
-                                        Background="{Binding Path=Result, Converter={StaticResource ResultToStyleConverter}}">
-                                    <StackPanel VerticalAlignment="Center">
-                                        
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <Label Content="{Binding Map}" HorizontalAlignment="Left" Classes="Header1"/>
-                                            <Label Content="{Binding Score }" Classes="ListSubHeader" />
-                                        </StackPanel>
-                                        
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <Label Content="{Binding Mode}" Classes="Header1"/>
-                                            <Label Content="{Binding Agent}" Classes="ListSubHeader"/>
-                                            <Label Content="{Binding KD}" Classes="ListSubHeader"/>
-                                        </StackPanel>
-                                        
+                <ListBox ItemsSource="{Binding Matches}"
+                         Background="Transparent"
+                         IsHitTestVisible="False"
+                         IsVisible="{Binding !IsMatchesLoading}">
+                    
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            
+                            <Border Classes="Radius"
+                                    Height="95"
+                                    Background="{Binding Path=Result, Converter={StaticResource ResultToStyleConverter}}">
+                                <StackPanel VerticalAlignment="Center">
+                                    
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <Label Content="{Binding Map}" HorizontalAlignment="Left" Classes="Header1"/>
+                                        <Label Content="{Binding Score }" Classes="ListSubHeader" />
                                     </StackPanel>
-                                </Border>
-                                
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+                                    
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <Label Content="{Binding Mode}" Classes="Header1"/>
+                                        <Label Content="{Binding Agent}" Classes="ListSubHeader"/>
+                                    </StackPanel>
+                                    
+                                    <TextBlock Classes="ListSubHeader Center">
+                                        <Run Text="{Binding Kills}"/>
+                                        <Run Text=" | "/>
+                                        <Run Text="{Binding Deaths}"/>
+                                    </TextBlock>
+                                    
+                                </StackPanel>
+                            </Border>
+                            
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                
+                <Grid Margin="10,2">
+                    
+                    <Grid.ColumnDefinitions>
+                        Auto,*,Auto
+                    </Grid.ColumnDefinitions>
+                    
+                    <Button Grid.Column="0" Classes="Movement">
+                        Back
+                    </Button>
+                    
+                    <Button  Grid.Column="2" Classes="Movement">
+                        Next
+                    </Button>
+                    
+                </Grid>
+                
                 
             </StackPanel>
+                
+
             
         </StackPanel>
 

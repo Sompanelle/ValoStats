@@ -1,34 +1,34 @@
-C:\Users\rjray\.nuget\packages\avalonia\11.0.10\ref\net6.0\Avalonia.Base.dll
-C:\Users\rjray\.nuget\packages\avalonia.controls.colorpicker\11.0.10\lib\net6.0\Avalonia.Controls.ColorPicker.dll
-C:\Users\rjray\.nuget\packages\avalonia.controls.datagrid\11.0.10\lib\net6.0\Avalonia.Controls.DataGrid.dll
-C:\Users\rjray\.nuget\packages\avalonia\11.0.10\ref\net6.0\Avalonia.Controls.dll
-C:\Users\rjray\.nuget\packages\avalonia\11.0.10\ref\net6.0\Avalonia.DesignerSupport.dll
-C:\Users\rjray\.nuget\packages\avalonia.desktop\11.0.10\lib\net6.0\Avalonia.Desktop.dll
-C:\Users\rjray\.nuget\packages\avalonia.diagnostics\11.0.10\lib\net6.0\Avalonia.Diagnostics.dll
-C:\Users\rjray\.nuget\packages\avalonia\11.0.10\ref\net6.0\Avalonia.Dialogs.dll
-C:\Users\rjray\.nuget\packages\avalonia\11.0.10\ref\net6.0\Avalonia.dll
-C:\Users\rjray\.nuget\packages\avalonia.fonts.inter\11.0.10\lib\net6.0\Avalonia.Fonts.Inter.dll
-C:\Users\rjray\.nuget\packages\avalonia.freedesktop\11.0.10\lib\net6.0\Avalonia.FreeDesktop.dll
-C:\Users\rjray\.nuget\packages\avalonia\11.0.10\ref\net6.0\Avalonia.Markup.dll
-C:\Users\rjray\.nuget\packages\avalonia\11.0.10\ref\net6.0\Avalonia.Markup.Xaml.dll
-C:\Users\rjray\.nuget\packages\avalonia\11.0.10\ref\net6.0\Avalonia.Metal.dll
-C:\Users\rjray\.nuget\packages\avalonia\11.0.10\ref\net6.0\Avalonia.MicroCom.dll
-C:\Users\rjray\.nuget\packages\avalonia.native\11.0.10\lib\net6.0\Avalonia.Native.dll
-C:\Users\rjray\.nuget\packages\avalonia\11.0.10\ref\net6.0\Avalonia.OpenGL.dll
-C:\Users\rjray\.nuget\packages\avalonia.remote.protocol\11.0.10\lib\net6.0\Avalonia.Remote.Protocol.dll
-C:\Users\rjray\.nuget\packages\avalonia.skia\11.0.10\lib\net6.0\Avalonia.Skia.dll
-C:\Users\rjray\.nuget\packages\avalonia.themes.fluent\11.0.10\lib\net6.0\Avalonia.Themes.Fluent.dll
-C:\Users\rjray\.nuget\packages\avalonia.themes.simple\11.0.10\lib\net6.0\Avalonia.Themes.Simple.dll
-C:\Users\rjray\.nuget\packages\avalonia.win32\11.0.10\lib\net6.0\Avalonia.Win32.dll
-C:\Users\rjray\.nuget\packages\avalonia.x11\11.0.10\lib\net6.0\Avalonia.X11.dll
-C:\Users\rjray\.nuget\packages\communitytoolkit.mvvm\8.2.1\lib\net6.0\CommunityToolkit.Mvvm.dll
-C:\Users\rjray\.nuget\packages\fluentassertions\7.0.0-alpha.4\lib\net6.0\FluentAssertions.dll
-C:\Users\rjray\.nuget\packages\harfbuzzsharp\7.3.0\lib\net6.0\HarfBuzzSharp.dll
-C:\Users\rjray\.nuget\packages\microcom.runtime\0.11.0\lib\net5.0\MicroCom.Runtime.dll
-C:\Users\rjray\.nuget\packages\microsoft.codeanalysis.csharp\3.8.0\lib\netcoreapp3.1\Microsoft.CodeAnalysis.CSharp.dll
-C:\Users\rjray\.nuget\packages\microsoft.codeanalysis.csharp.scripting\3.8.0\lib\netcoreapp3.1\Microsoft.CodeAnalysis.CSharp.Scripting.dll
-C:\Users\rjray\.nuget\packages\microsoft.codeanalysis.common\3.8.0\lib\netcoreapp3.1\Microsoft.CodeAnalysis.dll
-C:\Users\rjray\.nuget\packages\microsoft.codeanalysis.scripting.common\3.8.0\lib\netcoreapp3.1\Microsoft.CodeAnalysis.Scripting.dll
+C:\Users\Rj\.nuget\packages\avalonia\11.0.10\ref\net6.0\Avalonia.Base.dll
+C:\Users\Rj\.nuget\packages\avalonia.controls.colorpicker\11.0.10\lib\net6.0\Avalonia.Controls.ColorPicker.dll
+C:\Users\Rj\.nuget\packages\avalonia.controls.datagrid\11.0.10\lib\net6.0\Avalonia.Controls.DataGrid.dll
+C:\Users\Rj\.nuget\packages\avalonia\11.0.10\ref\net6.0\Avalonia.Controls.dll
+C:\Users\Rj\.nuget\packages\avalonia\11.0.10\ref\net6.0\Avalonia.DesignerSupport.dll
+C:\Users\Rj\.nuget\packages\avalonia.desktop\11.0.10\lib\net6.0\Avalonia.Desktop.dll
+C:\Users\Rj\.nuget\packages\avalonia.diagnostics\11.0.10\lib\net6.0\Avalonia.Diagnostics.dll
+C:\Users\Rj\.nuget\packages\avalonia\11.0.10\ref\net6.0\Avalonia.Dialogs.dll
+C:\Users\Rj\.nuget\packages\avalonia\11.0.10\ref\net6.0\Avalonia.dll
+C:\Users\Rj\.nuget\packages\avalonia.fonts.inter\11.0.10\lib\net6.0\Avalonia.Fonts.Inter.dll
+C:\Users\Rj\.nuget\packages\avalonia.freedesktop\11.0.10\lib\net6.0\Avalonia.FreeDesktop.dll
+C:\Users\Rj\.nuget\packages\avalonia\11.0.10\ref\net6.0\Avalonia.Markup.dll
+C:\Users\Rj\.nuget\packages\avalonia\11.0.10\ref\net6.0\Avalonia.Markup.Xaml.dll
+C:\Users\Rj\.nuget\packages\avalonia\11.0.10\ref\net6.0\Avalonia.Metal.dll
+C:\Users\Rj\.nuget\packages\avalonia\11.0.10\ref\net6.0\Avalonia.MicroCom.dll
+C:\Users\Rj\.nuget\packages\avalonia.native\11.0.10\lib\net6.0\Avalonia.Native.dll
+C:\Users\Rj\.nuget\packages\avalonia\11.0.10\ref\net6.0\Avalonia.OpenGL.dll
+C:\Users\Rj\.nuget\packages\avalonia.remote.protocol\11.0.10\lib\net6.0\Avalonia.Remote.Protocol.dll
+C:\Users\Rj\.nuget\packages\avalonia.skia\11.0.10\lib\net6.0\Avalonia.Skia.dll
+C:\Users\Rj\.nuget\packages\avalonia.themes.fluent\11.0.10\lib\net6.0\Avalonia.Themes.Fluent.dll
+C:\Users\Rj\.nuget\packages\avalonia.themes.simple\11.0.10\lib\net6.0\Avalonia.Themes.Simple.dll
+C:\Users\Rj\.nuget\packages\avalonia.win32\11.0.10\lib\net6.0\Avalonia.Win32.dll
+C:\Users\Rj\.nuget\packages\avalonia.x11\11.0.10\lib\net6.0\Avalonia.X11.dll
+C:\Users\Rj\.nuget\packages\communitytoolkit.mvvm\8.2.1\lib\net6.0\CommunityToolkit.Mvvm.dll
+C:\Users\Rj\.nuget\packages\fluentassertions\7.0.0-alpha.4\lib\net6.0\FluentAssertions.dll
+C:\Users\Rj\.nuget\packages\harfbuzzsharp\7.3.0\lib\net6.0\HarfBuzzSharp.dll
+C:\Users\Rj\.nuget\packages\microcom.runtime\0.11.0\lib\net5.0\MicroCom.Runtime.dll
+C:\Users\Rj\.nuget\packages\microsoft.codeanalysis.csharp\3.8.0\lib\netcoreapp3.1\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\Rj\.nuget\packages\microsoft.codeanalysis.csharp.scripting\3.8.0\lib\netcoreapp3.1\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+C:\Users\Rj\.nuget\packages\microsoft.codeanalysis.common\3.8.0\lib\netcoreapp3.1\Microsoft.CodeAnalysis.dll
+C:\Users\Rj\.nuget\packages\microsoft.codeanalysis.scripting.common\3.8.0\lib\netcoreapp3.1\Microsoft.CodeAnalysis.Scripting.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\Microsoft.CSharp.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\Microsoft.VisualBasic.Core.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\Microsoft.VisualBasic.dll
@@ -36,7 +36,7 @@ C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\Microso
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\Microsoft.Win32.Registry.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\mscorlib.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\netstandard.dll
-C:\Users\rjray\.nuget\packages\skiasharp\2.88.7\lib\net6.0\SkiaSharp.dll
+C:\Users\Rj\.nuget\packages\skiasharp\2.88.7\lib\net6.0\SkiaSharp.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\System.AppContext.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\System.Buffers.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\System.Collections.Concurrent.dll
@@ -50,7 +50,7 @@ C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\System.
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\System.ComponentModel.EventBasedAsync.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\System.ComponentModel.Primitives.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\System.ComponentModel.TypeConverter.dll
-C:\Users\rjray\.nuget\packages\system.configuration.configurationmanager\8.0.0\lib\net8.0\System.Configuration.ConfigurationManager.dll
+C:\Users\Rj\.nuget\packages\system.configuration.configurationmanager\8.0.0\lib\net8.0\System.Configuration.ConfigurationManager.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\System.Configuration.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\System.Console.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\System.Core.dll
@@ -60,7 +60,7 @@ C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\System.
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\System.Diagnostics.Contracts.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\System.Diagnostics.Debug.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\System.Diagnostics.DiagnosticSource.dll
-C:\Users\rjray\.nuget\packages\system.diagnostics.eventlog\8.0.0\lib\net8.0\System.Diagnostics.EventLog.dll
+C:\Users\Rj\.nuget\packages\system.diagnostics.eventlog\8.0.0\lib\net8.0\System.Diagnostics.EventLog.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\System.Diagnostics.FileVersionInfo.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\System.Diagnostics.Process.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\System.Diagnostics.StackTrace.dll
@@ -89,7 +89,7 @@ C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\System.
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\System.IO.FileSystem.Watcher.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\System.IO.IsolatedStorage.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\System.IO.MemoryMappedFiles.dll
-C:\Users\rjray\.nuget\packages\system.io.pipelines\6.0.0\lib\net6.0\System.IO.Pipelines.dll
+C:\Users\Rj\.nuget\packages\system.io.pipelines\6.0.0\lib\net6.0\System.IO.Pipelines.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\System.IO.Pipes.AccessControl.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\System.IO.Pipes.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\System.IO.UnmanagedMemoryStream.dll
@@ -157,7 +157,7 @@ C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\System.
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\System.Security.Cryptography.Encoding.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\System.Security.Cryptography.OpenSsl.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\System.Security.Cryptography.Primitives.dll
-C:\Users\rjray\.nuget\packages\system.security.cryptography.protecteddata\8.0.0\lib\net8.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\Rj\.nuget\packages\system.security.cryptography.protecteddata\8.0.0\lib\net8.0\System.Security.Cryptography.ProtectedData.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\System.Security.Cryptography.X509Certificates.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\System.Security.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\System.Security.Principal.dll
@@ -196,5 +196,5 @@ C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\System.
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\System.Xml.XmlSerializer.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\System.Xml.XPath.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\System.Xml.XPath.XDocument.dll
-C:\Users\rjray\.nuget\packages\tmds.dbus.protocol\0.15.0\lib\net6.0\Tmds.DBus.Protocol.dll
+C:\Users\Rj\.nuget\packages\tmds.dbus.protocol\0.15.0\lib\net6.0\Tmds.DBus.Protocol.dll
 C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.8\ref\net8.0\WindowsBase.dll

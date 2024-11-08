@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ValoStats", "ValoStats.cspr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValorantTrackerTesting", "..\..\..\SyncthingServiceAcct\Rj's Coding\Sync\Avalonia Projects\ValorantTrackerTesting\ValorantTrackerTesting.csproj", "{F84276AB-C767-48AB-9FA3-D0B2681F2948}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValoStats.Tests", "ValoStats.Tests\ValoStats.Tests.csproj", "{929F0695-41C2-450F-876E-00F5F5421121}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{F84276AB-C767-48AB-9FA3-D0B2681F2948}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F84276AB-C767-48AB-9FA3-D0B2681F2948}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F84276AB-C767-48AB-9FA3-D0B2681F2948}.Release|Any CPU.Build.0 = Release|Any CPU
-		{929F0695-41C2-450F-876E-00F5F5421121}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{929F0695-41C2-450F-876E-00F5F5421121}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{929F0695-41C2-450F-876E-00F5F5421121}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{929F0695-41C2-450F-876E-00F5F5421121}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
