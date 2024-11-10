@@ -146,11 +146,11 @@ namespace ValoStats.ViewModels.Helpers
             return apiClient;
         }
         
-        public static async Task<ObservableCollection<PlayedMatch>?> GetLastMatchList(string Puuid, HttpClient ApiClient, Config Config)
+        public static async Task<ObservableCollection<PlayedMatch>?> GetLastMatchList(string Puuid, HttpClient Client, Config Config)
         {
-            string lastMatchUrl = $"https://api.henrikdev.xyz/valorant/v3/by-puuid/matches/{Config.Region}/{Puuid}?api_key={Config.Key}&size=5";
+            string lastMatchUrl = $"https://api.henrikdev.xyz/valorant/v3/by-puuid/matches/{Config.Region}/{Puuid}?api_key={Config.Key}&size=6";
             Debug.WriteLine("Sending Request");
-            using (HttpResponseMessage response = await ApiClient.GetAsync(lastMatchUrl))
+            using (HttpResponseMessage response = await Client.GetAsync(lastMatchUrl))
             {
                 if (response.IsSuccessStatusCode)
                 {
@@ -170,10 +170,35 @@ namespace ValoStats.ViewModels.Helpers
                 }
             }
         }
+
+        public static async Task<ObservableCollection<PlayedMatch>?> GetNextMatches(String Puuid, HttpClient Client,
+            Config Config, int index)
+        {
+            string url = $"https://api.henrikdev.xyz/valorant/v3/by-puuid/matches/{{Config.Region}}/{{Puuid}}?api_key={{Config.Key}}&size=6&after={index}";
+            Debug.WriteLine("Sending Request");
+            using (HttpResponseMessage response = await Client.GetAsync(url))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseJson = await response.Content.ReadAsStringAsync();
+                    var content = JsonSerializer.Deserialize<MatchListResponse>(responseJson);
+                    if (content != null)
+                    {
+                        var matches = MatchDTO.MatchListResponseToPlayedMatches(content, Puuid);
+                        return matches;
+                    }
+                    else return null;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
         
         public static async Task<ObservableCollection<PlayedMatch>> GetMatchListByMode(string Puuid, HttpClient ApiClient, Config Config, string Mode)
         {
-            string Url = $"https://api.henrikdev.xyz/valorant/v3/by-puuid/matches/{Config.Region}/{Puuid}?api_key={Config.Key}&mode={Mode}&size=5";
+            string Url = $"https://api.henrikdev.xyz/valorant/v3/by-puuid/matches/{Config.Region}/{Puuid}?api_key={Config.Key}&mode={Mode}&size=6";
             
             Debug.WriteLine("Sending Request");
             using (HttpResponseMessage response = await ApiClient.GetAsync(Url))

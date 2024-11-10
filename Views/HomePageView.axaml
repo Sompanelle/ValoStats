@@ -79,69 +79,60 @@
                 <Label Content="{Binding Title.titleText}"
                        Classes="SubHeader"/>
                 
-                <TextBlock Classes="SubHeader">
-                    <Run Text="Level"/>
-                    <Run Text="{Binding Player.level}"/>
-                </TextBlock>
-                
             </StackPanel>
             
-            <Grid ColumnDefinitions="Auto,Auto"
+            <Grid ColumnDefinitions="*,*"
                   RowDefinitions="Auto,*"
                   HorizontalAlignment="Center">
                 
+                <!-- Rank Image + K/D WinRate Holder -->
                 <StackPanel Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal">
                     
                     <StackPanel>
                         <Label Classes="Header1"
                                Content="Current Rank"/>
                     
-                        <Image Source="{Binding Current}"/>
+                        <Image Source="{Binding CurrentImage}"/>
+                        
+                                            
+                        <StackPanel>
+                            <TextBlock Classes="SubHeader">K/D Ratio</TextBlock>
+                    
+                            <TextBlock TextAlignment="Center"
+                                       Classes="SubHeader">
+                        
+                        
+                                <Run Text="{Binding DisplayKd}"/>
+                        
+                            </TextBlock>
+                        </StackPanel>
+                        
                     </StackPanel>
                 
                     <StackPanel>
                         <Label Classes="Header1"
                                Content="Peak Rank"/>
                     
-                        <Image Source="{Binding Peak}"/>
+                        <Image Source="{Binding PeakImage}"/>
+                        
+                        <StackPanel>
+                            <TextBlock Classes="SubHeader">Win Rate</TextBlock>
+                    
+                            <TextBlock TextAlignment="Center"
+                                       Classes="SubHeader">
+                               
+                                <Run Text="{Binding DisplayWr}"/>
+                                <Run Text="%"/>
+                        
+                            </TextBlock>
+                        </StackPanel>
+                        
                     </StackPanel>
                     
                 </StackPanel>
-                
-
-                
-                
-                
-                <Grid Grid.Row="1" Grid.ColumnSpan="2">
-                    
-                    <Grid.ColumnDefinitions>Auto,*,Auto</Grid.ColumnDefinitions>
-                    
-                    <TextBlock Grid.Column="0"
-                               Classes="SubHeader Center ">
-                        
-                        <Run Text="KD"/>
-                        <Run Text="{Binding DisplayKd}"/>
-                        
-                    </TextBlock>
-                    
-                    <TextBlock Grid.Column="2"
-                               Classes="SubHeader Center">
-                        <Run Text="WR"/>
-                        <Run Text="{Binding DisplayWr}"/>
-                        <Run Text="%"/>
-                    </TextBlock>
-                    
-                </Grid>
-                
-                <StackPanel>
-                    
-                </StackPanel>
-                
             </Grid>
-
-
         </StackPanel>
-        
+                
         <ProgressBar Classes="Default"
                      Value="{Binding Pbar}"
                      Maximum="40"

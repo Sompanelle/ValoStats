@@ -17,31 +17,28 @@ namespace ValoStats.ViewModels
 
         private Config? config;
 
-        private string selectedMode = "all";
+        private string selectedMode = "All";
         
         public string SelectedMode
         {
-            get
-            {
+            get {
                 return selectedMode;
             }
-            set
-            {
+            set{
                 selectedMode = value;
                 switch (value)
                 {
-                    case "all":
+                    case "All":
                         GetAllMatchPlayed(player.puuid, client, config);
                         break;
                     default:
                         GetMatchList(player.puuid, value ,client, config);
                         break;
                 } 
-
             }
         }
         
-        public ObservableCollection<string> modes { get; set; } = new() { "all", "competitive", "unrated", "deathmatch", "teamdeathmatch"};
+        public ObservableCollection<string> modes { get; set; } = new() { "All", "Competitive", "Unrated", "Deathmatch", "TeamDeathmatch"};
         
         [ObservableProperty]
         private bool badRequest;
@@ -77,10 +74,10 @@ namespace ValoStats.ViewModels
         private string displayName;
 
         [ObservableProperty]
-        private Bitmap peak;
+        private Bitmap peakImage;
         
         [ObservableProperty]
-        private Bitmap current;
+        private Bitmap currentImage;
 
         [ObservableProperty]
         private bool isMatchesLoading;
@@ -91,33 +88,30 @@ namespace ValoStats.ViewModels
         
         public HomePageViewModel()
         {
-
-            if (Design.IsDesignMode)
-            {
-                IsLoaded = true;
-                Matches = new()
-                {
-                    new PlayedMatch() { Map = "Ascent", Mode = "Competitive", Kills = 22, Deaths = 11 , Agent = "Yoru", Score = "13-3" , Result = true },  
-                    new PlayedMatch() { Map = "Sunset", Mode = "Competitive", Kills = 11, Deaths= 13, Agent = "Chamber", Score = "13-3" , Result = false }, 
-                    new PlayedMatch() { Map = "Sunset", Mode = "Deathmatch", Kills = 36, Deaths = 23, Agent  = "Breach", Result = null }, 
-                };
-                
-                DisplayName = "Sompanelle#NOIR";
-                Title = new() { titleText = "Unserious" };
-                Player = new() { level = 60 };
-                DisplayKd = 1.2;
-                DisplayWr = .89;
-            }
-            else
-            {
-                config = FileHelper.ReadConfig();
-                client = ApiHelper.InitializeClient();
-                Matches = new();
-                DisplayedMatches = new ObservableCollection<PlayedMatch>();
-                DisplayName = $"{config.Name}#{config.Tag}";
-                InitializeHome(config,client);
-            }
-
+                        if (Design.IsDesignMode)
+                        {
+                            IsLoaded = true;
+                            Matches = new()
+                            {
+                                new PlayedMatch() { Map = "Ascent", Mode = "Competitive", Kills = 22, Deaths = 11 , Agent = "Yoru", Score = "13-3" , Result = true },  
+                                new PlayedMatch() { Map = "Sunset", Mode = "Competitive", Kills = 11, Deaths= 13, Agent = "Chamber", Score = "13-3" , Result = false }, 
+                                new PlayedMatch() { Map = "Sunset", Mode = "Deathmatch", Kills = 36, Deaths = 23, Agent  = "Breach", Result = null }, 
+                            };
+                            
+                            DisplayName = "Sompanelle#NOIR";
+                            Title = new() { titleText = "Unserious" };
+                            DisplayKd = 1.2;
+                            DisplayWr = .89;
+                        }
+                        else
+                        {
+                            config = FileHelper.ReadConfig();
+                            client = ApiHelper.InitializeClient();
+                            Matches = new();
+                            DisplayedMatches = new ObservableCollection<PlayedMatch>();
+                            DisplayName = $"{config.Name}#{config.Tag}";
+                            InitializeHome(config,client);
+                        }
         }
 
         private async Task InitializeHome(Config Config, HttpClient Client) 
@@ -147,8 +141,6 @@ namespace ValoStats.ViewModels
             {
                 BadRequest = true;
             }
-
-
         }
         private async Task<Player?> GetPlayerAsync(string Name, string Tag, HttpClient Client, Config Config)
         {
@@ -186,12 +178,12 @@ namespace ValoStats.ViewModels
                 var currentData = await ApiHelper.GetRankImg(MmrData.current.tier.id,Client);
                 if (currentData != null)
                 {
-                    Current = Bitmap.DecodeToWidth(currentData, 55);
+                    CurrentImage = Bitmap.DecodeToWidth(currentData, 55);
                 }
                 var peakData = await ApiHelper.GetRankImg(MmrData.peak.tier.id,Client);
                 if (peakData != null)
                 {
-                    Peak = Bitmap.DecodeToWidth(peakData, 55);
+                    PeakImage = Bitmap.DecodeToWidth(peakData, 55);
                 }
         }
         
@@ -219,7 +211,7 @@ namespace ValoStats.ViewModels
                     Matches.Add(match);
                 }
                 rawKd = double.Round((kills / deaths), 2);
-                rawWr = wins / matches.Count * 100;
+                rawWr = double.Round((wins / matches.Count), 3) * 100;
                 DisplayKd = rawKd;
                 DisplayWr = rawWr;
             }
@@ -230,15 +222,15 @@ namespace ValoStats.ViewModels
         {
             Matches.Clear();
             var MatchList = await ApiHelper.GetMatchListByMode(Puuid, Client, Config, Mode);
-            if (MatchList != null)
-            {
+            if (MatchList == null)
+                BadRequest = true;
+            else
                 isMatchesLoading = false;
                 foreach (PlayedMatch match in MatchList)
                 {
                     Matches.Add(match);
                 }
-                
-            }
+            
         }
         
         }
