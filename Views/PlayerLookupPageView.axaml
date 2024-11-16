@@ -6,11 +6,17 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="clr-namespace:ValoStats.Models"
     xmlns:vm="clr-namespace:ValoStats.ViewModels"
+    xmlns:converters="clr-namespace:ValoStats.ViewModels.Converters"
     d:DesignHeight="550"
     d:DesignWidth="800"
     x:DataType="vm:PlayerLookupPageViewModel"
     mc:Ignorable="d">
 
+    <UserControl.Resources>
+        <converters:ResultToStyleConverter x:Key="ResultToStyleConverter"/>
+    </UserControl.Resources>
+
+    
     <Design.DataContext>
         <vm:PlayerLookupPageViewModel />
     </Design.DataContext>
@@ -57,7 +63,7 @@
         </StackPanel>
         
         <!--  Content Grid  -->
-        <Grid Grid.Row="1" IsVisible="{Binding IsLoaded}">
+        <Grid Grid.Row="1">
             
             <Grid.ColumnDefinitions>*,*</Grid.ColumnDefinitions>
             
@@ -65,107 +71,202 @@
             <Grid Grid.Column="0"
                   Grid.RowDefinitions="Auto,Auto, Auto">
                 
-                <!-- Player Card, Name, Title-->
-                <StackPanel Grid.Row="0">
+                 <!--  Player Display Name + Title StackPanel  -->
+            <StackPanel Grid.Row="0">
                 
-                    <Border Classes="Radius">
-                        <Image Source="{Binding CardImage}"/>
-                    </Border>
+                <Border Classes="Radius">
+                <Image Source="{Binding CardImage}"/>
+                </Border>
                 
-                    <Label Content="{Binding ResultPlayerData.name}"
-                           Classes="Header"/>
+                <Label Content="{Binding ResultPlayerData.name}"
+                       Classes="Header"/>
                 
-                    <Label Content="{Binding Title.titleText}"
-                           Classes="SubHeader"/>
+                <Label Content="{Binding Title.titleText}"
+                       Classes="SubHeader"/>
                 
-                </StackPanel>
+            </StackPanel>
+            
+            <StackPanel Grid.Row="1"
+                  HorizontalAlignment="Center">
                 
-                <!-- Current Rank + Peak Rank-->
-                <Grid Grid.Row="1"
-                      ColumnDefinitions="Auto,*,Auto"
-                      HorizontalAlignment="Center">
-                
-                    <StackPanel Grid.Column="0">
+                <!-- Rank Image + K/D WinRate Holder -->
+                <StackPanel Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+                    
+                    <StackPanel>
                         <Label Classes="Header1"
                                Content="Current Rank"/>
                     
                         <Image Source="{Binding Current}"/>
+                        
+                                            
+                        <StackPanel>
+                            <TextBlock Classes="SubHeader">K/D Ratio</TextBlock>
+                    
+                            <TextBlock TextAlignment="Center"
+                                       Classes="SubHeader">
+                        
+                        
+                                <Run Text="{Binding DisplayKd}"/>
+                        
+                            </TextBlock>
+                        </StackPanel>
+                        
                     </StackPanel>
                 
-                    <StackPanel Grid.Column="2">
+                    <StackPanel>
                         <Label Classes="Header1"
                                Content="Peak Rank"/>
                     
                         <Image Source="{Binding Peak}"/>
+                        
+                        <StackPanel>
+                            <TextBlock Classes="SubHeader">Win Rate</TextBlock>
+                    
+                            <TextBlock TextAlignment="Center"
+                                       Classes="SubHeader">
+                               
+                                <Run Text="{Binding DisplayWr}"/>
+                                <Run Text="%"/>
+                        
+                            </TextBlock>
+                        </StackPanel>
+                        
                     </StackPanel>
-                
-                </Grid>
-
-                
-            </Grid>
-            
-            <!--  Hisyto info box  -->
-
-            <StackPanel Grid.Column="1" IsVisible="{Binding IsLoaded}">
-                
-                <!--  Episode History Listbox  -->
-                <StackPanel
-                    Margin="5"
-                    IsVisible="{Binding IsSearchCompelete}">
-
-                    <Label
-                        Classes="Header1"
-                        Content="Rank History"
-                        IsVisible="{Binding IsSearchCompelete}" />
-
-                    <Border Classes="Radius">
-                        <ListBox IsHitTestVisible="False" ItemsSource="{Binding DisplayEpisodes}">
-
-                            <ListBox.ItemTemplate>
-                                <DataTemplate x:DataType="models:Episode">
-
-                                    <StackPanel Orientation="Horizontal">
-                                        <Label Content="{Binding season.short}" />
-                                        <Label Content="{Binding end_tier.name}" />
-                                    </StackPanel>
-
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-
-                        </ListBox>
-                    </Border>
-
-                    <!--  Pagination Buttons  -->
-                    <Grid Grid.Column="1" Margin="0,5,0,0" Grid.ColumnDefinitions="Auto,*,Auto">
-
-                        <Border Grid.Column="0" Classes="Radius">
-
-                            <Button
-                                Classes="Movement"
-                                Command="{Binding PrevEpisodesCommand}"
-                                CommandParameter="{Binding PageNum}"
-                                Content="Prev" />
-
-                        </Border>
-
-                        <Border Grid.Column="2" Classes="Radius">
-
-                            <Button
-                                Classes="Movement"
-                                Command="{Binding NextEpisodesCommand}"
-                                CommandParameter="{Binding PageNum}"
-                                Content="Next" />
-                        </Border>
-
-                    </Grid>
-
+                    
                 </StackPanel>
+                 
                 
             </StackPanel>
-            
+
         </Grid>
-        
-        
+            
+        <StackPanel Grid.Column="1">
+                            <TabControl Grid.Column="1">
+                
+                <TabItem Header="Match History">
+                <StackPanel Spacing="3">
+                    
+            
+                    <Label Classes="Header1"
+                           Content="Last Five Matches" />
+                
+                
+                    <ListBox ItemsSource="{Binding DisplayMatches}"
+                             Background="Transparent"
+                             IsHitTestVisible="False">
+                        
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                
+                                <Border Classes="Radius"
+                                        Height="95"
+                                        Background="{Binding Path=Result, Converter={StaticResource ResultToStyleConverter}}">
+                                    <StackPanel VerticalAlignment="Center">
+                                        
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <Label Content="{Binding Map}" HorizontalAlignment="Left" Classes="Header1"/>
+                                            <Label Content="{Binding Score }" Classes="ListSubHeader" />
+                                        </StackPanel>
+                                        
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <Label Content="{Binding Mode}" Classes="Header1"/>
+                                            <Label Content="{Binding Agent}" Classes="ListSubHeader"/>
+                                        </StackPanel>
+                                        
+                                        <TextBlock Classes="ListSubHeader Center">
+                                            <Run Text="{Binding Kills}"/>
+                                            <Run Text=" | "/>
+                                            <Run Text="{Binding Deaths}"/>
+                                        </TextBlock>
+                                        
+                                    </StackPanel>
+                                </Border>
+                                
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    
+                    <Grid Margin="10,2">
+                        
+                        <Grid.ColumnDefinitions>
+                            Auto,*,Auto
+                        </Grid.ColumnDefinitions>
+                        
+                        <Button Grid.Column="0" Classes="Movement"
+                                Command="{Binding PrevMatchesCommand}"
+                                CommandParameter="{Binding MatchPageNum}">
+                            Prev
+                        </Button>
+                        
+                        <Button  Grid.Column="2" Classes="Movement"
+                                 Command="{Binding NextMatchesCommand}"
+                                 CommandParameter="{Binding MatchPageNum}">
+                            Next
+                        </Button>
+                        
+                    </Grid>
+            
+            
+                    </StackPanel>
+                </TabItem>
+                
+                <TabItem Header="Rank History">
+                    <StackPanel
+                        Margin="5"
+                        IsVisible="{Binding IsSearchCompelete}">
+
+                        <Label
+                            Classes="Header1"
+                            Content="Rank History"
+                            IsVisible="{Binding IsSearchCompelete}" />
+
+                        <Border Classes="Radius">
+                            <ListBox IsHitTestVisible="False" ItemsSource="{Binding DisplayEpisodes}">
+
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate x:DataType="models:Episode">
+
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="{Binding season.short}" />
+                                            <Label Content="{Binding end_tier.name}" />
+                                        </StackPanel>
+
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+
+                            </ListBox>
+                        </Border>
+
+                        <!--  Pagination Buttons  -->
+                        <Grid Grid.Column="1" Margin="0,5,0,0" Grid.ColumnDefinitions="Auto,*,Auto">
+
+                            <Border Grid.Column="0" Classes="Radius">
+
+                                <Button
+                                    Classes="Movement"
+                                    Command="{Binding PrevEpisodesCommand}"
+                                    CommandParameter="{Binding EpPageNum}"
+                                    Content="Prev" />
+
+                            </Border>
+
+                            <Border Grid.Column="2" Classes="Radius">
+
+                                <Button
+                                    Classes="Movement"
+                                    Command="{Binding NextEpisodesCommand}"
+                                    CommandParameter="{Binding EpPageNum}"
+                                    Content="Next" />
+                            </Border>
+
+                        </Grid>
+
+                    </StackPanel>
+                </TabItem>
+                
+            </TabControl>
+        </StackPanel>
+        </Grid>
         
         </Grid>
 

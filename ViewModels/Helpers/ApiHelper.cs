@@ -13,12 +13,6 @@ using ValoStats.ViewModels.DTOs;
 using System.Configuration;
 using System.Diagnostics;
 using System.IO;
-using System.Net;
-using System.Net.Mime;
-using Avalonia.Controls;
-using Avalonia.Media.Imaging;
-using Avalonia.Remote.Protocol.Viewport;
-using ValoStats.Models;
 
 namespace ValoStats.ViewModels.Helpers
 {
@@ -34,30 +28,7 @@ namespace ValoStats.ViewModels.Helpers
             return new MemoryStream(data);
         }
         
-        public static async Task<MatchDatum?> GetLastMatchDatum(string Puuid, HttpClient ApiClient, Config Config)
-        {
-            string lastMatchUrl = $"https://api.henrikdev.xyz/valorant/v3/by-puuid/matches/{Config.Region}/{Puuid}?api_key={Config.Key}&size=1";
-            using (HttpResponseMessage response = await ApiClient.GetAsync(lastMatchUrl))
-            {
-                if (response.IsSuccessStatusCode)
-                {
-                    string json = await response.Content.ReadAsStringAsync();
-                    MatchResponse content = JsonSerializer.Deserialize<MatchResponse>(json);
-                    if (content != null)
-                    {
-                        MatchDatum MatchDatas = MatchDTO.MatchResponseToMatchDatum(content);
-                        return MatchDatas;
-                    }
-                    else return null;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
-        
-        public static async Task<MMRData?> GetEpisodeHistory(string Name, string Tag, HttpClient ApiClient, Config Config)
+        public static async Task<MMRData?> GetMMRDataByName(string Name, string Tag, HttpClient ApiClient, Config Config)
         {
             string mmrUrl = $"https://api.henrikdev.xyz/valorant/v3/mmr/na/pc/{Name}/{Tag}?api_key={Config.Key}";
 
@@ -77,7 +48,7 @@ namespace ValoStats.ViewModels.Helpers
         }
         
         
-        public static async Task<MMRData?> GetMMRData(string Puuid, HttpClient ApiClient, Config Config)
+        public static async Task<MMRData?> GetMMRDataByPuuid(string Puuid, HttpClient ApiClient, Config Config)
         {
             string mmrUrl = $"https://api.henrikdev.xyz/valorant/v3/by-puuid/mmr/na/pc/{Puuid}?api_key={Config.Key}";
 
@@ -171,7 +142,7 @@ namespace ValoStats.ViewModels.Helpers
             }
         }
 
-        public static async Task<ObservableCollection<PlayedMatch>?> GetNextMatches(String Puuid, HttpClient Client,
+        public static async Task<ObservableCollection<PlayedMatch>?> GetPagedMatchList(String Puuid, HttpClient Client,
             Config Config, int index)
         {
             string url = $"https://api.henrikdev.xyz/valorant/v3/by-puuid/matches/{{Config.Region}}/{{Puuid}}?api_key={{Config.Key}}&size=6&after={index}";

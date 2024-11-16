@@ -120,42 +120,48 @@ namespace ValoStats.ViewModels
             string settingTag = Config.Tag;
             if ( !string.IsNullOrEmpty(settingName) || !string.IsNullOrEmpty(settingTag))
             {
-                
-                    Player = await GetPlayerAsync(settingName, settingTag, Client, Config);
-                    Pbar += 10;
-                    MmrData = await ApiHelper.GetMMRData(Player.puuid, Client, Config);
-                    Pbar += 10;
-                    CardImage = await GetCardAsync(Player.card, Client);
-                    Pbar += 10;
-                    Title = await GetTitleAsync(Player.player_title, Client);
-                    await GetRankImg(Client);
-                    Debug.WriteLine($"puuid: {player.puuid}");
-                    Debug.WriteLine($"key: {config.Key}");
-                    Pbar += 10;
-                    Debug.WriteLine("Getting Matches");
-                    await GetAllMatchPlayed(Player.puuid , Client, Config);
-                    Pbar += 10;
-                    IsLoaded = true;
+                //get player
+                await GetPlayerAsync(Client, Config);
+                await GetPlayerStats(Player, Config, Client);
+                await GetRankImg(Client, MmrData);
+                GetPlayerImg(Client, Player);
+                IsLoaded = true;
+                Pbar += 10;
+                await GetAllMatchPlayed(Player.puuid , Client, Config);
             }
             else
             {
                 BadRequest = true;
             }
         }
-        private async Task<Player?> GetPlayerAsync(string Name, string Tag, HttpClient Client, Config Config)
+        
+        private async void GetPlayerImg(HttpClient Client, Player Player)
         {
-            var resultPlayer= await ApiHelper.GetPlayer(Name, Tag, Client, Config);
-            if (resultPlayer != null)
-            {
-                return resultPlayer;
-            }
-            else return null;
+            CardImage = await GetCardAsync(Client,Player.card);
+            Title = await GetTitleAsync(Player.player_title, Client);
         }
         
-
-        private async Task<Bitmap?> GetCardAsync(string assetId, HttpClient Client)
+        private async Task GetPlayerStats(Player Player, Config Config, HttpClient Client)
         {
-            var cardData = await ApiHelper.GetCard(assetId, Client);
+            var mmrData = await ApiHelper.GetMMRDataByPuuid(Player.puuid,Client,Config);
+            if (mmrData != null)
+                MmrData = mmrData;
+            BadRequest = true;
+        }
+        
+        private async Task GetPlayerAsync(HttpClient Client, Config Config)
+        {
+            var resultPlayer= await ApiHelper.GetPlayer(Config.Name, Config.Tag, Client, Config);
+            if (resultPlayer != null)
+            {
+                Player = resultPlayer;
+            }
+            else BadRequest = true;
+        }
+        
+        private async Task<Bitmap?> GetCardAsync(HttpClient Client, String Card)
+        {
+            var cardData = await ApiHelper.GetCard(Card, Client);
             if (cardData != null)
             {
                 return Bitmap.DecodeToHeight(cardData, 320);
@@ -173,20 +179,19 @@ namespace ValoStats.ViewModels
             else return null;
         }
 
-        private async Task GetRankImg(HttpClient Client)
+        private async Task GetRankImg(HttpClient Client, MMRData MMRData)
         {
-                var currentData = await ApiHelper.GetRankImg(MmrData.current.tier.id,Client);
+                var currentData = await ApiHelper.GetRankImg(MMRData.current.tier.id,Client);
                 if (currentData != null)
                 {
                     CurrentImage = Bitmap.DecodeToWidth(currentData, 55);
                 }
-                var peakData = await ApiHelper.GetRankImg(MmrData.peak.tier.id,Client);
+                var peakData = await ApiHelper.GetRankImg(MMRData.peak.tier.id,Client);
                 if (peakData != null)
                 {
                     PeakImage = Bitmap.DecodeToWidth(peakData, 55);
                 }
         }
-        
         
         private async Task GetAllMatchPlayed(string Puuid, HttpClient Client, Config Config)
         {
@@ -211,7 +216,7 @@ namespace ValoStats.ViewModels
                     Matches.Add(match);
                 }
                 rawKd = double.Round((kills / deaths), 2);
-                rawWr = double.Round((wins / matches.Count), 3) * 100;
+                rawWr = double.Round((wins / matches.Count), 2) * 100;
                 DisplayKd = rawKd;
                 DisplayWr = rawWr;
             }
@@ -221,19 +226,20 @@ namespace ValoStats.ViewModels
         private async Task GetMatchList(string Puuid, string Mode, HttpClient Client, Config Config)
         {
             Matches.Clear();
-            var MatchList = await ApiHelper.GetMatchListByMode(Puuid, Client, Config, Mode);
-            if (MatchList == null)
+            var matchList = await ApiHelper.GetMatchListByMode(Puuid, Client, Config, Mode);
+            if (matchList == null)
                 BadRequest = true;
             else
-                isMatchesLoading = false;
-                foreach (PlayedMatch match in MatchList)
+                IsMatchesLoading = false;
+                foreach (PlayedMatch match in matchList)
                 {
                     Matches.Add(match);
                 }
             
         }
         
-        }
+            
+    }
     
         
     }

@@ -26,9 +26,8 @@
 
 
     <Style Selector="Button.Menu">
-        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Width" Value="40" />
-
     </Style>
 
     <Style Selector="Border.Radius">
@@ -109,6 +108,9 @@
         <Setter Property="Margin" Value="8,0"/>
     </Style>
     
+    <Style Selector="TabControl">
+        <Setter Property="FontSize" Value="18"/>
+    </Style>
 
     <Style>
         <Style.Resources>

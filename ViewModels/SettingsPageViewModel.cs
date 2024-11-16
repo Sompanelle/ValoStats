@@ -30,13 +30,7 @@ namespace ValoStats.ViewModels
         [RelayCommand]
         public void Save()
         {
-            Config config = new Config()
-            {
-                Name = name,
-                Tag = tag,
-                Region = region,
-                Key = key
-            };
+            Config config = new Config(Name, Tag, Region, Key);
             FileHelper.WriteConfig(config);
         }
 
