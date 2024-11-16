@@ -24,7 +24,6 @@ namespace ValoStats.Models
         public Bitmap cardImg { get; set; }
         public string player_title { get; set; }
         public string party_id { get; set; }
-        public SessionPlaytime session_playtime { get; set; }
         public Stats stats { get; set; }
         public int damage_made { get; set; }
         public int damage_received { get; set; }

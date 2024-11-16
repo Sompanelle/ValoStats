@@ -21,6 +21,7 @@
     
     <!--NavBar-->
     <SplitView.Pane>
+      
       <Grid RowDefinitions="Auto,Auto" Margin="5,5,0,5">
         
         <Button Classes="Menu"
@@ -36,7 +37,6 @@
             </Button.Content>
           
         </Button>
-        
         <ListBox Grid.Row="1"
                  ItemsSource="{Binding Pages}"
                  SelectedItem="{Binding SelectedPage}"
@@ -55,8 +55,9 @@
           
         </ListBox>
       </Grid>
+      
     </SplitView.Pane>
-
+      
     <SplitView.Content>
       <TransitioningContentControl Content="{Binding CurrentPage}"/>
     </SplitView.Content>

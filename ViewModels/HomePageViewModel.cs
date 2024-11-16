@@ -1,23 +1,14 @@
 ﻿using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices.Marshalling;
-using System.Text;
 using System.Threading.Tasks;
 using Avalonia.Media.Imaging;
-using Avalonia.OpenGL.Egl;
-using Avalonia.Platform;
+using CommunityToolkit.Mvvm.Input;
 using ValoStats.Models;
-using ValoStats.Models;
-using ValoStats.ViewModels.DTOs;
 using ValoStats.ViewModels.Helpers;
 
 namespace ValoStats.ViewModels
@@ -27,6 +18,35 @@ namespace ValoStats.ViewModels
         private HttpClient client;
 
         private Config? config;
+
+        private string selectedMode = "All";
+
+        [ObservableProperty]
+        private int matchPageNum;
+        
+        [ObservableProperty]
+        private int matchPageSize = 3;
+        
+        public string SelectedMode
+        {
+            get {
+                return selectedMode;
+            }
+            set{
+                selectedMode = value;
+                switch (value)
+                {
+                    case "All":
+                        GetAllMatchPlayed(player.puuid, client, config);
+                        break;
+                    default:
+                        GetMatchList(player.puuid, value.ToLower() ,client, config);
+                        break;
+                } 
+            }
+        }
+        
+        public ObservableCollection<string> modes { get; set; } = new() { "All", "Competitive", "Unrated", "Deathmatch", "TeamDeathmatch"};
         
         [ObservableProperty]
         private bool badRequest;
@@ -35,16 +55,19 @@ namespace ValoStats.ViewModels
         private bool isLoaded;
 
         [ObservableProperty]
-        private int pbar;
+        private int pbar = 0;
 
         [ObservableProperty]
         private Player? player;
 
         [ObservableProperty]
         private Bitmap cardImage;
-        
+
         [ObservableProperty]
-        private int kd;
+        private double displayKd = 0;
+
+        [ObservableProperty]
+        private double displayWr = 0;
 
         [ObservableProperty] 
         private MMRData mmrData;
@@ -55,104 +78,98 @@ namespace ValoStats.ViewModels
         [ObservableProperty]
         private DateTime updatedAt;
 
-        [ObservableProperty]
-        private int level;
+        [ObservableProperty] 
+        private string displayName;
 
         [ObservableProperty]
-        private string concatName;
-
-        [ObservableProperty]
-        private Bitmap peak;
+        private Bitmap peakImage;
         
         [ObservableProperty]
-        private Bitmap current;
+        private Bitmap currentImage;
 
-        public ObservableCollection<PlayedMatch> Matches { get; set; }
+        [ObservableProperty]
+        private bool isMatchesLoading;
 
+        public ObservableCollection<PlayedMatch> MatchList { get; set; }
+        
+        public ObservableCollection<PlayedMatch> DisplayMatches { get; set; }
+        
         public HomePageViewModel()
         {
-
-            if (Design.IsDesignMode)
-            {
-                IsLoaded = true;
-                Matches = new()
-                {
-                    new PlayedMatch() { Map = "Ascent", Mode = "Competitive", KD = "22/12", Agent = "Yoru", Score = "13-3" , Result = true },  
-                    new PlayedMatch() { Map = "Sunset", Mode = "Competitive", KD = "11/13", Agent = "Chamber", Score = "13-3" , Result = false }, 
-                    new PlayedMatch() { Map = "Sunset", Mode = "Deathmatch", KD = "36/23", Agent  = "Breach", Result = null }, 
-                };
-                ConcatName = "Sompanelle#NOIR";
-                Title = new() { titleText = "Unserious" };
-                Player = new() { level = 60 };
-            }
-            else
-            {
-                config = FileHelper.ReadConfig();
-                client = ApiHelper.InitializeClient();
-                Matches = new();
-                concatName = $"{config.Name}#{config.Tag}";
-                InitiliazeHome(config,client);
-            }
-
+                        if (Design.IsDesignMode)
+                        {
+                            IsLoaded = true;
+                            DisplayMatches = new()
+                            {
+                                new PlayedMatch() { Map = "Ascent", Mode = "Competitive", Kills = 22, Deaths = 11 , Agent = "Yoru", Score = "13-3" , Result = true },  
+                                new PlayedMatch() { Map = "Sunset", Mode = "Competitive", Kills = 11, Deaths= 13, Agent = "Chamber", Score = "13-3" , Result = false }, 
+                                new PlayedMatch() { Map = "Sunset", Mode = "Deathmatch", Kills = 36, Deaths = 23, Agent  = "Breach", Result = null }, 
+                            };
+                            
+                            DisplayName = "Sompanelle#NOIR";
+                            Title = new() { titleText = "Unserious" };
+                            DisplayKd = 1.2;
+                            DisplayWr = .89;
+                        }
+                        else
+                        {
+                            config = FileHelper.ReadConfig();
+                            client = ApiHelper.InitializeClient();
+                            MatchList = new();
+                            DisplayMatches = new();
+                            DisplayName = $"{config.Name}#{config.Tag}";
+                            InitializeHome(config,client);
+                        }
         }
 
-        private async Task InitiliazeHome(Config Config, HttpClient Client)
+        private async Task InitializeHome(Config Config, HttpClient Client) 
         {
             string settingName = Config.Name;
             string settingTag = Config.Tag;
             if ( !string.IsNullOrEmpty(settingName) || !string.IsNullOrEmpty(settingTag))
             {
-                
-                    Player = await GetPlayerAsync(settingName, settingTag, Client);
-                    Pbar += 10;
-                    ConcatName = $"{settingName}#{settingTag}";
-                    Pbar += 10;
-                    MmrData = await ApiHelper.GetMMRData(Player.name, Player.tag, Client);
-                    Pbar += 10;
-                    CardImage = await GetCardAsync(Player.card, Client);
-                    Pbar += 10;
-                    Title = await GetTitleAsync(Player.player_title, Client);
-                    await GetRankImg(Client);
-                    Pbar += 10;
-                    await GetMatchPlayed(Player.name, Player.tag, Client);
-                    Pbar += 10;
-                    IsLoaded = true;
+                //get player
+                await GetPlayerAsync(Client, Config);
+                await GetPlayerStats(Player, Config, Client);
+                await GetRankImg(Client, MmrData);
+                GetPlayerImg(Client, Player);
+                IsLoaded = true;
+                Pbar += 10;
+                await GetAllMatchPlayed(Player.puuid , Client, Config);
             }
             else
             {
                 BadRequest = true;
             }
-
-
         }
-
-        private async Task GetMatchPlayed(string Name, string Tag, HttpClient Client)
+        
+        private async void GetPlayerImg(HttpClient Client, Player Player)
         {
-            var lastTen = await ApiHelper.GetLastFiveMatchDatas(Name, Tag, Client);
-            if (lastTen != null)
+            CardImage = await GetCardAsync(Client,Player.card);
+            Title = await GetTitleAsync(Player.player_title, Client);
+        }
+        
+        private async Task GetPlayerStats(Player Player, Config Config, HttpClient Client)
+        {
+            var mmrData = await ApiHelper.GetMMRDataByPuuid(Player.puuid,Client,Config);
+            if (mmrData != null)
+                MmrData = mmrData;
+            BadRequest = true;
+        }
+        
+        private async Task GetPlayerAsync(HttpClient Client, Config Config)
+        {
+            var resultPlayer= await ApiHelper.GetPlayer(Config.Name, Config.Tag, Client, Config);
+            if (resultPlayer != null)
             {
-                foreach (Datum matchData in lastTen)
-                {
-                    var match = MatchDTO.DatumToPlayedMatch(matchData);
-                    Matches.Add(match);
-                }
+                Player = resultPlayer;
             }
             else BadRequest = true;
         }
-
-        private async Task<Player?> GetPlayerAsync(string Name, string Tag, HttpClient Client)
+        
+        private async Task<Bitmap?> GetCardAsync(HttpClient Client, String Card)
         {
-            var resultPlayer= await ApiHelper.GetPlayer(Name, Tag, Client);
-            if (resultPlayer != null)
-            {
-                return resultPlayer;
-            }
-            else return null;
-        }
-
-        private async Task<Bitmap?> GetCardAsync(string assetId, HttpClient Client)
-        {
-            var cardData = await ApiHelper.GetCard(assetId, Client);
+            var cardData = await ApiHelper.GetCard(Card, Client);
             if (cardData != null)
             {
                 return Bitmap.DecodeToHeight(cardData, 320);
@@ -170,20 +187,121 @@ namespace ValoStats.ViewModels
             else return null;
         }
 
-        private async Task GetRankImg(HttpClient Client)
+        private async Task GetRankImg(HttpClient Client, MMRData MMRData)
         {
-                var currentData = await ApiHelper.GetRankImg(Client, MmrData.current.tier.id);
+                var currentData = await ApiHelper.GetRankImg(MMRData.current.tier.id,Client);
                 if (currentData != null)
                 {
-                    Current = Bitmap.DecodeToWidth(currentData, 55);
+                    CurrentImage = Bitmap.DecodeToWidth(currentData, 55);
                 }
-                var peakData = await ApiHelper.GetRankImg(Client, MmrData.peak.tier.id);
+                var peakData = await ApiHelper.GetRankImg(MMRData.peak.tier.id,Client);
                 if (peakData != null)
                 {
-                    Peak = Bitmap.DecodeToWidth(peakData, 55);
+                    PeakImage = Bitmap.DecodeToWidth(peakData, 55);
                 }
         }
+        
+        private async Task GetAllMatchPlayed(string Puuid, HttpClient Client, Config Config)
+        {
+            MatchList.Clear();
+            var matches = await ApiHelper.GetLastMatchList(Puuid, Client, Config);
+            if (matches != null)
+            {
+                double rawKd = 0;
+                double rawWr = 0;
+                double kills = 0;
+                double deaths = 0;
+                double wins = 0;
+                double losses = 0;
+                foreach (PlayedMatch match in matches)
+                {
+                    kills += match.Kills;
+                    deaths += match.Deaths;
+                    if (match.Result == true)
+                        wins += 1;
+                    else
+                        losses += 1;
+                    MatchList.Add(match);
+                }
+                rawKd = double.Round((kills / deaths), 2);
+                rawWr = double.Round((wins / matches.Count), 2) * 100;
+                DisplayKd = rawKd;
+                DisplayWr = rawWr;
+                var list = MatchList.Take(3);
+                foreach (var m in list)
+                {
+                    DisplayMatches.Add(m);
+                }
+            }
+            else BadRequest = true;
         }
+        
+        private async Task GetMatchList(string Puuid, string Mode, HttpClient Client, Config Config)
+        {
+            DisplayMatches.Clear();
+            MatchList.Clear();
+            var matchList = await ApiHelper.GetMatchListByMode(Puuid, Client, Config, Mode);
+            if (matchList == null)
+                BadRequest = true;
+            else
+                IsMatchesLoading = false;
+                foreach (PlayedMatch match in matchList)
+                {
+                    MatchList.Add(match);
+                }
+                var list = MatchList.Take(3);
+                foreach (var m in list)
+                {
+                    DisplayMatches.Add(m);
+                }
+        }
+        
+        [RelayCommand(CanExecute = nameof(CanNextMatch))]
+        public void NextMatches()
+        {
+            MatchPageNum++;
+            var matches = MatchList.Skip(MatchPageSize*MatchPageNum);
+            var list = matches.Take(MatchPageSize);
+            DisplayMatches.Clear();
+            foreach(PlayedMatch m in list)
+            {
+                DisplayMatches.Add(m);
+            }
+        }
+        
+        [RelayCommand(CanExecute = nameof(CanPrevMatch))]
+        public void PrevMatches()
+        {
+            MatchPageNum--;
+            var matches = MatchList.Skip(MatchPageSize*MatchPageNum);
+            var list = matches.Take(MatchPageSize);
+            DisplayMatches.Clear();
+            foreach(PlayedMatch m in list)
+            {
+                DisplayMatches.Add(m);
+            }
+        }
+        
+        public bool CanPrevMatch()
+        {
+            if (MatchPageNum > 0)
+            {
+                return true;
+            }
+            else return false;
+        }
+        
+        public bool CanNextMatch()
+        {
+            if (MatchPageNum > MatchList.Count/MatchPageSize)
+            {
+                return false;
+            }
+            else return true;
+        }
+        
+    }
+    
         
     }
 

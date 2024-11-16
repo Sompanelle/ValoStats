@@ -16,6 +16,7 @@ namespace ValoStats.ViewModels.DTOs
     {
         public static Config Config = FileHelper.ReadConfig();
         public static string name = Config.Name;
+
         public static Match OneMatchResponseToDTO(MatchResponse Data)
         {
             Metadata Match = Data.data.First().metadata;
@@ -28,7 +29,7 @@ namespace ValoStats.ViewModels.DTOs
             };
         }
 
-        public static Match DatumToMatchDTO(Datum Data)
+        public static Match MatchDatumToMatchDTO(MatchDatum Data)
         {
             return new Match()
             {
@@ -40,33 +41,32 @@ namespace ValoStats.ViewModels.DTOs
         }
 
 
-        public static List<Datum> MatchesResponseToDatums(MatchResponse MatchResponse)
+        public static List<MatchDatum> MatchResponseToMatchDatums(MatchResponse MatchResponse)
         {
-            List<Datum> _ = new();
-            foreach (Datum D in MatchResponse.data)
+            List<MatchDatum> _ = new();
+            foreach (MatchDatum D in MatchResponse.data)
             {
                 _.Add(D);
-            };
+            }
+
+            ;
             return _.ToList();
         }
 
-        public static Datum MatchResponseToDatum(MatchResponse MatchResponse)
+        public static MatchDatum MatchResponseToMatchDatum(MatchResponse MatchResponse)
         {
-            return new Datum()
+            return new MatchDatum()
             {
                 metadata = MatchResponse.data.First().metadata,
                 players = MatchResponse.data.First().players,
-                observers = MatchResponse.data.First().observers,
-                coaches = MatchResponse.data.First().coaches,
                 teams = MatchResponse.data.First().teams,
                 rounds = MatchResponse.data.First().rounds,
                 kills = MatchResponse.data.First().kills,
             };
         }
 
-        public static PlayedMatch DatumToPlayedMatch(Datum Datum)
+        public static PlayedMatch MatchDatumToPlayedMatch(MatchDatum Datum)
         {
-            string result = "";
             AllPlayer player = Datum.players.all_players.Find(p => p.name == name);
             Team team = Datum.teams.blue.name == name ? Datum.teams.blue : Datum.teams.red;
             return new PlayedMatch()
@@ -79,11 +79,43 @@ namespace ValoStats.ViewModels.DTOs
                 KD = $"{player.stats.kills}/{player.stats.deaths}",
                 Mode = Datum.metadata.mode,
                 Region = Datum.metadata.region,
-                Platform = Datum.metadata.platform,
                 Team = team,
                 Agent = player.character,
                 Result = team.has_won
             };
         }
-    }
+        
+        public static PlayedMatch MatchDatumToPlayedMatch(MatchDatum Datum, string Puuid)
+        {
+            AllPlayer player = Datum.players.all_players.Find(p => p.puuid == Puuid);
+            Team team = player.team == "Blue" ? Datum.teams.blue : Datum.teams.red;
+            return new PlayedMatch()
+            {
+                Map = Datum.metadata.map,
+                Player = player,
+                Score = team.rounds_won != null ? $"{team.rounds_won}-{team.rounds_lost}" : "",
+                Kills = player.stats.kills,
+                Deaths = player.stats.deaths,
+                KD = $"{player.stats.kills}/{player.stats.deaths}",
+                Mode = Datum.metadata.mode,
+                Region = Datum.metadata.region,
+                Team = team,
+                Agent = player.character,
+                Result = team.has_won
+            };
+        }
+
+        public static ObservableCollection<PlayedMatch> MatchListResponseToPlayedMatches(MatchListResponse Response, string Puuid)
+        {
+            ObservableCollection<PlayedMatch> matches = new();
+            foreach (MatchDatum D in Response.data)
+            { 
+                matches.Add(MatchDatumToPlayedMatch(D, Puuid));
+            }
+
+            return matches;
+
+        }
+
+}
 }

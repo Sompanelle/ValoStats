@@ -37,13 +37,9 @@ namespace ValoStats.ViewModels.Helpers
                     File.Delete(configDir);
                     return null;
                 }
-                return new Config()
-                {
-                    Name = _.Name,
-                    Tag = _.Tag,
-                    Region = _.Region,
-                    Key = _.Key,
-                };
+
+                return new Config(_.Name, _.Tag, _.Region, _.Key);
+
             }
         }
 

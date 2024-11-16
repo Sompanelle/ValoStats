@@ -5,7 +5,10 @@
         </Border>
     </Design.PreviewWith>
 
-
+    <Style Selector="TextBlock.Center">
+        <Setter Property="TextAlignment" Value="Center"/>
+    </Style>
+    
     <Style Selector="StackPanel.Settings">
         <Setter Property="Margin" Value="5"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
@@ -15,21 +18,35 @@
         <Setter Property="Width" Value="110" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
     </Style>
+    
+    <Style Selector="Button.Stretch">
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    </Style>
 
 
     <Style Selector="Button.Menu">
-        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Width" Value="40" />
-
     </Style>
 
     <Style Selector="Border.Radius">
         <Setter Property="CornerRadius" Value="15" />
         <Setter Property="ClipToBounds" Value="True" />
     </Style>
-
+    
+    <Style Selector="ProgressBar.Default">
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="35"/>
+    </Style>
+        
     <Style Selector="Label.Data">
         <Setter Property="HorizontalContentAlignment" Value="Center" />
+    </Style>
+    
+    <Style Selector="Label.Center">
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
     </Style>
 
     <Style Selector="Label.Header">
@@ -53,6 +70,20 @@
         <Setter Property="VerticalAlignment"  Value="Center"></Setter>
     </Style>
     
+    <Style Selector="TextBlock.ListSubHeader">
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="VerticalAlignment"  Value="Center"></Setter>
+    </Style>
+    
+    <Style Selector="TextBlock.SubHeader">
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="Foreground" Value="#bbbb"/>
+        <Setter Property="TextAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment"  Value="Center"></Setter>
+    </Style>
+    
     <Style Selector="Label.ListText">
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -71,6 +102,15 @@
         <Setter Property="HorizontalContentAlignment" Value="Left" />
     </Style>
     
+    <Style Selector="ComboBox.ModeSelector">
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="8,0"/>
+    </Style>
+    
+    <Style Selector="TabControl">
+        <Setter Property="FontSize" Value="18"/>
+    </Style>
 
     <Style>
         <Style.Resources>
