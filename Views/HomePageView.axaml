@@ -170,7 +170,7 @@
                 </ComboBox>
                 
                 
-                <ListBox ItemsSource="{Binding Matches}"
+                <ListBox ItemsSource="{Binding DisplayMatches}"
                          Background="Transparent"
                          IsHitTestVisible="False"
                          IsVisible="{Binding !IsMatchesLoading}">
@@ -212,11 +212,15 @@
                         Auto,*,Auto
                     </Grid.ColumnDefinitions>
                     
-                    <Button Grid.Column="0" Classes="Movement">
+                    <Button Grid.Column="0" Classes="Movement"
+                            Command="{Binding PrevMatchesCommand}"
+                            CommandParameter="{Binding MatchPageNum}">
                         Back
                     </Button>
                     
-                    <Button  Grid.Column="2" Classes="Movement">
+                    <Button  Grid.Column="2" Classes="Movement"
+                             Command="{Binding NextMatchesCommand}"
+                             CommandParameter="{Binding MatchPageNum}">
                         Next
                     </Button>
                     

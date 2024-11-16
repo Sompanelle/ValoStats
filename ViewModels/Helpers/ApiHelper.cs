@@ -181,7 +181,6 @@ namespace ValoStats.ViewModels.Helpers
                     var content = JsonSerializer.Deserialize<MatchListResponse>(json);
                     if (content.status != 200)
                         return null;
-                    Debug.WriteLine("Beginning Deserializing");
                     var matches = MatchDTO.MatchListResponseToPlayedMatches(content, Puuid);
                     return matches;
                 }

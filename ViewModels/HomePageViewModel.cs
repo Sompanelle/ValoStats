@@ -3,9 +3,11 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Avalonia.Media.Imaging;
+using CommunityToolkit.Mvvm.Input;
 using ValoStats.Models;
 using ValoStats.ViewModels.Helpers;
 
@@ -18,6 +20,12 @@ namespace ValoStats.ViewModels
         private Config? config;
 
         private string selectedMode = "All";
+
+        [ObservableProperty]
+        private int matchPageNum;
+        
+        [ObservableProperty]
+        private int matchPageSize = 3;
         
         public string SelectedMode
         {
@@ -32,7 +40,7 @@ namespace ValoStats.ViewModels
                         GetAllMatchPlayed(player.puuid, client, config);
                         break;
                     default:
-                        GetMatchList(player.puuid, value ,client, config);
+                        GetMatchList(player.puuid, value.ToLower() ,client, config);
                         break;
                 } 
             }
@@ -82,16 +90,16 @@ namespace ValoStats.ViewModels
         [ObservableProperty]
         private bool isMatchesLoading;
 
-        public ObservableCollection<PlayedMatch> Matches { get; set; }
+        public ObservableCollection<PlayedMatch> MatchList { get; set; }
         
-        public ObservableCollection<PlayedMatch> DisplayedMatches { get; set; }
+        public ObservableCollection<PlayedMatch> DisplayMatches { get; set; }
         
         public HomePageViewModel()
         {
                         if (Design.IsDesignMode)
                         {
                             IsLoaded = true;
-                            Matches = new()
+                            DisplayMatches = new()
                             {
                                 new PlayedMatch() { Map = "Ascent", Mode = "Competitive", Kills = 22, Deaths = 11 , Agent = "Yoru", Score = "13-3" , Result = true },  
                                 new PlayedMatch() { Map = "Sunset", Mode = "Competitive", Kills = 11, Deaths= 13, Agent = "Chamber", Score = "13-3" , Result = false }, 
@@ -107,8 +115,8 @@ namespace ValoStats.ViewModels
                         {
                             config = FileHelper.ReadConfig();
                             client = ApiHelper.InitializeClient();
-                            Matches = new();
-                            DisplayedMatches = new ObservableCollection<PlayedMatch>();
+                            MatchList = new();
+                            DisplayMatches = new();
                             DisplayName = $"{config.Name}#{config.Tag}";
                             InitializeHome(config,client);
                         }
@@ -195,7 +203,7 @@ namespace ValoStats.ViewModels
         
         private async Task GetAllMatchPlayed(string Puuid, HttpClient Client, Config Config)
         {
-            Matches.Clear();
+            MatchList.Clear();
             var matches = await ApiHelper.GetLastMatchList(Puuid, Client, Config);
             if (matches != null)
             {
@@ -213,19 +221,25 @@ namespace ValoStats.ViewModels
                         wins += 1;
                     else
                         losses += 1;
-                    Matches.Add(match);
+                    MatchList.Add(match);
                 }
                 rawKd = double.Round((kills / deaths), 2);
                 rawWr = double.Round((wins / matches.Count), 2) * 100;
                 DisplayKd = rawKd;
                 DisplayWr = rawWr;
+                var list = MatchList.Take(3);
+                foreach (var m in list)
+                {
+                    DisplayMatches.Add(m);
+                }
             }
             else BadRequest = true;
         }
         
         private async Task GetMatchList(string Puuid, string Mode, HttpClient Client, Config Config)
         {
-            Matches.Clear();
+            DisplayMatches.Clear();
+            MatchList.Clear();
             var matchList = await ApiHelper.GetMatchListByMode(Puuid, Client, Config, Mode);
             if (matchList == null)
                 BadRequest = true;
@@ -233,12 +247,59 @@ namespace ValoStats.ViewModels
                 IsMatchesLoading = false;
                 foreach (PlayedMatch match in matchList)
                 {
-                    Matches.Add(match);
+                    MatchList.Add(match);
                 }
-            
+                var list = MatchList.Take(3);
+                foreach (var m in list)
+                {
+                    DisplayMatches.Add(m);
+                }
         }
         
-            
+        [RelayCommand(CanExecute = nameof(CanNextMatch))]
+        public void NextMatches()
+        {
+            MatchPageNum++;
+            var matches = MatchList.Skip(MatchPageSize*MatchPageNum);
+            var list = matches.Take(MatchPageSize);
+            DisplayMatches.Clear();
+            foreach(PlayedMatch m in list)
+            {
+                DisplayMatches.Add(m);
+            }
+        }
+        
+        [RelayCommand(CanExecute = nameof(CanPrevMatch))]
+        public void PrevMatches()
+        {
+            MatchPageNum--;
+            var matches = MatchList.Skip(MatchPageSize*MatchPageNum);
+            var list = matches.Take(MatchPageSize);
+            DisplayMatches.Clear();
+            foreach(PlayedMatch m in list)
+            {
+                DisplayMatches.Add(m);
+            }
+        }
+        
+        public bool CanPrevMatch()
+        {
+            if (MatchPageNum > 0)
+            {
+                return true;
+            }
+            else return false;
+        }
+        
+        public bool CanNextMatch()
+        {
+            if (MatchPageNum > MatchList.Count/MatchPageSize)
+            {
+                return false;
+            }
+            else return true;
+        }
+        
     }
     
         
